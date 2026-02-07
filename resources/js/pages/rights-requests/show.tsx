@@ -4,6 +4,7 @@ import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -44,36 +45,38 @@ export default function RightsRequestShow({
     organization: Organization;
     rightsRequest: RightsRequest;
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Rights Requests', href: `/organizations/${organization.id}/rights-requests` },
-        { title: rightsRequest.data_subject ?? `Request #${rightsRequest.id}`, href: `/organizations/${organization.id}/rights-requests/${rightsRequest.id}` },
+        { title: t('Rights Requests'), href: `/organizations/${organization.id}/rights-requests` },
+        { title: rightsRequest.data_subject ?? `${t('Request')} #${rightsRequest.id}`, href: `/organizations/${organization.id}/rights-requests/${rightsRequest.id}` },
     ];
 
     const deleteForm = useForm({});
 
     function handleDelete() {
-        if (window.confirm('Are you sure you want to delete this rights request?')) {
+        if (window.confirm(t('Are you sure you want to delete this rights request?'))) {
             deleteForm.delete(`/organizations/${organization.id}/rights-requests/${rightsRequest.id}`);
         }
     }
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={rightsRequest.data_subject ?? `Rights Request #${rightsRequest.id}`} />
+            <Head title={rightsRequest.data_subject ?? `${t('Rights Request')} #${rightsRequest.id}`} />
 
             <div className="mx-auto w-full max-w-4xl space-y-6 p-6">
                 <div className="flex items-center justify-between">
                     <Heading
-                        title={rightsRequest.data_subject ?? `Rights Request #${rightsRequest.id}`}
-                        description="Data subject rights request details"
+                        title={rightsRequest.data_subject ?? `${t('Rights Request')} #${rightsRequest.id}`}
+                        description={t('Data subject rights request details')}
                     />
                     <div className="flex gap-2">
                         <Button variant="outline" asChild>
                             <Link href={`/organizations/${organization.id}/rights-requests/${rightsRequest.id}/edit`}>
                                 <Pencil className="mr-2 h-4 w-4" />
-                                Edit
+                                {t('Edit')}
                             </Link>
                         </Button>
                         <Button
@@ -82,7 +85,7 @@ export default function RightsRequestShow({
                             disabled={deleteForm.processing}
                         >
                             <Trash2 className="mr-2 h-4 w-4" />
-                            Delete
+                            {t('Delete')}
                         </Button>
                     </div>
                 </div>
@@ -91,7 +94,7 @@ export default function RightsRequestShow({
                     <CardContent className="pt-6">
                         <dl className="grid gap-4 sm:grid-cols-3">
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Request Type</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Request Type')}</dt>
                                 <dd className="mt-1">
                                     <Badge variant="secondary">
                                         {formatLabel(rightsRequest.request_type)}
@@ -99,7 +102,7 @@ export default function RightsRequestShow({
                                 </dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">State</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('State')}</dt>
                                 <dd className="mt-1">
                                     <Badge variant={stateVariant(rightsRequest.request_state)}>
                                         {formatLabel(rightsRequest.request_state)}
@@ -107,27 +110,27 @@ export default function RightsRequestShow({
                                 </dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Data Subject</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Data Subject')}</dt>
                                 <dd className="mt-1 text-sm">{rightsRequest.data_subject || '-'}</dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Contact</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Contact')}</dt>
                                 <dd className="mt-1 text-sm">{rightsRequest.contact || '-'}</dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Deadline</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Deadline')}</dt>
                                 <dd className="mt-1 text-sm">{rightsRequest.deadline || '-'}</dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Created At</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Created At')}</dt>
                                 <dd className="mt-1 text-sm">{new Date(rightsRequest.created_at).toLocaleDateString()}</dd>
                             </div>
                             <div className="sm:col-span-3">
-                                <dt className="text-sm font-medium text-muted-foreground">Details</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Details')}</dt>
                                 <dd className="mt-1 text-sm whitespace-pre-line">{rightsRequest.details || '-'}</dd>
                             </div>
                             <div className="sm:col-span-3">
-                                <dt className="text-sm font-medium text-muted-foreground">Action Taken</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Action Taken')}</dt>
                                 <dd className="mt-1 text-sm whitespace-pre-line">{rightsRequest.action_taken || '-'}</dd>
                             </div>
                         </dl>

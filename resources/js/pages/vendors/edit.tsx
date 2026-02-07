@@ -12,6 +12,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -39,12 +40,14 @@ export default function VendorEdit({
     organization: Organization;
     vendor: Vendor;
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Vendors', href: `/organizations/${organization.id}/vendors` },
+        { title: t('Vendors'), href: `/organizations/${organization.id}/vendors` },
         { title: vendor.name, href: `/organizations/${organization.id}/vendors/${vendor.id}` },
-        { title: 'Edit', href: `/organizations/${organization.id}/vendors/${vendor.id}/edit` },
+        { title: t('Edit'), href: `/organizations/${organization.id}/vendors/${vendor.id}/edit` },
     ];
 
     const { data, setData, put, processing, errors } = useForm({
@@ -68,19 +71,19 @@ export default function VendorEdit({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Edit ${vendor.name}`} />
+            <Head title={`${t('Edit')} ${vendor.name}`} />
 
             <div className="mx-auto w-full max-w-2xl space-y-6 p-6">
                 <Heading
-                    title="Edit Vendor"
-                    description="Update vendor details"
+                    title={t('Edit Vendor')}
+                    description={t('Update vendor details')}
                 />
 
                 <Card>
                     <CardContent className="pt-6">
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="name">Name</Label>
+                                <Label htmlFor="name">{t('Name')}</Label>
                                 <Input
                                     id="name"
                                     value={data.name}
@@ -91,7 +94,7 @@ export default function VendorEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="description">Description</Label>
+                                <Label htmlFor="description">{t('Description')}</Label>
                                 <textarea
                                     id="description"
                                     value={data.description}
@@ -103,44 +106,44 @@ export default function VendorEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="category">Category</Label>
+                                <Label htmlFor="category">{t('Category')}</Label>
                                 <Select
                                     value={data.category}
                                     onValueChange={(value) => setData('category', value)}
                                 >
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select category" />
+                                        <SelectValue placeholder={t('Select category')} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="analytics">Analytics</SelectItem>
-                                        <SelectItem value="cloud_monitoring">Cloud Monitoring</SelectItem>
-                                        <SelectItem value="cloud_provider">Cloud Provider</SelectItem>
-                                        <SelectItem value="collaboration">Collaboration</SelectItem>
-                                        <SelectItem value="customer_support">Customer Support</SelectItem>
-                                        <SelectItem value="data_storage">Data Storage</SelectItem>
-                                        <SelectItem value="document_management">Document Management</SelectItem>
-                                        <SelectItem value="employee_management">Employee Management</SelectItem>
-                                        <SelectItem value="engineering">Engineering</SelectItem>
-                                        <SelectItem value="finance">Finance</SelectItem>
-                                        <SelectItem value="identity_provider">Identity Provider</SelectItem>
-                                        <SelectItem value="it">IT</SelectItem>
-                                        <SelectItem value="marketing">Marketing</SelectItem>
-                                        <SelectItem value="office_operations">Office Operations</SelectItem>
-                                        <SelectItem value="other">Other</SelectItem>
-                                        <SelectItem value="password_management">Password Management</SelectItem>
-                                        <SelectItem value="product_and_design">Product and Design</SelectItem>
-                                        <SelectItem value="professional_services">Professional Services</SelectItem>
-                                        <SelectItem value="recruiting">Recruiting</SelectItem>
-                                        <SelectItem value="sales">Sales</SelectItem>
-                                        <SelectItem value="security">Security</SelectItem>
-                                        <SelectItem value="version_control">Version Control</SelectItem>
+                                        <SelectItem value="analytics">{t('Analytics')}</SelectItem>
+                                        <SelectItem value="cloud_monitoring">{t('Cloud Monitoring')}</SelectItem>
+                                        <SelectItem value="cloud_provider">{t('Cloud Provider')}</SelectItem>
+                                        <SelectItem value="collaboration">{t('Collaboration')}</SelectItem>
+                                        <SelectItem value="customer_support">{t('Customer Support')}</SelectItem>
+                                        <SelectItem value="data_storage">{t('Data Storage')}</SelectItem>
+                                        <SelectItem value="document_management">{t('Document Management')}</SelectItem>
+                                        <SelectItem value="employee_management">{t('Employee Management')}</SelectItem>
+                                        <SelectItem value="engineering">{t('Engineering')}</SelectItem>
+                                        <SelectItem value="finance">{t('Finance')}</SelectItem>
+                                        <SelectItem value="identity_provider">{t('Identity Provider')}</SelectItem>
+                                        <SelectItem value="it">{t('IT')}</SelectItem>
+                                        <SelectItem value="marketing">{t('Marketing')}</SelectItem>
+                                        <SelectItem value="office_operations">{t('Office Operations')}</SelectItem>
+                                        <SelectItem value="other">{t('Other')}</SelectItem>
+                                        <SelectItem value="password_management">{t('Password Management')}</SelectItem>
+                                        <SelectItem value="product_and_design">{t('Product and Design')}</SelectItem>
+                                        <SelectItem value="professional_services">{t('Professional Services')}</SelectItem>
+                                        <SelectItem value="recruiting">{t('Recruiting')}</SelectItem>
+                                        <SelectItem value="sales">{t('Sales')}</SelectItem>
+                                        <SelectItem value="security">{t('Security')}</SelectItem>
+                                        <SelectItem value="version_control">{t('Version Control')}</SelectItem>
                                     </SelectContent>
                                 </Select>
                                 <InputError message={errors.category} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="legal_name">Legal Name</Label>
+                                <Label htmlFor="legal_name">{t('Legal Name')}</Label>
                                 <Input
                                     id="legal_name"
                                     value={data.legal_name}
@@ -150,7 +153,7 @@ export default function VendorEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="headquarter_address">Headquarter Address</Label>
+                                <Label htmlFor="headquarter_address">{t('Headquarter Address')}</Label>
                                 <Input
                                     id="headquarter_address"
                                     value={data.headquarter_address}
@@ -160,7 +163,7 @@ export default function VendorEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="website_url">Website URL</Label>
+                                <Label htmlFor="website_url">{t('Website URL')}</Label>
                                 <Input
                                     id="website_url"
                                     type="url"
@@ -171,7 +174,7 @@ export default function VendorEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="privacy_policy_url">Privacy Policy URL</Label>
+                                <Label htmlFor="privacy_policy_url">{t('Privacy Policy URL')}</Label>
                                 <Input
                                     id="privacy_policy_url"
                                     type="url"
@@ -182,7 +185,7 @@ export default function VendorEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="sla_url">SLA URL</Label>
+                                <Label htmlFor="sla_url">{t('SLA URL')}</Label>
                                 <Input
                                     id="sla_url"
                                     type="url"
@@ -193,7 +196,7 @@ export default function VendorEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="dpa_url">DPA URL</Label>
+                                <Label htmlFor="dpa_url">{t('DPA URL')}</Label>
                                 <Input
                                     id="dpa_url"
                                     type="url"
@@ -204,7 +207,7 @@ export default function VendorEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="status_page_url">Status Page URL</Label>
+                                <Label htmlFor="status_page_url">{t('Status Page URL')}</Label>
                                 <Input
                                     id="status_page_url"
                                     type="url"
@@ -215,7 +218,7 @@ export default function VendorEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="security_page_url">Security Page URL</Label>
+                                <Label htmlFor="security_page_url">{t('Security Page URL')}</Label>
                                 <Input
                                     id="security_page_url"
                                     type="url"
@@ -227,7 +230,7 @@ export default function VendorEdit({
 
                             <div className="flex justify-end">
                                 <Button type="submit" disabled={processing}>
-                                    Save Changes
+                                    {t('Save Changes')}
                                 </Button>
                             </div>
                         </form>

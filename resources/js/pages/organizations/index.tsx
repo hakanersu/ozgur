@@ -3,32 +3,35 @@ import { Building2, Plus, Users } from 'lucide-react';
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
-
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Organizations', href: '/organizations' },
-];
 
 export default function OrganizationsIndex({
     organizations,
 }: {
     organizations: Organization[];
 }) {
+    const { t } = useTrans();
+
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: t('Organizations'), href: '/organizations' },
+    ];
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Organizations" />
+            <Head title={t('Organizations')} />
 
             <div className="mx-auto w-full max-w-4xl space-y-6 p-6">
                 <div className="flex items-center justify-between">
                     <Heading
-                        title="Organizations"
-                        description="Manage your compliance organizations"
+                        title={t('Organizations')}
+                        description={t('Manage your compliance organizations')}
                     />
                     <Button asChild>
                         <Link href="/organizations/create">
                             <Plus className="mr-2 h-4 w-4" />
-                            New Organization
+                            {t('New Organization')}
                         </Link>
                     </Button>
                 </div>
@@ -38,16 +41,15 @@ export default function OrganizationsIndex({
                         <CardContent className="flex flex-col items-center justify-center py-12">
                             <Building2 className="mb-4 h-12 w-12 text-muted-foreground" />
                             <h3 className="mb-2 text-lg font-medium">
-                                No organizations yet
+                                {t('No organizations yet')}
                             </h3>
                             <p className="mb-4 text-sm text-muted-foreground">
-                                Create your first organization to get started
-                                with compliance management.
+                                {t('Create your first organization to get started with compliance management.')}
                             </p>
                             <Button asChild>
                                 <Link href="/organizations/create">
                                     <Plus className="mr-2 h-4 w-4" />
-                                    Create Organization
+                                    {t('Create Organization')}
                                 </Link>
                             </Button>
                         </CardContent>
@@ -73,8 +75,8 @@ export default function OrganizationsIndex({
                                                 <span>
                                                     {org.memberships_count}{' '}
                                                     {org.memberships_count === 1
-                                                        ? 'member'
-                                                        : 'members'}
+                                                        ? t('member')
+                                                        : t('members')}
                                                 </span>
                                             </div>
                                         </div>

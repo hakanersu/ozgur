@@ -13,6 +13,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -40,26 +41,28 @@ export default function ProcessingActivitiesIndex({
     processingActivities: ProcessingActivity[];
     filters: { search: string };
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Processing Activities', href: `/organizations/${organization.id}/processing-activities` },
+        { title: t('Processing Activities'), href: `/organizations/${organization.id}/processing-activities` },
     ];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Processing Activities" />
+            <Head title={t('Processing Activities')} />
 
             <div className="mx-auto w-full max-w-4xl space-y-6 p-6">
                 <div className="flex items-center justify-between">
                     <Heading
-                        title="Processing Activities"
-                        description="Manage data processing activities and their lawful bases"
+                        title={t('Processing Activities')}
+                        description={t('Manage data processing activities and their lawful bases')}
                     />
                     <Button asChild>
                         <Link href={`/organizations/${organization.id}/processing-activities/create`}>
                             <Plus className="mr-2 h-4 w-4" />
-                            New Activity
+                            {t('New Activity')}
                         </Link>
                     </Button>
                 </div>
@@ -68,7 +71,7 @@ export default function ProcessingActivitiesIndex({
                     <div className="flex-1">
                         <SearchInput
                             value={filters.search}
-                            placeholder="Search processing activities..."
+                            placeholder={t('Search processing activities...')}
                         />
                     </div>
                 </div>
@@ -77,14 +80,14 @@ export default function ProcessingActivitiesIndex({
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-12">
                             <Fingerprint className="mb-4 h-12 w-12 text-muted-foreground" />
-                            <h3 className="mb-2 text-lg font-medium">No processing activities yet</h3>
+                            <h3 className="mb-2 text-lg font-medium">{t('No processing activities yet')}</h3>
                             <p className="mb-4 text-sm text-muted-foreground">
-                                Create your first processing activity to start documenting data processing.
+                                {t('Create your first processing activity to start documenting data processing.')}
                             </p>
                             <Button asChild>
                                 <Link href={`/organizations/${organization.id}/processing-activities/create`}>
                                     <Plus className="mr-2 h-4 w-4" />
-                                    Create Activity
+                                    {t('Create Activity')}
                                 </Link>
                             </Button>
                         </CardContent>
@@ -94,11 +97,11 @@ export default function ProcessingActivitiesIndex({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>Lawful Basis</TableHead>
-                                    <TableHead>Role</TableHead>
-                                    <TableHead>International Transfers</TableHead>
-                                    <TableHead>DPIA Needed</TableHead>
+                                    <TableHead>{t('Name')}</TableHead>
+                                    <TableHead>{t('Lawful Basis')}</TableHead>
+                                    <TableHead>{t('Role')}</TableHead>
+                                    <TableHead>{t('International Transfers')}</TableHead>
+                                    <TableHead>{t('DPIA Needed')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -122,8 +125,8 @@ export default function ProcessingActivitiesIndex({
                                             )}
                                         </TableCell>
                                         <TableCell>{activity.role ?? '-'}</TableCell>
-                                        <TableCell>{activity.international_transfers ? 'Yes' : 'No'}</TableCell>
-                                        <TableCell>{activity.dpia_needed === 'needed' ? 'Yes' : 'No'}</TableCell>
+                                        <TableCell>{activity.international_transfers ? t('Yes') : t('No')}</TableCell>
+                                        <TableCell>{activity.dpia_needed === 'needed' ? t('Yes') : t('No')}</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>

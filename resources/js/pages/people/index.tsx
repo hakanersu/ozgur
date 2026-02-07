@@ -13,6 +13,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -48,26 +49,28 @@ export default function PeopleIndex({
     people: Person[];
     filters: { search: string };
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'People', href: `/organizations/${organization.id}/people` },
+        { title: t('People'), href: `/organizations/${organization.id}/people` },
     ];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="People" />
+            <Head title={t('People')} />
 
             <div className="mx-auto w-full max-w-4xl space-y-6 p-6">
                 <div className="flex items-center justify-between">
                     <Heading
-                        title="People"
-                        description="Manage people in your organization"
+                        title={t('People')}
+                        description={t('Manage people in your organization')}
                     />
                     <Button asChild>
                         <Link href={`/organizations/${organization.id}/people/create`}>
                             <Plus className="mr-2 h-4 w-4" />
-                            New Person
+                            {t('New Person')}
                         </Link>
                     </Button>
                 </div>
@@ -76,7 +79,7 @@ export default function PeopleIndex({
                     <div className="flex-1">
                         <SearchInput
                             value={filters.search}
-                            placeholder="Search people..."
+                            placeholder={t('Search people...')}
                         />
                     </div>
                 </div>
@@ -85,14 +88,14 @@ export default function PeopleIndex({
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-12">
                             <Users className="mb-4 h-12 w-12 text-muted-foreground" />
-                            <h3 className="mb-2 text-lg font-medium">No people yet</h3>
+                            <h3 className="mb-2 text-lg font-medium">{t('No people yet')}</h3>
                             <p className="mb-4 text-sm text-muted-foreground">
-                                Add your first person to start tracking organizational members.
+                                {t('Add your first person to start tracking organizational members.')}
                             </p>
                             <Button asChild>
                                 <Link href={`/organizations/${organization.id}/people/create`}>
                                     <Plus className="mr-2 h-4 w-4" />
-                                    Add Person
+                                    {t('Add Person')}
                                 </Link>
                             </Button>
                         </CardContent>
@@ -102,11 +105,11 @@ export default function PeopleIndex({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>Email</TableHead>
-                                    <TableHead>Kind</TableHead>
-                                    <TableHead>Position</TableHead>
-                                    <TableHead>Contract End</TableHead>
+                                    <TableHead>{t('Name')}</TableHead>
+                                    <TableHead>{t('Email')}</TableHead>
+                                    <TableHead>{t('Kind')}</TableHead>
+                                    <TableHead>{t('Position')}</TableHead>
+                                    <TableHead>{t('Contract End')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>

@@ -28,9 +28,17 @@ export type Membership = {
     updated_at: string;
 };
 
+export type AvailableLocale = {
+    code: string;
+    label: string;
+};
+
 export type SharedData = {
     name: string;
     auth: Auth;
+    locale: string;
+    availableLocales: AvailableLocale[];
+    translations: Record<string, string>;
     sidebarOpen: boolean;
     currentOrganization: Organization | null;
     userOrganizations: Organization[];

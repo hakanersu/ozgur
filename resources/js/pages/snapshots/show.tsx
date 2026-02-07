@@ -4,6 +4,7 @@ import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -29,17 +30,19 @@ export default function SnapshotShow({
     organization: Organization;
     snapshot: Snapshot;
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Snapshots', href: `/organizations/${organization.id}/snapshots` },
+        { title: t('Snapshots'), href: `/organizations/${organization.id}/snapshots` },
         { title: snapshot.name, href: `/organizations/${organization.id}/snapshots/${snapshot.id}` },
     ];
 
     const deleteForm = useForm({});
 
     function handleDelete() {
-        if (window.confirm('Are you sure you want to delete this snapshot?')) {
+        if (window.confirm(t('Are you sure you want to delete this snapshot?'))) {
             deleteForm.delete(`/organizations/${organization.id}/snapshots/${snapshot.id}`);
         }
     }
@@ -58,7 +61,7 @@ export default function SnapshotShow({
                             disabled={deleteForm.processing}
                         >
                             <Trash2 className="mr-2 h-4 w-4" />
-                            Delete
+                            {t('Delete')}
                         </Button>
                     </div>
                 </div>
@@ -67,7 +70,7 @@ export default function SnapshotShow({
                     <CardContent className="pt-6">
                         <dl className="grid gap-4 sm:grid-cols-3">
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Type</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Type')}</dt>
                                 <dd className="mt-1">
                                     <Badge variant="secondary">
                                         {formatLabel(snapshot.type)}
@@ -75,11 +78,11 @@ export default function SnapshotShow({
                                 </dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Created At</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Created At')}</dt>
                                 <dd className="mt-1 text-sm">{snapshot.created_at}</dd>
                             </div>
                             <div className="sm:col-span-3">
-                                <dt className="text-sm font-medium text-muted-foreground">Description</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Description')}</dt>
                                 <dd className="mt-1 text-sm">{snapshot.description || '-'}</dd>
                             </div>
                         </dl>

@@ -12,6 +12,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -20,11 +21,13 @@ export default function RightsRequestCreate({
 }: {
     organization: Organization;
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Rights Requests', href: `/organizations/${organization.id}/rights-requests` },
-        { title: 'Create', href: `/organizations/${organization.id}/rights-requests/create` },
+        { title: t('Rights Requests'), href: `/organizations/${organization.id}/rights-requests` },
+        { title: t('Create'), href: `/organizations/${organization.id}/rights-requests/create` },
     ];
 
     const { data, setData, post, processing, errors } = useForm({
@@ -43,82 +46,82 @@ export default function RightsRequestCreate({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Create Rights Request" />
+            <Head title={t('Create Rights Request')} />
 
             <div className="mx-auto w-full max-w-2xl space-y-6 p-6">
                 <Heading
-                    title="Create Rights Request"
-                    description="Register a new data subject rights request"
+                    title={t('Create Rights Request')}
+                    description={t('Register a new data subject rights request')}
                 />
 
                 <Card>
                     <CardContent className="pt-6">
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="request_type">Request Type</Label>
+                                <Label htmlFor="request_type">{t('Request Type')}</Label>
                                 <Select
                                     value={data.request_type}
                                     onValueChange={(value) => setData('request_type', value)}
                                 >
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select request type" />
+                                        <SelectValue placeholder={t('Select request type')} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="access">Access</SelectItem>
-                                        <SelectItem value="deletion">Deletion</SelectItem>
-                                        <SelectItem value="portability">Portability</SelectItem>
+                                        <SelectItem value="access">{t('Access')}</SelectItem>
+                                        <SelectItem value="deletion">{t('Deletion')}</SelectItem>
+                                        <SelectItem value="portability">{t('Portability')}</SelectItem>
                                     </SelectContent>
                                 </Select>
                                 <InputError message={errors.request_type} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="request_state">State</Label>
+                                <Label htmlFor="request_state">{t('State')}</Label>
                                 <Select
                                     value={data.request_state}
                                     onValueChange={(value) => setData('request_state', value)}
                                 >
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select state" />
+                                        <SelectValue placeholder={t('Select state')} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="todo">To Do</SelectItem>
-                                        <SelectItem value="in_progress">In Progress</SelectItem>
-                                        <SelectItem value="done">Done</SelectItem>
+                                        <SelectItem value="todo">{t('To Do')}</SelectItem>
+                                        <SelectItem value="in_progress">{t('In Progress')}</SelectItem>
+                                        <SelectItem value="done">{t('Done')}</SelectItem>
                                     </SelectContent>
                                 </Select>
                                 <InputError message={errors.request_state} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="data_subject">Data Subject</Label>
+                                <Label htmlFor="data_subject">{t('Data Subject')}</Label>
                                 <Input
                                     id="data_subject"
                                     value={data.data_subject}
                                     onChange={(e) => setData('data_subject', e.target.value)}
-                                    placeholder="Name of the data subject"
+                                    placeholder={t('Name of the data subject')}
                                 />
                                 <InputError message={errors.data_subject} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="contact">Contact</Label>
+                                <Label htmlFor="contact">{t('Contact')}</Label>
                                 <Input
                                     id="contact"
                                     value={data.contact}
                                     onChange={(e) => setData('contact', e.target.value)}
-                                    placeholder="Email or phone number"
+                                    placeholder={t('Email or phone number')}
                                 />
                                 <InputError message={errors.contact} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="details">Details</Label>
+                                <Label htmlFor="details">{t('Details')}</Label>
                                 <textarea
                                     id="details"
                                     value={data.details}
                                     onChange={(e) => setData('details', e.target.value)}
-                                    placeholder="Describe the request..."
+                                    placeholder={t('Describe the request...')}
                                     rows={4}
                                     className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                                 />
@@ -126,7 +129,7 @@ export default function RightsRequestCreate({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="deadline">Deadline</Label>
+                                <Label htmlFor="deadline">{t('Deadline')}</Label>
                                 <Input
                                     id="deadline"
                                     type="date"
@@ -138,7 +141,7 @@ export default function RightsRequestCreate({
 
                             <div className="flex justify-end">
                                 <Button type="submit" disabled={processing}>
-                                    Create Request
+                                    {t('Create Request')}
                                 </Button>
                             </div>
                         </form>

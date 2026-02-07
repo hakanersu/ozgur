@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -13,14 +14,16 @@ export default function OrganizationEdit({
 }: {
     organization: Organization;
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         {
             title: organization.name,
             href: `/organizations/${organization.id}`,
         },
         {
-            title: 'Edit',
+            title: t('Edit'),
             href: `/organizations/${organization.id}/edit`,
         },
     ];
@@ -36,12 +39,12 @@ export default function OrganizationEdit({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Edit ${organization.name}`} />
+            <Head title={`${t('Edit')} ${organization.name}`} />
 
             <div className="mx-auto w-full max-w-2xl space-y-6 p-6">
                 <Heading
-                    title="Edit Organization"
-                    description="Update organization settings"
+                    title={t('Edit Organization')}
+                    description={t('Update organization settings')}
                 />
 
                 <Card>
@@ -52,7 +55,7 @@ export default function OrganizationEdit({
                         >
                             <div className="grid gap-2">
                                 <Label htmlFor="name">
-                                    Organization Name
+                                    {t('Organization Name')}
                                 </Label>
                                 <Input
                                     id="name"
@@ -70,7 +73,7 @@ export default function OrganizationEdit({
                                     type="submit"
                                     disabled={processing}
                                 >
-                                    Save Changes
+                                    {t('Save Changes')}
                                 </Button>
                             </div>
                         </form>

@@ -12,6 +12,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -74,17 +75,19 @@ export default function MeasureShow({
     organization: Organization;
     measure: Measure;
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Measures', href: `/organizations/${organization.id}/measures` },
+        { title: t('Measures'), href: `/organizations/${organization.id}/measures` },
         { title: measure.name, href: `/organizations/${organization.id}/measures/${measure.id}` },
     ];
 
     const deleteForm = useForm({});
 
     function handleDelete() {
-        if (window.confirm('Are you sure you want to delete this measure?')) {
+        if (window.confirm(t('Are you sure you want to delete this measure?'))) {
             deleteForm.delete(`/organizations/${organization.id}/measures/${measure.id}`);
         }
     }
@@ -103,7 +106,7 @@ export default function MeasureShow({
                         <Button variant="outline" asChild>
                             <Link href={`/organizations/${organization.id}/measures/${measure.id}/edit`}>
                                 <Pencil className="mr-2 h-4 w-4" />
-                                Edit
+                                {t('Edit')}
                             </Link>
                         </Button>
                         <Button
@@ -112,7 +115,7 @@ export default function MeasureShow({
                             disabled={deleteForm.processing}
                         >
                             <Trash2 className="mr-2 h-4 w-4" />
-                            Delete
+                            {t('Delete')}
                         </Button>
                     </div>
                 </div>
@@ -121,7 +124,7 @@ export default function MeasureShow({
                     <CardContent className="pt-6">
                         <dl className="grid gap-4 sm:grid-cols-2">
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">State</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('State')}</dt>
                                 <dd className="mt-1">
                                     <Badge variant={stateVariant(measure.state)}>
                                         {measure.state}
@@ -129,19 +132,19 @@ export default function MeasureShow({
                                 </dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Created</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Created')}</dt>
                                 <dd className="mt-1 text-sm">{measure.created_at}</dd>
                             </div>
                         </dl>
                     </CardContent>
                 </Card>
 
-                <h3 className="text-lg font-medium">Evidence</h3>
+                <h3 className="text-lg font-medium">{t('Evidence')}</h3>
                 {measure.evidence.length === 0 ? (
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-8">
                             <p className="text-sm text-muted-foreground">
-                                No evidence attached to this measure.
+                                {t('No evidence attached to this measure.')}
                             </p>
                         </CardContent>
                     </Card>
@@ -150,9 +153,9 @@ export default function MeasureShow({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>Type</TableHead>
-                                    <TableHead>Created</TableHead>
+                                    <TableHead>{t('Name')}</TableHead>
+                                    <TableHead>{t('Type')}</TableHead>
+                                    <TableHead>{t('Created')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -168,12 +171,12 @@ export default function MeasureShow({
                     </Card>
                 )}
 
-                <h3 className="text-lg font-medium">Linked Controls</h3>
+                <h3 className="text-lg font-medium">{t('Linked Controls')}</h3>
                 {measure.controls.length === 0 ? (
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-8">
                             <p className="text-sm text-muted-foreground">
-                                No controls linked to this measure.
+                                {t('No controls linked to this measure.')}
                             </p>
                         </CardContent>
                     </Card>
@@ -182,9 +185,9 @@ export default function MeasureShow({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Code</TableHead>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>Status</TableHead>
+                                    <TableHead>{t('Code')}</TableHead>
+                                    <TableHead>{t('Name')}</TableHead>
+                                    <TableHead>{t('Status')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -213,12 +216,12 @@ export default function MeasureShow({
                     </Card>
                 )}
 
-                <h3 className="text-lg font-medium">Linked Risks</h3>
+                <h3 className="text-lg font-medium">{t('Linked Risks')}</h3>
                 {measure.risks.length === 0 ? (
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-8">
                             <p className="text-sm text-muted-foreground">
-                                No risks linked to this measure.
+                                {t('No risks linked to this measure.')}
                             </p>
                         </CardContent>
                     </Card>
@@ -227,9 +230,9 @@ export default function MeasureShow({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>Category</TableHead>
-                                    <TableHead>Treatment</TableHead>
+                                    <TableHead>{t('Name')}</TableHead>
+                                    <TableHead>{t('Category')}</TableHead>
+                                    <TableHead>{t('Treatment')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>

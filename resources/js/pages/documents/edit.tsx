@@ -12,6 +12,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -32,12 +33,14 @@ export default function DocumentEdit({
     organization: Organization;
     document: Document;
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Documents', href: `/organizations/${organization.id}/documents` },
+        { title: t('Documents'), href: `/organizations/${organization.id}/documents` },
         { title: document.title, href: `/organizations/${organization.id}/documents/${document.id}` },
-        { title: 'Edit', href: `/organizations/${organization.id}/documents/${document.id}/edit` },
+        { title: t('Edit'), href: `/organizations/${organization.id}/documents/${document.id}/edit` },
     ];
 
     const { data, setData, put, processing, errors } = useForm({
@@ -53,19 +56,19 @@ export default function DocumentEdit({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Edit ${document.title}`} />
+            <Head title={`${t('Edit')} ${document.title}`} />
 
             <div className="mx-auto w-full max-w-2xl space-y-6 p-6">
                 <Heading
-                    title="Edit Document"
-                    description="Update document details"
+                    title={t('Edit Document')}
+                    description={t('Update document details')}
                 />
 
                 <Card>
                     <CardContent className="pt-6">
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="title">Title</Label>
+                                <Label htmlFor="title">{t('Title')}</Label>
                                 <Input
                                     id="title"
                                     value={data.title}
@@ -76,38 +79,38 @@ export default function DocumentEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="document_type">Document Type</Label>
+                                <Label htmlFor="document_type">{t('Document Type')}</Label>
                                 <Select
                                     value={data.document_type}
                                     onValueChange={(value) => setData('document_type', value)}
                                 >
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select type" />
+                                        <SelectValue placeholder={t('Select type')} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="other">Other</SelectItem>
-                                        <SelectItem value="isms">ISMS</SelectItem>
-                                        <SelectItem value="policy">Policy</SelectItem>
-                                        <SelectItem value="procedure">Procedure</SelectItem>
+                                        <SelectItem value="other">{t('Other')}</SelectItem>
+                                        <SelectItem value="isms">{t('ISMS')}</SelectItem>
+                                        <SelectItem value="policy">{t('Policy')}</SelectItem>
+                                        <SelectItem value="procedure">{t('Procedure')}</SelectItem>
                                     </SelectContent>
                                 </Select>
                                 <InputError message={errors.document_type} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="classification">Classification</Label>
+                                <Label htmlFor="classification">{t('Classification')}</Label>
                                 <Select
                                     value={data.classification}
                                     onValueChange={(value) => setData('classification', value)}
                                 >
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select classification" />
+                                        <SelectValue placeholder={t('Select classification')} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="public">Public</SelectItem>
-                                        <SelectItem value="internal">Internal</SelectItem>
-                                        <SelectItem value="confidential">Confidential</SelectItem>
-                                        <SelectItem value="secret">Secret</SelectItem>
+                                        <SelectItem value="public">{t('Public')}</SelectItem>
+                                        <SelectItem value="internal">{t('Internal')}</SelectItem>
+                                        <SelectItem value="confidential">{t('Confidential')}</SelectItem>
+                                        <SelectItem value="secret">{t('Secret')}</SelectItem>
                                     </SelectContent>
                                 </Select>
                                 <InputError message={errors.classification} />
@@ -115,7 +118,7 @@ export default function DocumentEdit({
 
                             <div className="flex justify-end">
                                 <Button type="submit" disabled={processing}>
-                                    Save Changes
+                                    {t('Save Changes')}
                                 </Button>
                             </div>
                         </form>

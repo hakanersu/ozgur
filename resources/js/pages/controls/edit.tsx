@@ -12,6 +12,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -41,12 +42,14 @@ export default function ControlEdit({
     control: Control;
     frameworks: Framework[];
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Controls', href: `/organizations/${organization.id}/controls` },
+        { title: t('Controls'), href: `/organizations/${organization.id}/controls` },
         { title: control.name, href: `/organizations/${organization.id}/controls/${control.id}` },
-        { title: 'Edit', href: `/organizations/${organization.id}/controls/${control.id}/edit` },
+        { title: t('Edit'), href: `/organizations/${organization.id}/controls/${control.id}/edit` },
     ];
 
     const { data, setData, put, processing, errors } = useForm({
@@ -65,19 +68,19 @@ export default function ControlEdit({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Edit ${control.name}`} />
+            <Head title={`${t('Edit')} ${control.name}`} />
 
             <div className="mx-auto w-full max-w-2xl space-y-6 p-6">
                 <Heading
-                    title="Edit Control"
-                    description="Update control details"
+                    title={t('Edit Control')}
+                    description={t('Update control details')}
                 />
 
                 <Card>
                     <CardContent className="pt-6">
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="name">Name</Label>
+                                <Label htmlFor="name">{t('Name')}</Label>
                                 <Input
                                     id="name"
                                     value={data.name}
@@ -88,7 +91,7 @@ export default function ControlEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="description">Description</Label>
+                                <Label htmlFor="description">{t('Description')}</Label>
                                 <textarea
                                     id="description"
                                     value={data.description}
@@ -100,7 +103,7 @@ export default function ControlEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="code">Code</Label>
+                                <Label htmlFor="code">{t('Code')}</Label>
                                 <Input
                                     id="code"
                                     value={data.code}
@@ -111,7 +114,7 @@ export default function ControlEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="category">Category</Label>
+                                <Label htmlFor="category">{t('Category')}</Label>
                                 <Input
                                     id="category"
                                     value={data.category}
@@ -121,13 +124,13 @@ export default function ControlEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="framework_id">Framework</Label>
+                                <Label htmlFor="framework_id">{t('Framework')}</Label>
                                 <Select
                                     value={data.framework_id}
                                     onValueChange={(value) => setData('framework_id', value)}
                                 >
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select a framework" />
+                                        <SelectValue placeholder={t('Select a framework')} />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {frameworks.map((framework) => (
@@ -144,19 +147,19 @@ export default function ControlEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="status">Status</Label>
+                                <Label htmlFor="status">{t('Status')}</Label>
                                 <Select
                                     value={data.status}
                                     onValueChange={(value) => setData('status', value)}
                                 >
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select status" />
+                                        <SelectValue placeholder={t('Select status')} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="not_started">Not Started</SelectItem>
-                                        <SelectItem value="in_progress">In Progress</SelectItem>
-                                        <SelectItem value="implemented">Implemented</SelectItem>
-                                        <SelectItem value="rejected">Rejected</SelectItem>
+                                        <SelectItem value="not_started">{t('Not Started')}</SelectItem>
+                                        <SelectItem value="in_progress">{t('In Progress')}</SelectItem>
+                                        <SelectItem value="implemented">{t('Implemented')}</SelectItem>
+                                        <SelectItem value="rejected">{t('Rejected')}</SelectItem>
                                     </SelectContent>
                                 </Select>
                                 <InputError message={errors.status} />
@@ -164,7 +167,7 @@ export default function ControlEdit({
 
                             <div className="flex justify-end">
                                 <Button type="submit" disabled={processing}>
-                                    Save Changes
+                                    {t('Save Changes')}
                                 </Button>
                             </div>
                         </form>

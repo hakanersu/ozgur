@@ -13,6 +13,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -41,21 +42,6 @@ function classificationVariant(classification: string) {
     }
 }
 
-function formatDocumentType(type: string) {
-    switch (type) {
-        case 'isms':
-            return 'ISMS';
-        case 'policy':
-            return 'Policy';
-        case 'procedure':
-            return 'Procedure';
-        case 'other':
-            return 'Other';
-        default:
-            return type;
-    }
-}
-
 export default function DocumentsIndex({
     organization,
     documents,
@@ -65,26 +51,43 @@ export default function DocumentsIndex({
     documents: Document[];
     filters: { search: string };
 }) {
+    const { t } = useTrans();
+
+    function formatDocumentType(type: string) {
+        switch (type) {
+            case 'isms':
+                return t('ISMS');
+            case 'policy':
+                return t('Policy');
+            case 'procedure':
+                return t('Procedure');
+            case 'other':
+                return t('Other');
+            default:
+                return type;
+        }
+    }
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Documents', href: `/organizations/${organization.id}/documents` },
+        { title: t('Documents'), href: `/organizations/${organization.id}/documents` },
     ];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Documents" />
+            <Head title={t('Documents')} />
 
             <div className="mx-auto w-full max-w-4xl space-y-6 p-6">
                 <div className="flex items-center justify-between">
                     <Heading
-                        title="Documents"
-                        description="Manage compliance documents and their versions"
+                        title={t('Documents')}
+                        description={t('Manage compliance documents and their versions')}
                     />
                     <Button asChild>
                         <Link href={`/organizations/${organization.id}/documents/create`}>
                             <Plus className="mr-2 h-4 w-4" />
-                            New Document
+                            {t('New Document')}
                         </Link>
                     </Button>
                 </div>
@@ -93,7 +96,7 @@ export default function DocumentsIndex({
                     <div className="flex-1">
                         <SearchInput
                             value={filters.search}
-                            placeholder="Search documents..."
+                            placeholder={t('Search documents...')}
                         />
                     </div>
                 </div>
@@ -102,14 +105,14 @@ export default function DocumentsIndex({
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-12">
                             <FileText className="mb-4 h-12 w-12 text-muted-foreground" />
-                            <h3 className="mb-2 text-lg font-medium">No documents yet</h3>
+                            <h3 className="mb-2 text-lg font-medium">{t('No documents yet')}</h3>
                             <p className="mb-4 text-sm text-muted-foreground">
-                                Create your first document to start managing compliance documentation.
+                                {t('Create your first document to start managing compliance documentation.')}
                             </p>
                             <Button asChild>
                                 <Link href={`/organizations/${organization.id}/documents/create`}>
                                     <Plus className="mr-2 h-4 w-4" />
-                                    Create Document
+                                    {t('Create Document')}
                                 </Link>
                             </Button>
                         </CardContent>
@@ -119,11 +122,11 @@ export default function DocumentsIndex({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Title</TableHead>
-                                    <TableHead>Type</TableHead>
-                                    <TableHead>Classification</TableHead>
-                                    <TableHead>Published Version</TableHead>
-                                    <TableHead className="text-right">Versions</TableHead>
+                                    <TableHead>{t('Title')}</TableHead>
+                                    <TableHead>{t('Type')}</TableHead>
+                                    <TableHead>{t('Classification')}</TableHead>
+                                    <TableHead>{t('Published Version')}</TableHead>
+                                    <TableHead className="text-right">{t('Versions')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>

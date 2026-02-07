@@ -13,6 +13,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -53,26 +54,28 @@ export default function AuditsIndex({
     audits: Audit[];
     filters: { search: string };
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Audits', href: `/organizations/${organization.id}/audits` },
+        { title: t('Audits'), href: `/organizations/${organization.id}/audits` },
     ];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Audits" />
+            <Head title={t('Audits')} />
 
             <div className="mx-auto w-full max-w-4xl space-y-6 p-6">
                 <div className="flex items-center justify-between">
                     <Heading
-                        title="Audits"
-                        description="Schedule and track compliance audits"
+                        title={t('Audits')}
+                        description={t('Schedule and track compliance audits')}
                     />
                     <Button asChild>
                         <Link href={`/organizations/${organization.id}/audits/create`}>
                             <Plus className="mr-2 h-4 w-4" />
-                            New Audit
+                            {t('New Audit')}
                         </Link>
                     </Button>
                 </div>
@@ -81,7 +84,7 @@ export default function AuditsIndex({
                     <div className="flex-1">
                         <SearchInput
                             value={filters.search}
-                            placeholder="Search audits..."
+                            placeholder={t('Search audits...')}
                         />
                     </div>
                 </div>
@@ -90,14 +93,14 @@ export default function AuditsIndex({
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-12">
                             <ClipboardList className="mb-4 h-12 w-12 text-muted-foreground" />
-                            <h3 className="mb-2 text-lg font-medium">No audits yet</h3>
+                            <h3 className="mb-2 text-lg font-medium">{t('No audits yet')}</h3>
                             <p className="mb-4 text-sm text-muted-foreground">
-                                Create your first audit to start tracking compliance reviews.
+                                {t('Create your first audit to start tracking compliance reviews.')}
                             </p>
                             <Button asChild>
                                 <Link href={`/organizations/${organization.id}/audits/create`}>
                                     <Plus className="mr-2 h-4 w-4" />
-                                    Create Audit
+                                    {t('Create Audit')}
                                 </Link>
                             </Button>
                         </CardContent>
@@ -107,10 +110,10 @@ export default function AuditsIndex({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>State</TableHead>
-                                    <TableHead>Scheduled</TableHead>
-                                    <TableHead className="text-right">Controls</TableHead>
+                                    <TableHead>{t('Name')}</TableHead>
+                                    <TableHead>{t('State')}</TableHead>
+                                    <TableHead>{t('Scheduled')}</TableHead>
+                                    <TableHead className="text-right">{t('Controls')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>

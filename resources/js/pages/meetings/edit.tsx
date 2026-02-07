@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -33,12 +34,14 @@ export default function MeetingEdit({
     meeting: Meeting;
     people: PersonOption[];
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Meetings', href: `/organizations/${organization.id}/meetings` },
+        { title: t('Meetings'), href: `/organizations/${organization.id}/meetings` },
         { title: meeting.name, href: `/organizations/${organization.id}/meetings/${meeting.id}` },
-        { title: 'Edit', href: `/organizations/${organization.id}/meetings/${meeting.id}/edit` },
+        { title: t('Edit'), href: `/organizations/${organization.id}/meetings/${meeting.id}/edit` },
     ];
 
     const { data, setData, put, processing, errors } = useForm({
@@ -64,19 +67,19 @@ export default function MeetingEdit({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Edit ${meeting.name}`} />
+            <Head title={`${t('Edit')} ${meeting.name}`} />
 
             <div className="mx-auto w-full max-w-2xl space-y-6 p-6">
                 <Heading
-                    title="Edit Meeting"
-                    description="Update meeting details"
+                    title={t('Edit Meeting')}
+                    description={t('Update meeting details')}
                 />
 
                 <Card>
                     <CardContent className="pt-6">
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="name">Name</Label>
+                                <Label htmlFor="name">{t('Name')}</Label>
                                 <Input
                                     id="name"
                                     value={data.name}
@@ -87,7 +90,7 @@ export default function MeetingEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="date">Date</Label>
+                                <Label htmlFor="date">{t('Date')}</Label>
                                 <Input
                                     id="date"
                                     type="datetime-local"
@@ -99,7 +102,7 @@ export default function MeetingEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="minutes">Minutes</Label>
+                                <Label htmlFor="minutes">{t('Minutes')}</Label>
                                 <textarea
                                     id="minutes"
                                     value={data.minutes}
@@ -112,7 +115,7 @@ export default function MeetingEdit({
 
                             {people.length > 0 && (
                                 <div className="grid gap-2">
-                                    <Label>Attendees</Label>
+                                    <Label>{t('Attendees')}</Label>
                                     <div className="grid gap-3 rounded-md border p-4">
                                         {people.map((person) => (
                                             <div key={person.id} className="flex items-center gap-2">
@@ -136,7 +139,7 @@ export default function MeetingEdit({
 
                             <div className="flex justify-end">
                                 <Button type="submit" disabled={processing}>
-                                    Save Changes
+                                    {t('Save Changes')}
                                 </Button>
                             </div>
                         </form>

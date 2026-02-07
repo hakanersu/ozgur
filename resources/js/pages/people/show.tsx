@@ -12,6 +12,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -73,17 +74,19 @@ export default function PersonShow({
     organization: Organization;
     person: Person;
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'People', href: `/organizations/${organization.id}/people` },
+        { title: t('People'), href: `/organizations/${organization.id}/people` },
         { title: person.full_name, href: `/organizations/${organization.id}/people/${person.id}` },
     ];
 
     const deleteForm = useForm({});
 
     function handleDelete() {
-        if (window.confirm('Are you sure you want to delete this person?')) {
+        if (window.confirm(t('Are you sure you want to delete this person?'))) {
             deleteForm.delete(`/organizations/${organization.id}/people/${person.id}`);
         }
     }
@@ -102,7 +105,7 @@ export default function PersonShow({
                         <Button variant="outline" asChild>
                             <Link href={`/organizations/${organization.id}/people/${person.id}/edit`}>
                                 <Pencil className="mr-2 h-4 w-4" />
-                                Edit
+                                {t('Edit')}
                             </Link>
                         </Button>
                         <Button
@@ -111,7 +114,7 @@ export default function PersonShow({
                             disabled={deleteForm.processing}
                         >
                             <Trash2 className="mr-2 h-4 w-4" />
-                            Delete
+                            {t('Delete')}
                         </Button>
                     </div>
                 </div>
@@ -120,11 +123,11 @@ export default function PersonShow({
                     <CardContent className="pt-6">
                         <dl className="grid gap-4 sm:grid-cols-4">
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Email</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Email')}</dt>
                                 <dd className="mt-1 text-sm">{person.primary_email || '-'}</dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Kind</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Kind')}</dt>
                                 <dd className="mt-1">
                                     <Badge variant={kindVariant(person.kind)}>
                                         {person.kind}
@@ -132,23 +135,23 @@ export default function PersonShow({
                                 </dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Contract Start</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Contract Start')}</dt>
                                 <dd className="mt-1 text-sm">{person.contract_start_date || '-'}</dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Contract End</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Contract End')}</dt>
                                 <dd className="mt-1 text-sm">{person.contract_end_date || '-'}</dd>
                             </div>
                         </dl>
                     </CardContent>
                 </Card>
 
-                <h3 className="text-lg font-medium">Assigned Tasks</h3>
+                <h3 className="text-lg font-medium">{t('Assigned Tasks')}</h3>
                 {person.tasks.length === 0 ? (
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-8">
                             <p className="text-sm text-muted-foreground">
-                                No tasks assigned to this person.
+                                {t('No tasks assigned to this person.')}
                             </p>
                         </CardContent>
                     </Card>
@@ -157,9 +160,9 @@ export default function PersonShow({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>State</TableHead>
-                                    <TableHead>Deadline</TableHead>
+                                    <TableHead>{t('Name')}</TableHead>
+                                    <TableHead>{t('State')}</TableHead>
+                                    <TableHead>{t('Deadline')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -186,12 +189,12 @@ export default function PersonShow({
                     </Card>
                 )}
 
-                <h3 className="text-lg font-medium">Attended Meetings</h3>
+                <h3 className="text-lg font-medium">{t('Attended Meetings')}</h3>
                 {person.meetings.length === 0 ? (
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-8">
                             <p className="text-sm text-muted-foreground">
-                                No meetings attended by this person.
+                                {t('No meetings attended by this person.')}
                             </p>
                         </CardContent>
                     </Card>
@@ -200,8 +203,8 @@ export default function PersonShow({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>Date</TableHead>
+                                    <TableHead>{t('Name')}</TableHead>
+                                    <TableHead>{t('Date')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>

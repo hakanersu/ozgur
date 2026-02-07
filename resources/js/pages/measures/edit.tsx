@@ -12,6 +12,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -31,12 +32,14 @@ export default function MeasureEdit({
     organization: Organization;
     measure: Measure;
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Measures', href: `/organizations/${organization.id}/measures` },
+        { title: t('Measures'), href: `/organizations/${organization.id}/measures` },
         { title: measure.name, href: `/organizations/${organization.id}/measures/${measure.id}` },
-        { title: 'Edit', href: `/organizations/${organization.id}/measures/${measure.id}/edit` },
+        { title: t('Edit'), href: `/organizations/${organization.id}/measures/${measure.id}/edit` },
     ];
 
     const { data, setData, put, processing, errors } = useForm({
@@ -52,19 +55,19 @@ export default function MeasureEdit({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Edit ${measure.name}`} />
+            <Head title={`${t('Edit')} ${measure.name}`} />
 
             <div className="mx-auto w-full max-w-2xl space-y-6 p-6">
                 <Heading
-                    title="Edit Measure"
-                    description="Update measure details"
+                    title={t('Edit Measure')}
+                    description={t('Update measure details')}
                 />
 
                 <Card>
                     <CardContent className="pt-6">
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="name">Name</Label>
+                                <Label htmlFor="name">{t('Name')}</Label>
                                 <Input
                                     id="name"
                                     value={data.name}
@@ -75,7 +78,7 @@ export default function MeasureEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="description">Description</Label>
+                                <Label htmlFor="description">{t('Description')}</Label>
                                 <textarea
                                     id="description"
                                     value={data.description}
@@ -87,18 +90,18 @@ export default function MeasureEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="state">State</Label>
+                                <Label htmlFor="state">{t('State')}</Label>
                                 <Select
                                     value={data.state}
                                     onValueChange={(value) => setData('state', value)}
                                 >
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select state" />
+                                        <SelectValue placeholder={t('Select state')} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="not_started">Not Started</SelectItem>
-                                        <SelectItem value="in_progress">In Progress</SelectItem>
-                                        <SelectItem value="implemented">Implemented</SelectItem>
+                                        <SelectItem value="not_started">{t('Not Started')}</SelectItem>
+                                        <SelectItem value="in_progress">{t('In Progress')}</SelectItem>
+                                        <SelectItem value="implemented">{t('Implemented')}</SelectItem>
                                     </SelectContent>
                                 </Select>
                                 <InputError message={errors.state} />
@@ -106,7 +109,7 @@ export default function MeasureEdit({
 
                             <div className="flex justify-end">
                                 <Button type="submit" disabled={processing}>
-                                    Save Changes
+                                    {t('Save Changes')}
                                 </Button>
                             </div>
                         </form>

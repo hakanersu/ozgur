@@ -4,6 +4,7 @@ import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -38,17 +39,19 @@ export default function AssetShow({
     organization: Organization;
     asset: Asset;
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Assets', href: `/organizations/${organization.id}/assets` },
+        { title: t('Assets'), href: `/organizations/${organization.id}/assets` },
         { title: asset.name, href: `/organizations/${organization.id}/assets/${asset.id}` },
     ];
 
     const deleteForm = useForm({});
 
     function handleDelete() {
-        if (window.confirm('Are you sure you want to delete this asset?')) {
+        if (window.confirm(t('Are you sure you want to delete this asset?'))) {
             deleteForm.delete(`/organizations/${organization.id}/assets/${asset.id}`);
         }
     }
@@ -64,7 +67,7 @@ export default function AssetShow({
                         <Button variant="outline" asChild>
                             <Link href={`/organizations/${organization.id}/assets/${asset.id}/edit`}>
                                 <Pencil className="mr-2 h-4 w-4" />
-                                Edit
+                                {t('Edit')}
                             </Link>
                         </Button>
                         <Button
@@ -73,7 +76,7 @@ export default function AssetShow({
                             disabled={deleteForm.processing}
                         >
                             <Trash2 className="mr-2 h-4 w-4" />
-                            Delete
+                            {t('Delete')}
                         </Button>
                     </div>
                 </div>
@@ -82,7 +85,7 @@ export default function AssetShow({
                     <CardContent className="pt-6">
                         <dl className="grid gap-4 sm:grid-cols-3">
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Asset Type</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Asset Type')}</dt>
                                 <dd className="mt-1">
                                     <Badge variant="secondary">
                                         {formatLabel(asset.asset_type)}
@@ -90,19 +93,19 @@ export default function AssetShow({
                                 </dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Amount</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Amount')}</dt>
                                 <dd className="mt-1 text-sm">{asset.amount}</dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Owner</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Owner')}</dt>
                                 <dd className="mt-1 text-sm">{asset.owner.full_name}</dd>
                             </div>
                             <div className="sm:col-span-3">
-                                <dt className="text-sm font-medium text-muted-foreground">Data Types Stored</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Data Types Stored')}</dt>
                                 <dd className="mt-1 text-sm">{asset.data_types_stored || '-'}</dd>
                             </div>
                             <div className="sm:col-span-3">
-                                <dt className="text-sm font-medium text-muted-foreground">Vendors</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Vendors')}</dt>
                                 <dd className="mt-1">
                                     {asset.vendors.length > 0 ? (
                                         <div className="flex flex-wrap gap-2">
@@ -118,7 +121,7 @@ export default function AssetShow({
                                 </dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Created At</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Created At')}</dt>
                                 <dd className="mt-1 text-sm">{asset.created_at}</dd>
                             </div>
                         </dl>

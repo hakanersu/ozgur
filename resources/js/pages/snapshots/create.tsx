@@ -12,6 +12,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -20,11 +21,13 @@ export default function SnapshotCreate({
 }: {
     organization: Organization;
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Snapshots', href: `/organizations/${organization.id}/snapshots` },
-        { title: 'Create', href: `/organizations/${organization.id}/snapshots/create` },
+        { title: t('Snapshots'), href: `/organizations/${organization.id}/snapshots` },
+        { title: t('Create'), href: `/organizations/${organization.id}/snapshots/create` },
     ];
 
     const { data, setData, post, processing, errors } = useForm({
@@ -40,36 +43,36 @@ export default function SnapshotCreate({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Create Snapshot" />
+            <Head title={t('Create Snapshot')} />
 
             <div className="mx-auto w-full max-w-2xl space-y-6 p-6">
                 <Heading
-                    title="Create Snapshot"
-                    description="Capture a point-in-time record of your compliance data"
+                    title={t('Create Snapshot')}
+                    description={t('Capture a point-in-time record of your compliance data')}
                 />
 
                 <Card>
                     <CardContent className="pt-6">
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="name">Name</Label>
+                                <Label htmlFor="name">{t('Name')}</Label>
                                 <Input
                                     id="name"
                                     value={data.name}
                                     onChange={(e) => setData('name', e.target.value)}
                                     required
-                                    placeholder="e.g. Q1 2026 Risk Snapshot"
+                                    placeholder={t('e.g. Q1 2026 Risk Snapshot')}
                                 />
                                 <InputError message={errors.name} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="description">Description</Label>
+                                <Label htmlFor="description">{t('Description')}</Label>
                                 <textarea
                                     id="description"
                                     value={data.description}
                                     onChange={(e) => setData('description', e.target.value)}
-                                    placeholder="Describe the purpose of this snapshot..."
+                                    placeholder={t('Describe the purpose of this snapshot...')}
                                     rows={4}
                                     className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                                 />
@@ -77,19 +80,19 @@ export default function SnapshotCreate({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="type">Type</Label>
+                                <Label htmlFor="type">{t('Type')}</Label>
                                 <Select
                                     value={data.type}
                                     onValueChange={(value) => setData('type', value)}
                                 >
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select type" />
+                                        <SelectValue placeholder={t('Select type')} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="risks">Risks</SelectItem>
-                                        <SelectItem value="vendors">Vendors</SelectItem>
-                                        <SelectItem value="assets">Assets</SelectItem>
-                                        <SelectItem value="processing_activities">Processing Activities</SelectItem>
+                                        <SelectItem value="risks">{t('Risks')}</SelectItem>
+                                        <SelectItem value="vendors">{t('Vendors')}</SelectItem>
+                                        <SelectItem value="assets">{t('Assets')}</SelectItem>
+                                        <SelectItem value="processing_activities">{t('Processing Activities')}</SelectItem>
                                     </SelectContent>
                                 </Select>
                                 <InputError message={errors.type} />
@@ -97,7 +100,7 @@ export default function SnapshotCreate({
 
                             <div className="flex justify-end">
                                 <Button type="submit" disabled={processing}>
-                                    Create Snapshot
+                                    {t('Create Snapshot')}
                                 </Button>
                             </div>
                         </form>

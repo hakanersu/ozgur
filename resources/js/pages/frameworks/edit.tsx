@@ -12,6 +12,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -32,12 +33,14 @@ export default function FrameworkEdit({
     organization: Organization;
     framework: Framework;
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Frameworks', href: `/organizations/${organization.id}/frameworks` },
+        { title: t('Frameworks'), href: `/organizations/${organization.id}/frameworks` },
         { title: framework.name, href: `/organizations/${organization.id}/frameworks/${framework.id}` },
-        { title: 'Edit', href: `/organizations/${organization.id}/frameworks/${framework.id}/edit` },
+        { title: t('Edit'), href: `/organizations/${organization.id}/frameworks/${framework.id}/edit` },
     ];
 
     const { data, setData, put, processing, errors } = useForm({
@@ -54,19 +57,19 @@ export default function FrameworkEdit({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Edit ${framework.name}`} />
+            <Head title={`${t('Edit')} ${framework.name}`} />
 
             <div className="mx-auto w-full max-w-2xl space-y-6 p-6">
                 <Heading
-                    title="Edit Framework"
-                    description="Update framework details"
+                    title={t('Edit Framework')}
+                    description={t('Update framework details')}
                 />
 
                 <Card>
                     <CardContent className="pt-6">
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="name">Name</Label>
+                                <Label htmlFor="name">{t('Name')}</Label>
                                 <Input
                                     id="name"
                                     value={data.name}
@@ -77,7 +80,7 @@ export default function FrameworkEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="description">Description</Label>
+                                <Label htmlFor="description">{t('Description')}</Label>
                                 <textarea
                                     id="description"
                                     value={data.description}
@@ -89,7 +92,7 @@ export default function FrameworkEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="version">Version</Label>
+                                <Label htmlFor="version">{t('Version')}</Label>
                                 <Input
                                     id="version"
                                     value={data.version}
@@ -99,18 +102,18 @@ export default function FrameworkEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="status">Status</Label>
+                                <Label htmlFor="status">{t('Status')}</Label>
                                 <Select
                                     value={data.status}
                                     onValueChange={(value) => setData('status', value)}
                                 >
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select status" />
+                                        <SelectValue placeholder={t('Select status')} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="draft">Draft</SelectItem>
-                                        <SelectItem value="active">Active</SelectItem>
-                                        <SelectItem value="archived">Archived</SelectItem>
+                                        <SelectItem value="draft">{t('Draft')}</SelectItem>
+                                        <SelectItem value="active">{t('Active')}</SelectItem>
+                                        <SelectItem value="archived">{t('Archived')}</SelectItem>
                                     </SelectContent>
                                 </Select>
                                 <InputError message={errors.status} />
@@ -118,7 +121,7 @@ export default function FrameworkEdit({
 
                             <div className="flex justify-end">
                                 <Button type="submit" disabled={processing}>
-                                    Save Changes
+                                    {t('Save Changes')}
                                 </Button>
                             </div>
                         </form>

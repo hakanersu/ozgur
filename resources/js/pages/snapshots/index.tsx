@@ -13,6 +13,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -40,26 +41,28 @@ export default function SnapshotsIndex({
     snapshots: Snapshot[];
     filters: { search: string };
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Snapshots', href: `/organizations/${organization.id}/snapshots` },
+        { title: t('Snapshots'), href: `/organizations/${organization.id}/snapshots` },
     ];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Snapshots" />
+            <Head title={t('Snapshots')} />
 
             <div className="mx-auto w-full max-w-4xl space-y-6 p-6">
                 <div className="flex items-center justify-between">
                     <Heading
-                        title="Snapshots"
-                        description="Point-in-time snapshots of your compliance data"
+                        title={t('Snapshots')}
+                        description={t('Point-in-time snapshots of your compliance data')}
                     />
                     <Button asChild>
                         <Link href={`/organizations/${organization.id}/snapshots/create`}>
                             <Plus className="mr-2 h-4 w-4" />
-                            New Snapshot
+                            {t('New Snapshot')}
                         </Link>
                     </Button>
                 </div>
@@ -68,7 +71,7 @@ export default function SnapshotsIndex({
                     <div className="flex-1">
                         <SearchInput
                             value={filters.search}
-                            placeholder="Search snapshots..."
+                            placeholder={t('Search snapshots...')}
                         />
                     </div>
                 </div>
@@ -77,14 +80,14 @@ export default function SnapshotsIndex({
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-12">
                             <Camera className="mb-4 h-12 w-12 text-muted-foreground" />
-                            <h3 className="mb-2 text-lg font-medium">No snapshots yet</h3>
+                            <h3 className="mb-2 text-lg font-medium">{t('No snapshots yet')}</h3>
                             <p className="mb-4 text-sm text-muted-foreground">
-                                Create your first snapshot to capture a point-in-time record.
+                                {t('Create your first snapshot to capture a point-in-time record.')}
                             </p>
                             <Button asChild>
                                 <Link href={`/organizations/${organization.id}/snapshots/create`}>
                                     <Plus className="mr-2 h-4 w-4" />
-                                    Create Snapshot
+                                    {t('Create Snapshot')}
                                 </Link>
                             </Button>
                         </CardContent>
@@ -94,10 +97,10 @@ export default function SnapshotsIndex({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>Type</TableHead>
-                                    <TableHead>Description</TableHead>
-                                    <TableHead>Created At</TableHead>
+                                    <TableHead>{t('Name')}</TableHead>
+                                    <TableHead>{t('Type')}</TableHead>
+                                    <TableHead>{t('Description')}</TableHead>
+                                    <TableHead>{t('Created At')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>

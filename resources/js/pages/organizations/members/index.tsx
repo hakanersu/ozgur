@@ -29,6 +29,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Membership, Organization } from '@/types';
 
@@ -50,14 +51,16 @@ export default function MembersIndex({
     organization: Organization;
     memberships: Membership[];
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         {
             title: organization.name,
             href: `/organizations/${organization.id}`,
         },
         {
-            title: 'Members',
+            title: t('Members'),
             href: `/organizations/${organization.id}/members`,
         },
     ];
@@ -86,25 +89,25 @@ export default function MembersIndex({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`${organization.name} - Members`} />
+            <Head title={`${organization.name} - ${t('Members')}`} />
 
             <div className="mx-auto w-full max-w-4xl space-y-6 p-6">
                 <div className="flex items-center justify-between">
                     <Heading
-                        title="Members"
-                        description="Manage organization members and their roles"
+                        title={t('Members')}
+                        description={t('Manage organization members and their roles')}
                     />
 
                     <Dialog>
                         <DialogTrigger asChild>
                             <Button>
                                 <Plus className="mr-2 h-4 w-4" />
-                                Add Member
+                                {t('Add Member')}
                             </Button>
                         </DialogTrigger>
                         <DialogContent>
                             <DialogHeader>
-                                <DialogTitle>Add Member</DialogTitle>
+                                <DialogTitle>{t('Add Member')}</DialogTitle>
                             </DialogHeader>
                             <form
                                 onSubmit={handleInvite}
@@ -112,7 +115,7 @@ export default function MembersIndex({
                             >
                                 <div className="grid gap-2">
                                     <Label htmlFor="email">
-                                        Email Address
+                                        {t('Email Address')}
                                     </Label>
                                     <Input
                                         id="email"
@@ -132,7 +135,7 @@ export default function MembersIndex({
                                     />
                                 </div>
                                 <div className="grid gap-2">
-                                    <Label htmlFor="role">Role</Label>
+                                    <Label htmlFor="role">{t('Role')}</Label>
                                     <Select
                                         value={inviteForm.data.role}
                                         onValueChange={(value) =>
@@ -144,10 +147,10 @@ export default function MembersIndex({
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="member">
-                                                Member
+                                                {t('Member')}
                                             </SelectItem>
                                             <SelectItem value="admin">
-                                                Admin
+                                                {t('Admin')}
                                             </SelectItem>
                                         </SelectContent>
                                     </Select>
@@ -160,7 +163,7 @@ export default function MembersIndex({
                                         type="submit"
                                         disabled={inviteForm.processing}
                                     >
-                                        Add Member
+                                        {t('Add Member')}
                                     </Button>
                                 </div>
                             </form>
@@ -173,9 +176,9 @@ export default function MembersIndex({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>Email</TableHead>
-                                    <TableHead>Role</TableHead>
+                                    <TableHead>{t('Name')}</TableHead>
+                                    <TableHead>{t('Email')}</TableHead>
+                                    <TableHead>{t('Role')}</TableHead>
                                     <TableHead className="w-[50px]" />
                                 </TableRow>
                             </TableHeader>

@@ -12,6 +12,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -33,12 +34,14 @@ export default function AuditEdit({
     organization: Organization;
     audit: Audit;
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Audits', href: `/organizations/${organization.id}/audits` },
+        { title: t('Audits'), href: `/organizations/${organization.id}/audits` },
         { title: audit.name, href: `/organizations/${organization.id}/audits/${audit.id}` },
-        { title: 'Edit', href: `/organizations/${organization.id}/audits/${audit.id}/edit` },
+        { title: t('Edit'), href: `/organizations/${organization.id}/audits/${audit.id}/edit` },
     ];
 
     const { data, setData, put, processing, errors } = useForm({
@@ -56,19 +59,19 @@ export default function AuditEdit({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Edit ${audit.name}`} />
+            <Head title={`${t('Edit')} ${audit.name}`} />
 
             <div className="mx-auto w-full max-w-2xl space-y-6 p-6">
                 <Heading
-                    title="Edit Audit"
-                    description="Update audit details"
+                    title={t('Edit Audit')}
+                    description={t('Update audit details')}
                 />
 
                 <Card>
                     <CardContent className="pt-6">
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="name">Name</Label>
+                                <Label htmlFor="name">{t('Name')}</Label>
                                 <Input
                                     id="name"
                                     value={data.name}
@@ -79,7 +82,7 @@ export default function AuditEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="description">Description</Label>
+                                <Label htmlFor="description">{t('Description')}</Label>
                                 <textarea
                                     id="description"
                                     value={data.description}
@@ -91,19 +94,19 @@ export default function AuditEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="state">State</Label>
+                                <Label htmlFor="state">{t('State')}</Label>
                                 <Select
                                     value={data.state}
                                     onValueChange={(value) => setData('state', value)}
                                 >
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select state" />
+                                        <SelectValue placeholder={t('Select state')} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="planned">Planned</SelectItem>
-                                        <SelectItem value="in_progress">In Progress</SelectItem>
-                                        <SelectItem value="completed">Completed</SelectItem>
-                                        <SelectItem value="cancelled">Cancelled</SelectItem>
+                                        <SelectItem value="planned">{t('Planned')}</SelectItem>
+                                        <SelectItem value="in_progress">{t('In Progress')}</SelectItem>
+                                        <SelectItem value="completed">{t('Completed')}</SelectItem>
+                                        <SelectItem value="cancelled">{t('Cancelled')}</SelectItem>
                                     </SelectContent>
                                 </Select>
                                 <InputError message={errors.state} />
@@ -111,7 +114,7 @@ export default function AuditEdit({
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="grid gap-2">
-                                    <Label htmlFor="scheduled_at">Scheduled Date</Label>
+                                    <Label htmlFor="scheduled_at">{t('Scheduled Date')}</Label>
                                     <Input
                                         id="scheduled_at"
                                         type="date"
@@ -122,7 +125,7 @@ export default function AuditEdit({
                                 </div>
 
                                 <div className="grid gap-2">
-                                    <Label htmlFor="completed_at">Completed Date</Label>
+                                    <Label htmlFor="completed_at">{t('Completed Date')}</Label>
                                     <Input
                                         id="completed_at"
                                         type="date"
@@ -135,7 +138,7 @@ export default function AuditEdit({
 
                             <div className="flex justify-end">
                                 <Button type="submit" disabled={processing}>
-                                    Save Changes
+                                    {t('Save Changes')}
                                 </Button>
                             </div>
                         </form>

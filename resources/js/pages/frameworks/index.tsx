@@ -13,6 +13,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -49,33 +50,35 @@ export default function FrameworksIndex({
     frameworks: Framework[];
     filters: { search: string };
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Frameworks', href: `/organizations/${organization.id}/frameworks` },
+        { title: t('Frameworks'), href: `/organizations/${organization.id}/frameworks` },
     ];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Frameworks" />
+            <Head title={t('Frameworks')} />
 
             <div className="mx-auto w-full max-w-4xl space-y-6 p-6">
                 <div className="flex items-center justify-between">
                     <Heading
-                        title="Frameworks"
-                        description="Manage compliance frameworks and their controls"
+                        title={t('Frameworks')}
+                        description={t('Manage compliance frameworks and their controls')}
                     />
                     <div className="flex gap-2">
                         <Button variant="outline" asChild>
                             <Link href={`/organizations/${organization.id}/frameworks/import`}>
                                 <Upload className="mr-2 h-4 w-4" />
-                                Import
+                                {t('Import')}
                             </Link>
                         </Button>
                         <Button asChild>
                             <Link href={`/organizations/${organization.id}/frameworks/create`}>
                                 <Plus className="mr-2 h-4 w-4" />
-                                New Framework
+                                {t('New Framework')}
                             </Link>
                         </Button>
                     </div>
@@ -85,7 +88,7 @@ export default function FrameworksIndex({
                     <div className="flex-1">
                         <SearchInput
                             value={filters.search}
-                            placeholder="Search frameworks..."
+                            placeholder={t('Search frameworks...')}
                         />
                     </div>
                 </div>
@@ -94,14 +97,14 @@ export default function FrameworksIndex({
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-12">
                             <Shield className="mb-4 h-12 w-12 text-muted-foreground" />
-                            <h3 className="mb-2 text-lg font-medium">No frameworks yet</h3>
+                            <h3 className="mb-2 text-lg font-medium">{t('No frameworks yet')}</h3>
                             <p className="mb-4 text-sm text-muted-foreground">
-                                Create your first framework to start organizing compliance controls.
+                                {t('Create your first framework to start organizing compliance controls.')}
                             </p>
                             <Button asChild>
                                 <Link href={`/organizations/${organization.id}/frameworks/create`}>
                                     <Plus className="mr-2 h-4 w-4" />
-                                    Create Framework
+                                    {t('Create Framework')}
                                 </Link>
                             </Button>
                         </CardContent>
@@ -111,10 +114,10 @@ export default function FrameworksIndex({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>Version</TableHead>
-                                    <TableHead>Status</TableHead>
-                                    <TableHead className="text-right">Controls</TableHead>
+                                    <TableHead>{t('Name')}</TableHead>
+                                    <TableHead>{t('Version')}</TableHead>
+                                    <TableHead>{t('Status')}</TableHead>
+                                    <TableHead className="text-right">{t('Controls')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>

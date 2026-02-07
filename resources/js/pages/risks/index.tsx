@@ -13,6 +13,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -54,26 +55,28 @@ export default function RisksIndex({
     risks: Risk[];
     filters: { search: string };
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Risks', href: `/organizations/${organization.id}/risks` },
+        { title: t('Risks'), href: `/organizations/${organization.id}/risks` },
     ];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Risks" />
+            <Head title={t('Risks')} />
 
             <div className="mx-auto w-full max-w-4xl space-y-6 p-6">
                 <div className="flex items-center justify-between">
                     <Heading
-                        title="Risks"
-                        description="Track and manage organizational risks"
+                        title={t('Risks')}
+                        description={t('Track and manage organizational risks')}
                     />
                     <Button asChild>
                         <Link href={`/organizations/${organization.id}/risks/create`}>
                             <Plus className="mr-2 h-4 w-4" />
-                            New Risk
+                            {t('New Risk')}
                         </Link>
                     </Button>
                 </div>
@@ -82,7 +85,7 @@ export default function RisksIndex({
                     <div className="flex-1">
                         <SearchInput
                             value={filters.search}
-                            placeholder="Search risks..."
+                            placeholder={t('Search risks...')}
                         />
                     </div>
                 </div>
@@ -91,14 +94,14 @@ export default function RisksIndex({
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-12">
                             <AlertTriangle className="mb-4 h-12 w-12 text-muted-foreground" />
-                            <h3 className="mb-2 text-lg font-medium">No risks yet</h3>
+                            <h3 className="mb-2 text-lg font-medium">{t('No risks yet')}</h3>
                             <p className="mb-4 text-sm text-muted-foreground">
-                                Create your first risk to start tracking organizational threats.
+                                {t('Create your first risk to start tracking organizational threats.')}
                             </p>
                             <Button asChild>
                                 <Link href={`/organizations/${organization.id}/risks/create`}>
                                     <Plus className="mr-2 h-4 w-4" />
-                                    Create Risk
+                                    {t('Create Risk')}
                                 </Link>
                             </Button>
                         </CardContent>
@@ -108,12 +111,12 @@ export default function RisksIndex({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>Category</TableHead>
-                                    <TableHead>Probability</TableHead>
-                                    <TableHead>Impact</TableHead>
-                                    <TableHead>Treatment</TableHead>
-                                    <TableHead className="text-right">Measures</TableHead>
+                                    <TableHead>{t('Name')}</TableHead>
+                                    <TableHead>{t('Category')}</TableHead>
+                                    <TableHead>{t('Probability')}</TableHead>
+                                    <TableHead>{t('Impact')}</TableHead>
+                                    <TableHead>{t('Treatment')}</TableHead>
+                                    <TableHead className="text-right">{t('Measures')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>

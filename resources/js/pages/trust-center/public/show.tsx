@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useTrans } from '@/hooks/use-trans';
 import type { Organization } from '@/types';
 
 type TrustCenterReference = {
@@ -56,6 +57,7 @@ export default function PublicTrustCenterShow({
     references: TrustCenterReference[];
     files: TrustCenterFile[];
 }) {
+    const { t } = useTrans();
     const page = usePage();
     const flash = (page.props as Record<string, unknown>).success as string | undefined;
 
@@ -98,7 +100,7 @@ export default function PublicTrustCenterShow({
                     {/* References */}
                     {references.length > 0 && (
                         <section>
-                            <h2 className="mb-4 text-lg font-medium">References</h2>
+                            <h2 className="mb-4 text-lg font-medium">{t('References')}</h2>
                             <Card>
                                 <CardContent className="divide-y pt-6">
                                     {references.map((reference) => (
@@ -127,7 +129,7 @@ export default function PublicTrustCenterShow({
                     {/* Files */}
                     {files.length > 0 && (
                         <section>
-                            <h2 className="mb-4 text-lg font-medium">Documents</h2>
+                            <h2 className="mb-4 text-lg font-medium">{t('Documents')}</h2>
                             {Object.entries(groupedFiles).map(([category, categoryFiles]) => (
                                 <div key={category} className="mb-4">
                                     <h3 className="mb-2 text-sm font-medium text-muted-foreground">
@@ -160,7 +162,7 @@ export default function PublicTrustCenterShow({
 
                     {/* Request Access */}
                     <section>
-                        <h2 className="mb-4 text-lg font-medium">Request Access</h2>
+                        <h2 className="mb-4 text-lg font-medium">{t('Request Access')}</h2>
                         <Card>
                             <CardContent className="pt-6">
                                 {flash && (
@@ -170,7 +172,7 @@ export default function PublicTrustCenterShow({
                                 )}
                                 <form onSubmit={handleRequestAccess} className="space-y-4">
                                     <div className="grid gap-2">
-                                        <Label htmlFor="access_email">Email</Label>
+                                        <Label htmlFor="access_email">{t('Email')}</Label>
                                         <Input
                                             id="access_email"
                                             type="email"
@@ -182,29 +184,29 @@ export default function PublicTrustCenterShow({
                                         <InputError message={form.errors.email} />
                                     </div>
                                     <div className="grid gap-2">
-                                        <Label htmlFor="access_name">Name</Label>
+                                        <Label htmlFor="access_name">{t('Name')}</Label>
                                         <Input
                                             id="access_name"
                                             value={form.data.name}
                                             onChange={(e) => form.setData('name', e.target.value)}
                                             required
-                                            placeholder="Your full name"
+                                            placeholder={t('Your full name')}
                                         />
                                         <InputError message={form.errors.name} />
                                     </div>
                                     <div className="grid gap-2">
-                                        <Label htmlFor="access_company">Company</Label>
+                                        <Label htmlFor="access_company">{t('Company')}</Label>
                                         <Input
                                             id="access_company"
                                             value={form.data.company}
                                             onChange={(e) => form.setData('company', e.target.value)}
-                                            placeholder="Your company name"
+                                            placeholder={t('Your company name')}
                                         />
                                         <InputError message={form.errors.company} />
                                     </div>
                                     <div className="flex justify-end">
                                         <Button type="submit" disabled={form.processing}>
-                                            Request Access
+                                            {t('Request Access')}
                                         </Button>
                                     </div>
                                 </form>

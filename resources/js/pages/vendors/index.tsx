@@ -13,6 +13,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -42,26 +43,28 @@ export default function VendorsIndex({
     vendors: Vendor[];
     filters: { search: string };
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Vendors', href: `/organizations/${organization.id}/vendors` },
+        { title: t('Vendors'), href: `/organizations/${organization.id}/vendors` },
     ];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Vendors" />
+            <Head title={t('Vendors')} />
 
             <div className="mx-auto w-full max-w-4xl space-y-6 p-6">
                 <div className="flex items-center justify-between">
                     <Heading
-                        title="Vendors"
-                        description="Manage third-party vendors and their risk assessments"
+                        title={t('Vendors')}
+                        description={t('Manage third-party vendors and their risk assessments')}
                     />
                     <Button asChild>
                         <Link href={`/organizations/${organization.id}/vendors/create`}>
                             <Plus className="mr-2 h-4 w-4" />
-                            New Vendor
+                            {t('New Vendor')}
                         </Link>
                     </Button>
                 </div>
@@ -70,7 +73,7 @@ export default function VendorsIndex({
                     <div className="flex-1">
                         <SearchInput
                             value={filters.search}
-                            placeholder="Search vendors..."
+                            placeholder={t('Search vendors...')}
                         />
                     </div>
                 </div>
@@ -79,14 +82,14 @@ export default function VendorsIndex({
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-12">
                             <Building2 className="mb-4 h-12 w-12 text-muted-foreground" />
-                            <h3 className="mb-2 text-lg font-medium">No vendors yet</h3>
+                            <h3 className="mb-2 text-lg font-medium">{t('No vendors yet')}</h3>
                             <p className="mb-4 text-sm text-muted-foreground">
-                                Add your first vendor to start tracking third-party risks.
+                                {t('Add your first vendor to start tracking third-party risks.')}
                             </p>
                             <Button asChild>
                                 <Link href={`/organizations/${organization.id}/vendors/create`}>
                                     <Plus className="mr-2 h-4 w-4" />
-                                    Add Vendor
+                                    {t('Add Vendor')}
                                 </Link>
                             </Button>
                         </CardContent>
@@ -96,11 +99,11 @@ export default function VendorsIndex({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>Category</TableHead>
-                                    <TableHead>Website</TableHead>
-                                    <TableHead className="text-right">Contacts</TableHead>
-                                    <TableHead className="text-right">Risk Assessments</TableHead>
+                                    <TableHead>{t('Name')}</TableHead>
+                                    <TableHead>{t('Category')}</TableHead>
+                                    <TableHead>{t('Website')}</TableHead>
+                                    <TableHead className="text-right">{t('Contacts')}</TableHead>
+                                    <TableHead className="text-right">{t('Risk Assessments')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>

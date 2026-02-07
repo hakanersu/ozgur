@@ -13,6 +13,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -53,26 +54,28 @@ export default function RightsRequestsIndex({
     rightsRequests: RightsRequest[];
     filters: { search: string };
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Rights Requests', href: `/organizations/${organization.id}/rights-requests` },
+        { title: t('Rights Requests'), href: `/organizations/${organization.id}/rights-requests` },
     ];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Rights Requests" />
+            <Head title={t('Rights Requests')} />
 
             <div className="mx-auto w-full max-w-4xl space-y-6 p-6">
                 <div className="flex items-center justify-between">
                     <Heading
-                        title="Rights Requests"
-                        description="Track and manage data subject rights requests"
+                        title={t('Rights Requests')}
+                        description={t('Track and manage data subject rights requests')}
                     />
                     <Button asChild>
                         <Link href={`/organizations/${organization.id}/rights-requests/create`}>
                             <Plus className="mr-2 h-4 w-4" />
-                            New Request
+                            {t('New Request')}
                         </Link>
                     </Button>
                 </div>
@@ -81,7 +84,7 @@ export default function RightsRequestsIndex({
                     <div className="flex-1">
                         <SearchInput
                             value={filters.search}
-                            placeholder="Search rights requests..."
+                            placeholder={t('Search rights requests...')}
                         />
                     </div>
                 </div>
@@ -90,14 +93,14 @@ export default function RightsRequestsIndex({
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-12">
                             <ShieldCheck className="mb-4 h-12 w-12 text-muted-foreground" />
-                            <h3 className="mb-2 text-lg font-medium">No rights requests yet</h3>
+                            <h3 className="mb-2 text-lg font-medium">{t('No rights requests yet')}</h3>
                             <p className="mb-4 text-sm text-muted-foreground">
-                                Create your first rights request to start tracking data subject requests.
+                                {t('Create your first rights request to start tracking data subject requests.')}
                             </p>
                             <Button asChild>
                                 <Link href={`/organizations/${organization.id}/rights-requests/create`}>
                                     <Plus className="mr-2 h-4 w-4" />
-                                    Create Request
+                                    {t('Create Request')}
                                 </Link>
                             </Button>
                         </CardContent>
@@ -107,11 +110,11 @@ export default function RightsRequestsIndex({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Data Subject</TableHead>
-                                    <TableHead>Request Type</TableHead>
-                                    <TableHead>State</TableHead>
-                                    <TableHead>Deadline</TableHead>
-                                    <TableHead>Created At</TableHead>
+                                    <TableHead>{t('Data Subject')}</TableHead>
+                                    <TableHead>{t('Request Type')}</TableHead>
+                                    <TableHead>{t('State')}</TableHead>
+                                    <TableHead>{t('Deadline')}</TableHead>
+                                    <TableHead>{t('Created At')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>

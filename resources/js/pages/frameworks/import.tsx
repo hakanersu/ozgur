@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -14,11 +15,13 @@ export default function FrameworkImport({
 }: {
     organization: Organization;
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Frameworks', href: `/organizations/${organization.id}/frameworks` },
-        { title: 'Import', href: `/organizations/${organization.id}/frameworks/import` },
+        { title: t('Frameworks'), href: `/organizations/${organization.id}/frameworks` },
+        { title: t('Import'), href: `/organizations/${organization.id}/frameworks/import` },
     ];
 
     const { data, setData, post, processing, errors } = useForm<{
@@ -38,22 +41,23 @@ export default function FrameworkImport({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Import Framework" />
+            <Head title={t('Import Framework')} />
 
             <div className="mx-auto w-full max-w-2xl space-y-6 p-6">
                 <Heading
-                    title="Import Framework"
-                    description="Import a framework and its controls from a CSV file"
+                    title={t('Import Framework')}
+                    description={t('Import a framework and its controls from a CSV file')}
                 />
 
                 <Card>
                     <CardHeader>
-                        <CardTitle>CSV Format</CardTitle>
+                        <CardTitle>{t('CSV Format')}</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <p className="text-sm text-muted-foreground">
-                            The CSV file should have the following columns: Control Code, Control Name, Category, Status, Description.
-                            The first row is treated as a header and will be skipped.
+                            {t('The CSV file should have the following columns: Control Code, Control Name, Category, Status, Description.')}
+                            {' '}
+                            {t('The first row is treated as a header and will be skipped.')}
                         </p>
                     </CardContent>
                 </Card>
@@ -62,7 +66,7 @@ export default function FrameworkImport({
                     <Card>
                         <CardContent className="space-y-4 pt-6">
                             <div className="space-y-2">
-                                <Label htmlFor="name">Framework Name</Label>
+                                <Label htmlFor="name">{t('Framework Name')}</Label>
                                 <Input
                                     id="name"
                                     value={data.name}
@@ -73,7 +77,7 @@ export default function FrameworkImport({
                             </div>
 
                             <div className="space-y-2">
-                                <Label htmlFor="version">Version</Label>
+                                <Label htmlFor="version">{t('Version')}</Label>
                                 <Input
                                     id="version"
                                     value={data.version}
@@ -83,7 +87,7 @@ export default function FrameworkImport({
                             </div>
 
                             <div className="space-y-2">
-                                <Label htmlFor="file">CSV File</Label>
+                                <Label htmlFor="file">{t('CSV File')}</Label>
                                 <Input
                                     id="file"
                                     type="file"
@@ -99,12 +103,12 @@ export default function FrameworkImport({
                     <div className="flex justify-end gap-4">
                         <Button variant="outline" asChild>
                             <Link href={`/organizations/${organization.id}/frameworks`}>
-                                Cancel
+                                {t('Cancel')}
                             </Link>
                         </Button>
                         <Button type="submit" disabled={processing}>
                             <Upload className="mr-2 h-4 w-4" />
-                            Import
+                            {t('Import')}
                         </Button>
                     </div>
                 </form>

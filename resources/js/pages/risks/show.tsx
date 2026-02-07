@@ -12,6 +12,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -69,17 +70,19 @@ export default function RiskShow({
     organization: Organization;
     risk: Risk;
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Risks', href: `/organizations/${organization.id}/risks` },
+        { title: t('Risks'), href: `/organizations/${organization.id}/risks` },
         { title: risk.name, href: `/organizations/${organization.id}/risks/${risk.id}` },
     ];
 
     const deleteForm = useForm({});
 
     function handleDelete() {
-        if (window.confirm('Are you sure you want to delete this risk?')) {
+        if (window.confirm(t('Are you sure you want to delete this risk?'))) {
             deleteForm.delete(`/organizations/${organization.id}/risks/${risk.id}`);
         }
     }
@@ -98,7 +101,7 @@ export default function RiskShow({
                         <Button variant="outline" asChild>
                             <Link href={`/organizations/${organization.id}/risks/${risk.id}/edit`}>
                                 <Pencil className="mr-2 h-4 w-4" />
-                                Edit
+                                {t('Edit')}
                             </Link>
                         </Button>
                         <Button
@@ -107,7 +110,7 @@ export default function RiskShow({
                             disabled={deleteForm.processing}
                         >
                             <Trash2 className="mr-2 h-4 w-4" />
-                            Delete
+                            {t('Delete')}
                         </Button>
                     </div>
                 </div>
@@ -116,19 +119,19 @@ export default function RiskShow({
                     <CardContent className="pt-6">
                         <dl className="grid gap-4 sm:grid-cols-4">
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Category</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Category')}</dt>
                                 <dd className="mt-1 text-sm">{risk.category || '-'}</dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Probability</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Probability')}</dt>
                                 <dd className="mt-1 text-sm">{risk.probability} / 5</dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Impact</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Impact')}</dt>
                                 <dd className="mt-1 text-sm">{risk.impact} / 5</dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Treatment</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Treatment')}</dt>
                                 <dd className="mt-1">
                                     <Badge variant={treatmentVariant(risk.treatment)}>
                                         {risk.treatment}
@@ -139,12 +142,12 @@ export default function RiskShow({
                     </CardContent>
                 </Card>
 
-                <h3 className="text-lg font-medium">Linked Measures</h3>
+                <h3 className="text-lg font-medium">{t('Linked Measures')}</h3>
                 {risk.measures.length === 0 ? (
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-8">
                             <p className="text-sm text-muted-foreground">
-                                No measures linked to this risk.
+                                {t('No measures linked to this risk.')}
                             </p>
                         </CardContent>
                     </Card>
@@ -153,8 +156,8 @@ export default function RiskShow({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>State</TableHead>
+                                    <TableHead>{t('Name')}</TableHead>
+                                    <TableHead>{t('State')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>

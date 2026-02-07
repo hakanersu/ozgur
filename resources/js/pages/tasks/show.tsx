@@ -4,6 +4,7 @@ import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -37,17 +38,19 @@ export default function TaskShow({
     organization: Organization;
     task: Task;
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Tasks', href: `/organizations/${organization.id}/tasks` },
+        { title: t('Tasks'), href: `/organizations/${organization.id}/tasks` },
         { title: task.name, href: `/organizations/${organization.id}/tasks/${task.id}` },
     ];
 
     const deleteForm = useForm({});
 
     function handleDelete() {
-        if (window.confirm('Are you sure you want to delete this task?')) {
+        if (window.confirm(t('Are you sure you want to delete this task?'))) {
             deleteForm.delete(`/organizations/${organization.id}/tasks/${task.id}`);
         }
     }
@@ -66,7 +69,7 @@ export default function TaskShow({
                         <Button variant="outline" asChild>
                             <Link href={`/organizations/${organization.id}/tasks/${task.id}/edit`}>
                                 <Pencil className="mr-2 h-4 w-4" />
-                                Edit
+                                {t('Edit')}
                             </Link>
                         </Button>
                         <Button
@@ -75,7 +78,7 @@ export default function TaskShow({
                             disabled={deleteForm.processing}
                         >
                             <Trash2 className="mr-2 h-4 w-4" />
-                            Delete
+                            {t('Delete')}
                         </Button>
                     </div>
                 </div>
@@ -84,7 +87,7 @@ export default function TaskShow({
                     <CardContent className="pt-6">
                         <dl className="grid gap-4 sm:grid-cols-4">
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">State</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('State')}</dt>
                                 <dd className="mt-1">
                                     <Badge variant={stateVariant(task.state)}>
                                         {task.state}
@@ -92,11 +95,11 @@ export default function TaskShow({
                                 </dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Deadline</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Deadline')}</dt>
                                 <dd className="mt-1 text-sm">{task.deadline || '-'}</dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Assigned To</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Assigned To')}</dt>
                                 <dd className="mt-1 text-sm">
                                     {task.assigned_to ? (
                                         <Link
@@ -111,7 +114,7 @@ export default function TaskShow({
                                 </dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Linked Measure</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Linked Measure')}</dt>
                                 <dd className="mt-1 text-sm">
                                     {task.measure ? (
                                         <Link

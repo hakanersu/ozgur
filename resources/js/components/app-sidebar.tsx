@@ -32,32 +32,39 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { useTrans } from '@/hooks/use-trans';
 import type { NavItem, SharedData } from '@/types';
 import AppLogo from './app-logo';
 
-const footerNavItems: NavItem[] = [
-    {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: Folder,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
-        icon: BookOpen,
-    },
-];
+function useFooterNavItems(): NavItem[] {
+    const { t } = useTrans();
 
-function getMainNavItems(organizationId?: number): NavItem[] {
+    return [
+        {
+            title: t('Repository'),
+            href: 'https://github.com/laravel/react-starter-kit',
+            icon: Folder,
+        },
+        {
+            title: t('Documentation'),
+            href: 'https://laravel.com/docs/starter-kits#react',
+            icon: BookOpen,
+        },
+    ];
+}
+
+function useMainNavItems(organizationId?: number): NavItem[] {
+    const { t } = useTrans();
+
     if (!organizationId) {
         return [
             {
-                title: 'Dashboard',
+                title: t('Dashboard'),
                 href: '/dashboard',
                 icon: LayoutGrid,
             },
             {
-                title: 'Organizations',
+                title: t('Organizations'),
                 href: '/organizations',
                 icon: Building2,
             },
@@ -68,87 +75,87 @@ function getMainNavItems(organizationId?: number): NavItem[] {
 
     return [
         {
-            title: 'Dashboard',
+            title: t('Dashboard'),
             href: prefix,
             icon: LayoutGrid,
         },
         {
-            title: 'Frameworks',
+            title: t('Frameworks'),
             href: `${prefix}/frameworks`,
             icon: Shield,
         },
         {
-            title: 'Measures',
+            title: t('Measures'),
             href: `${prefix}/measures`,
             icon: ClipboardCheck,
         },
         {
-            title: 'Risks',
+            title: t('Risks'),
             href: `${prefix}/risks`,
             icon: ShieldAlert,
         },
         {
-            title: 'Audits',
+            title: t('Audits'),
             href: `${prefix}/audits`,
             icon: Scale,
         },
         {
-            title: 'Documents',
+            title: t('Documents'),
             href: `${prefix}/documents`,
             icon: FileText,
         },
         {
-            title: 'Vendors',
+            title: t('Vendors'),
             href: `${prefix}/vendors`,
             icon: Building2,
         },
         {
-            title: 'People',
+            title: t('People'),
             href: `${prefix}/people`,
             icon: UserCircle,
         },
         {
-            title: 'Tasks',
+            title: t('Tasks'),
             href: `${prefix}/tasks`,
             icon: CheckSquare,
         },
         {
-            title: 'Meetings',
+            title: t('Meetings'),
             href: `${prefix}/meetings`,
             icon: CalendarDays,
         },
         {
-            title: 'Assets',
+            title: t('Assets'),
             href: `${prefix}/assets`,
             icon: Box,
         },
         {
-            title: 'Snapshots',
+            title: t('Snapshots'),
             href: `${prefix}/snapshots`,
             icon: Camera,
         },
         {
-            title: 'Processing Activities',
+            title: t('Processing Activities'),
             href: `${prefix}/processing-activities`,
             icon: Fingerprint,
         },
         {
-            title: 'Rights Requests',
+            title: t('Rights Requests'),
             href: `${prefix}/rights-requests`,
             icon: ShieldCheck,
         },
         {
-            title: 'Trust Center',
+            title: t('Trust Center'),
             href: `${prefix}/trust-center`,
             icon: Globe,
         },
         {
-            title: 'Activity Log',
+            title: t('Activity Log'),
             href: `${prefix}/activity-log`,
             icon: Activity,
         },
         {
-            title: 'Members',
+            title: t('Members'),
             href: `${prefix}/members`,
             icon: Users,
         },
@@ -157,7 +164,8 @@ function getMainNavItems(organizationId?: number): NavItem[] {
 
 export function AppSidebar() {
     const { currentOrganization } = usePage<SharedData>().props;
-    const mainNavItems = getMainNavItems(currentOrganization?.id);
+    const mainNavItems = useMainNavItems(currentOrganization?.id);
+    const footerNavItems = useFooterNavItems();
 
     return (
         <Sidebar collapsible="icon" variant="inset">

@@ -13,6 +13,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -54,26 +55,28 @@ export default function ControlsIndex({
     controls: Control[];
     filters: { search: string };
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Controls', href: `/organizations/${organization.id}/controls` },
+        { title: t('Controls'), href: `/organizations/${organization.id}/controls` },
     ];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Controls" />
+            <Head title={t('Controls')} />
 
             <div className="mx-auto w-full max-w-4xl space-y-6 p-6">
                 <div className="flex items-center justify-between">
                     <Heading
-                        title="Controls"
-                        description="Manage compliance controls across frameworks"
+                        title={t('Controls')}
+                        description={t('Manage compliance controls across frameworks')}
                     />
                     <Button asChild>
                         <Link href={`/organizations/${organization.id}/controls/create`}>
                             <Plus className="mr-2 h-4 w-4" />
-                            New Control
+                            {t('New Control')}
                         </Link>
                     </Button>
                 </div>
@@ -82,7 +85,7 @@ export default function ControlsIndex({
                     <div className="flex-1">
                         <SearchInput
                             value={filters.search}
-                            placeholder="Search controls..."
+                            placeholder={t('Search controls...')}
                         />
                     </div>
                 </div>
@@ -91,14 +94,14 @@ export default function ControlsIndex({
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-12">
                             <ListChecks className="mb-4 h-12 w-12 text-muted-foreground" />
-                            <h3 className="mb-2 text-lg font-medium">No controls yet</h3>
+                            <h3 className="mb-2 text-lg font-medium">{t('No controls yet')}</h3>
                             <p className="mb-4 text-sm text-muted-foreground">
-                                Create your first control to track compliance requirements.
+                                {t('Create your first control to track compliance requirements.')}
                             </p>
                             <Button asChild>
                                 <Link href={`/organizations/${organization.id}/controls/create`}>
                                     <Plus className="mr-2 h-4 w-4" />
-                                    Create Control
+                                    {t('Create Control')}
                                 </Link>
                             </Button>
                         </CardContent>
@@ -108,11 +111,11 @@ export default function ControlsIndex({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Code</TableHead>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>Framework</TableHead>
-                                    <TableHead>Status</TableHead>
-                                    <TableHead className="text-right">Measures</TableHead>
+                                    <TableHead>{t('Code')}</TableHead>
+                                    <TableHead>{t('Name')}</TableHead>
+                                    <TableHead>{t('Framework')}</TableHead>
+                                    <TableHead>{t('Status')}</TableHead>
+                                    <TableHead className="text-right">{t('Measures')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>

@@ -12,6 +12,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -68,17 +69,19 @@ export default function ControlShow({
     organization: Organization;
     control: Control;
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Controls', href: `/organizations/${organization.id}/controls` },
+        { title: t('Controls'), href: `/organizations/${organization.id}/controls` },
         { title: control.name, href: `/organizations/${organization.id}/controls/${control.id}` },
     ];
 
     const deleteForm = useForm({});
 
     function handleDelete() {
-        if (window.confirm('Are you sure you want to delete this control?')) {
+        if (window.confirm(t('Are you sure you want to delete this control?'))) {
             deleteForm.delete(`/organizations/${organization.id}/controls/${control.id}`);
         }
     }
@@ -97,7 +100,7 @@ export default function ControlShow({
                         <Button variant="outline" asChild>
                             <Link href={`/organizations/${organization.id}/controls/${control.id}/edit`}>
                                 <Pencil className="mr-2 h-4 w-4" />
-                                Edit
+                                {t('Edit')}
                             </Link>
                         </Button>
                         <Button
@@ -106,7 +109,7 @@ export default function ControlShow({
                             disabled={deleteForm.processing}
                         >
                             <Trash2 className="mr-2 h-4 w-4" />
-                            Delete
+                            {t('Delete')}
                         </Button>
                     </div>
                 </div>
@@ -115,15 +118,15 @@ export default function ControlShow({
                     <CardContent className="pt-6">
                         <dl className="grid gap-4 sm:grid-cols-4">
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Code</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Code')}</dt>
                                 <dd className="mt-1 font-mono text-sm">{control.code}</dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Category</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Category')}</dt>
                                 <dd className="mt-1 text-sm">{control.category || '-'}</dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Framework</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Framework')}</dt>
                                 <dd className="mt-1 text-sm">
                                     {control.framework ? (
                                         <Link
@@ -138,7 +141,7 @@ export default function ControlShow({
                                 </dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Status</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Status')}</dt>
                                 <dd className="mt-1">
                                     <Badge variant={statusVariant(control.status)}>
                                         {control.status}
@@ -149,12 +152,12 @@ export default function ControlShow({
                     </CardContent>
                 </Card>
 
-                <h3 className="text-lg font-medium">Measures</h3>
+                <h3 className="text-lg font-medium">{t('Measures')}</h3>
                 {control.measures.length === 0 ? (
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-8">
                             <p className="text-sm text-muted-foreground">
-                                No measures linked to this control.
+                                {t('No measures linked to this control.')}
                             </p>
                         </CardContent>
                     </Card>
@@ -163,8 +166,8 @@ export default function ControlShow({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>State</TableHead>
+                                    <TableHead>{t('Name')}</TableHead>
+                                    <TableHead>{t('State')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -190,12 +193,12 @@ export default function ControlShow({
                     </Card>
                 )}
 
-                <h3 className="text-lg font-medium">Audits</h3>
+                <h3 className="text-lg font-medium">{t('Audits')}</h3>
                 {control.audits.length === 0 ? (
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-8">
                             <p className="text-sm text-muted-foreground">
-                                No audits linked to this control.
+                                {t('No audits linked to this control.')}
                             </p>
                         </CardContent>
                     </Card>
@@ -204,9 +207,9 @@ export default function ControlShow({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>State</TableHead>
-                                    <TableHead>Scheduled</TableHead>
+                                    <TableHead>{t('Name')}</TableHead>
+                                    <TableHead>{t('State')}</TableHead>
+                                    <TableHead>{t('Scheduled')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>

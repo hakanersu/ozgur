@@ -12,6 +12,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -82,17 +83,19 @@ export default function VendorShow({
     organization: Organization;
     vendor: Vendor;
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Vendors', href: `/organizations/${organization.id}/vendors` },
+        { title: t('Vendors'), href: `/organizations/${organization.id}/vendors` },
         { title: vendor.name, href: `/organizations/${organization.id}/vendors/${vendor.id}` },
     ];
 
     const deleteForm = useForm({});
 
     function handleDelete() {
-        if (window.confirm('Are you sure you want to delete this vendor?')) {
+        if (window.confirm(t('Are you sure you want to delete this vendor?'))) {
             deleteForm.delete(`/organizations/${organization.id}/vendors/${vendor.id}`);
         }
     }
@@ -111,7 +114,7 @@ export default function VendorShow({
                         <Button variant="outline" asChild>
                             <Link href={`/organizations/${organization.id}/vendors/${vendor.id}/edit`}>
                                 <Pencil className="mr-2 h-4 w-4" />
-                                Edit
+                                {t('Edit')}
                             </Link>
                         </Button>
                         <Button
@@ -120,7 +123,7 @@ export default function VendorShow({
                             disabled={deleteForm.processing}
                         >
                             <Trash2 className="mr-2 h-4 w-4" />
-                            Delete
+                            {t('Delete')}
                         </Button>
                     </div>
                 </div>
@@ -129,7 +132,7 @@ export default function VendorShow({
                     <CardContent className="pt-6">
                         <dl className="grid gap-4 sm:grid-cols-3">
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Category</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Category')}</dt>
                                 <dd className="mt-1">
                                     <Badge variant="secondary">
                                         {formatCategory(vendor.category)}
@@ -137,15 +140,15 @@ export default function VendorShow({
                                 </dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Legal Name</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Legal Name')}</dt>
                                 <dd className="mt-1 text-sm">{vendor.legal_name || '-'}</dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Headquarter Address</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Headquarter Address')}</dt>
                                 <dd className="mt-1 text-sm">{vendor.headquarter_address || '-'}</dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Website</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Website')}</dt>
                                 <dd className="mt-1 text-sm">
                                     {vendor.website_url ? (
                                         <a href={vendor.website_url} target="_blank" rel="noopener noreferrer" className="hover:underline">
@@ -155,51 +158,51 @@ export default function VendorShow({
                                 </dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Privacy Policy</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Privacy Policy')}</dt>
                                 <dd className="mt-1 text-sm">
                                     {vendor.privacy_policy_url ? (
                                         <a href={vendor.privacy_policy_url} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                                            View
+                                            {t('View')}
                                         </a>
                                     ) : '-'}
                                 </dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">SLA</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('SLA')}</dt>
                                 <dd className="mt-1 text-sm">
                                     {vendor.sla_url ? (
                                         <a href={vendor.sla_url} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                                            View
+                                            {t('View')}
                                         </a>
                                     ) : '-'}
                                 </dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">DPA</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('DPA')}</dt>
                                 <dd className="mt-1 text-sm">
                                     {vendor.dpa_url ? (
                                         <a href={vendor.dpa_url} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                                            View
+                                            {t('View')}
                                         </a>
                                     ) : '-'}
                                 </dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Status Page</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Status Page')}</dt>
                                 <dd className="mt-1 text-sm">
                                     {vendor.status_page_url ? (
                                         <a href={vendor.status_page_url} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                                            View
+                                            {t('View')}
                                         </a>
                                     ) : '-'}
                                 </dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Security Page</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Security Page')}</dt>
                                 <dd className="mt-1 text-sm">
                                     {vendor.security_page_url ? (
                                         <a href={vendor.security_page_url} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                                            View
+                                            {t('View')}
                                         </a>
                                     ) : '-'}
                                 </dd>
@@ -211,7 +214,7 @@ export default function VendorShow({
                 {vendor.certifications && vendor.certifications.length > 0 && (
                     <Card>
                         <CardContent className="pt-6">
-                            <h3 className="mb-3 text-sm font-medium text-muted-foreground">Certifications</h3>
+                            <h3 className="mb-3 text-sm font-medium text-muted-foreground">{t('Certifications')}</h3>
                             <div className="flex flex-wrap gap-2">
                                 {vendor.certifications.map((certification) => (
                                     <Badge key={certification} variant="outline">
@@ -223,13 +226,13 @@ export default function VendorShow({
                     </Card>
                 )}
 
-                <h3 className="text-lg font-medium">Contacts</h3>
+                <h3 className="text-lg font-medium">{t('Contacts')}</h3>
 
                 {vendor.contacts.length === 0 ? (
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-12">
                             <p className="text-sm text-muted-foreground">
-                                No contacts added yet.
+                                {t('No contacts added yet.')}
                             </p>
                         </CardContent>
                     </Card>
@@ -238,10 +241,10 @@ export default function VendorShow({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>Email</TableHead>
-                                    <TableHead>Phone</TableHead>
-                                    <TableHead>Role</TableHead>
+                                    <TableHead>{t('Name')}</TableHead>
+                                    <TableHead>{t('Email')}</TableHead>
+                                    <TableHead>{t('Phone')}</TableHead>
+                                    <TableHead>{t('Role')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -258,13 +261,13 @@ export default function VendorShow({
                     </Card>
                 )}
 
-                <h3 className="text-lg font-medium">Risk Assessments</h3>
+                <h3 className="text-lg font-medium">{t('Risk Assessments')}</h3>
 
                 {vendor.risk_assessments.length === 0 ? (
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-12">
                             <p className="text-sm text-muted-foreground">
-                                No risk assessments added yet.
+                                {t('No risk assessments added yet.')}
                             </p>
                         </CardContent>
                     </Card>
@@ -273,10 +276,10 @@ export default function VendorShow({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Data Sensitivity</TableHead>
-                                    <TableHead>Business Impact</TableHead>
-                                    <TableHead>Expires At</TableHead>
-                                    <TableHead>Notes</TableHead>
+                                    <TableHead>{t('Data Sensitivity')}</TableHead>
+                                    <TableHead>{t('Business Impact')}</TableHead>
+                                    <TableHead>{t('Expires At')}</TableHead>
+                                    <TableHead>{t('Notes')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>

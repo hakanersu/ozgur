@@ -13,6 +13,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -55,12 +56,14 @@ export default function ProcessingActivityEdit({
     processingActivity: ProcessingActivity;
     people: Person[];
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Processing Activities', href: `/organizations/${organization.id}/processing-activities` },
+        { title: t('Processing Activities'), href: `/organizations/${organization.id}/processing-activities` },
         { title: processingActivity.name, href: `/organizations/${organization.id}/processing-activities/${processingActivity.id}` },
-        { title: 'Edit', href: `/organizations/${organization.id}/processing-activities/${processingActivity.id}/edit` },
+        { title: t('Edit'), href: `/organizations/${organization.id}/processing-activities/${processingActivity.id}/edit` },
     ];
 
     const { data, setData, put, processing, errors } = useForm({
@@ -92,22 +95,22 @@ export default function ProcessingActivityEdit({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Edit ${processingActivity.name}`} />
+            <Head title={`${t('Edit')} ${processingActivity.name}`} />
 
             <div className="mx-auto w-full max-w-2xl space-y-6 p-6">
                 <Heading
-                    title="Edit Processing Activity"
-                    description="Update processing activity details"
+                    title={t('Edit Processing Activity')}
+                    description={t('Update processing activity details')}
                 />
 
                 <Card>
                     <CardContent className="pt-6">
                         <form onSubmit={handleSubmit} className="space-y-8">
                             <div>
-                                <h3 className="mb-4 text-sm font-medium text-muted-foreground uppercase tracking-wide">Basic Info</h3>
+                                <h3 className="mb-4 text-sm font-medium text-muted-foreground uppercase tracking-wide">{t('Basic Info')}</h3>
                                 <div className="space-y-4">
                                     <div className="grid gap-2">
-                                        <Label htmlFor="name">Name</Label>
+                                        <Label htmlFor="name">{t('Name')}</Label>
                                         <Input
                                             id="name"
                                             value={data.name}
@@ -118,7 +121,7 @@ export default function ProcessingActivityEdit({
                                     </div>
 
                                     <div className="grid gap-2">
-                                        <Label htmlFor="purpose">Purpose</Label>
+                                        <Label htmlFor="purpose">{t('Purpose')}</Label>
                                         <Input
                                             id="purpose"
                                             value={data.purpose}
@@ -128,30 +131,30 @@ export default function ProcessingActivityEdit({
                                     </div>
 
                                     <div className="grid gap-2">
-                                        <Label htmlFor="role">Role</Label>
+                                        <Label htmlFor="role">{t('Role')}</Label>
                                         <Select
                                             value={data.role}
                                             onValueChange={(value) => setData('role', value)}
                                         >
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Select role" />
+                                                <SelectValue placeholder={t('Select role')} />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="controller">Controller</SelectItem>
-                                                <SelectItem value="processor">Processor</SelectItem>
+                                                <SelectItem value="controller">{t('Controller')}</SelectItem>
+                                                <SelectItem value="processor">{t('Processor')}</SelectItem>
                                             </SelectContent>
                                         </Select>
                                         <InputError message={errors.role} />
                                     </div>
 
                                     <div className="grid gap-2">
-                                        <Label htmlFor="data_protection_officer_id">Data Protection Officer</Label>
+                                        <Label htmlFor="data_protection_officer_id">{t('Data Protection Officer')}</Label>
                                         <Select
                                             value={data.data_protection_officer_id}
                                             onValueChange={(value) => setData('data_protection_officer_id', value)}
                                         >
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Select DPO (optional)" />
+                                                <SelectValue placeholder={t('Select DPO (optional)')} />
                                             </SelectTrigger>
                                             <SelectContent>
                                                 {people.map((person) => (
@@ -167,43 +170,43 @@ export default function ProcessingActivityEdit({
                             </div>
 
                             <div>
-                                <h3 className="mb-4 text-sm font-medium text-muted-foreground uppercase tracking-wide">Data Categories</h3>
+                                <h3 className="mb-4 text-sm font-medium text-muted-foreground uppercase tracking-wide">{t('Data Categories')}</h3>
                                 <div className="space-y-4">
                                     <div className="grid gap-2">
-                                        <Label htmlFor="data_subject_category">Data Subject Category</Label>
+                                        <Label htmlFor="data_subject_category">{t('Data Subject Category')}</Label>
                                         <Input
                                             id="data_subject_category"
                                             value={data.data_subject_category}
                                             onChange={(e) => setData('data_subject_category', e.target.value)}
-                                            placeholder="e.g. Customers, Employees"
+                                            placeholder={t('e.g. Customers, Employees')}
                                         />
                                         <InputError message={errors.data_subject_category} />
                                     </div>
 
                                     <div className="grid gap-2">
-                                        <Label htmlFor="personal_data_category">Personal Data Category</Label>
+                                        <Label htmlFor="personal_data_category">{t('Personal Data Category')}</Label>
                                         <Input
                                             id="personal_data_category"
                                             value={data.personal_data_category}
                                             onChange={(e) => setData('personal_data_category', e.target.value)}
-                                            placeholder="e.g. Name, Email, Address"
+                                            placeholder={t('e.g. Name, Email, Address')}
                                         />
                                         <InputError message={errors.personal_data_category} />
                                     </div>
 
                                     <div className="grid gap-2">
-                                        <Label htmlFor="special_or_criminal_data">Special or Criminal Data</Label>
+                                        <Label htmlFor="special_or_criminal_data">{t('Special or Criminal Data')}</Label>
                                         <Select
                                             value={data.special_or_criminal_data}
                                             onValueChange={(value) => setData('special_or_criminal_data', value)}
                                         >
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Select option" />
+                                                <SelectValue placeholder={t('Select option')} />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="yes">Yes</SelectItem>
-                                                <SelectItem value="no">No</SelectItem>
-                                                <SelectItem value="possible">Possible</SelectItem>
+                                                <SelectItem value="yes">{t('Yes')}</SelectItem>
+                                                <SelectItem value="no">{t('No')}</SelectItem>
+                                                <SelectItem value="possible">{t('Possible')}</SelectItem>
                                             </SelectContent>
                                         </Select>
                                         <InputError message={errors.special_or_criminal_data} />
@@ -212,31 +215,31 @@ export default function ProcessingActivityEdit({
                             </div>
 
                             <div>
-                                <h3 className="mb-4 text-sm font-medium text-muted-foreground uppercase tracking-wide">Legal Basis & Processing</h3>
+                                <h3 className="mb-4 text-sm font-medium text-muted-foreground uppercase tracking-wide">{t('Legal Basis & Processing')}</h3>
                                 <div className="space-y-4">
                                     <div className="grid gap-2">
-                                        <Label htmlFor="lawful_basis">Lawful Basis</Label>
+                                        <Label htmlFor="lawful_basis">{t('Lawful Basis')}</Label>
                                         <Select
                                             value={data.lawful_basis}
                                             onValueChange={(value) => setData('lawful_basis', value)}
                                         >
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Select lawful basis" />
+                                                <SelectValue placeholder={t('Select lawful basis')} />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="legitimate_interest">Legitimate Interest</SelectItem>
-                                                <SelectItem value="consent">Consent</SelectItem>
-                                                <SelectItem value="contractual_necessity">Contractual Necessity</SelectItem>
-                                                <SelectItem value="legal_obligation">Legal Obligation</SelectItem>
-                                                <SelectItem value="vital_interests">Vital Interests</SelectItem>
-                                                <SelectItem value="public_task">Public Task</SelectItem>
+                                                <SelectItem value="legitimate_interest">{t('Legitimate Interest')}</SelectItem>
+                                                <SelectItem value="consent">{t('Consent')}</SelectItem>
+                                                <SelectItem value="contractual_necessity">{t('Contractual Necessity')}</SelectItem>
+                                                <SelectItem value="legal_obligation">{t('Legal Obligation')}</SelectItem>
+                                                <SelectItem value="vital_interests">{t('Vital Interests')}</SelectItem>
+                                                <SelectItem value="public_task">{t('Public Task')}</SelectItem>
                                             </SelectContent>
                                         </Select>
                                         <InputError message={errors.lawful_basis} />
                                     </div>
 
                                     <div className="grid gap-2">
-                                        <Label htmlFor="consent_evidence_link">Consent Evidence Link</Label>
+                                        <Label htmlFor="consent_evidence_link">{t('Consent Evidence Link')}</Label>
                                         <Input
                                             id="consent_evidence_link"
                                             value={data.consent_evidence_link}
@@ -247,12 +250,12 @@ export default function ProcessingActivityEdit({
                                     </div>
 
                                     <div className="grid gap-2">
-                                        <Label htmlFor="recipients">Recipients</Label>
+                                        <Label htmlFor="recipients">{t('Recipients')}</Label>
                                         <textarea
                                             id="recipients"
                                             value={data.recipients}
                                             onChange={(e) => setData('recipients', e.target.value)}
-                                            placeholder="List recipients of the data..."
+                                            placeholder={t('List recipients of the data...')}
                                             rows={3}
                                             className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                                         />
@@ -260,23 +263,23 @@ export default function ProcessingActivityEdit({
                                     </div>
 
                                     <div className="grid gap-2">
-                                        <Label htmlFor="retention_period">Retention Period</Label>
+                                        <Label htmlFor="retention_period">{t('Retention Period')}</Label>
                                         <Input
                                             id="retention_period"
                                             value={data.retention_period}
                                             onChange={(e) => setData('retention_period', e.target.value)}
-                                            placeholder="e.g. 5 years"
+                                            placeholder={t('e.g. 5 years')}
                                         />
                                         <InputError message={errors.retention_period} />
                                     </div>
 
                                     <div className="grid gap-2">
-                                        <Label htmlFor="security_measures">Security Measures</Label>
+                                        <Label htmlFor="security_measures">{t('Security Measures')}</Label>
                                         <textarea
                                             id="security_measures"
                                             value={data.security_measures}
                                             onChange={(e) => setData('security_measures', e.target.value)}
-                                            placeholder="Describe the security measures in place..."
+                                            placeholder={t('Describe the security measures in place...')}
                                             rows={3}
                                             className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                                         />
@@ -286,15 +289,15 @@ export default function ProcessingActivityEdit({
                             </div>
 
                             <div>
-                                <h3 className="mb-4 text-sm font-medium text-muted-foreground uppercase tracking-wide">Location & Transfers</h3>
+                                <h3 className="mb-4 text-sm font-medium text-muted-foreground uppercase tracking-wide">{t('Location & Transfers')}</h3>
                                 <div className="space-y-4">
                                     <div className="grid gap-2">
-                                        <Label htmlFor="location">Location</Label>
+                                        <Label htmlFor="location">{t('Location')}</Label>
                                         <Input
                                             id="location"
                                             value={data.location}
                                             onChange={(e) => setData('location', e.target.value)}
-                                            placeholder="e.g. EU, US, Global"
+                                            placeholder={t('e.g. EU, US, Global')}
                                         />
                                         <InputError message={errors.location} />
                                     </div>
@@ -305,26 +308,26 @@ export default function ProcessingActivityEdit({
                                             checked={data.international_transfers}
                                             onCheckedChange={(checked) => setData('international_transfers', checked === true)}
                                         />
-                                        <Label htmlFor="international_transfers">International Transfers</Label>
+                                        <Label htmlFor="international_transfers">{t('International Transfers')}</Label>
                                         <InputError message={errors.international_transfers} />
                                     </div>
 
                                     <div className="grid gap-2">
-                                        <Label htmlFor="transfer_safeguards">Transfer Safeguards</Label>
+                                        <Label htmlFor="transfer_safeguards">{t('Transfer Safeguards')}</Label>
                                         <Select
                                             value={data.transfer_safeguards}
                                             onValueChange={(value) => setData('transfer_safeguards', value)}
                                         >
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Select safeguard" />
+                                                <SelectValue placeholder={t('Select safeguard')} />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="standard_contractual_clauses">Standard Contractual Clauses</SelectItem>
-                                                <SelectItem value="binding_corporate_rules">Binding Corporate Rules</SelectItem>
-                                                <SelectItem value="adequacy_decision">Adequacy Decision</SelectItem>
-                                                <SelectItem value="derogations">Derogations</SelectItem>
-                                                <SelectItem value="codes_of_conduct">Codes of Conduct</SelectItem>
-                                                <SelectItem value="certification_mechanisms">Certification Mechanisms</SelectItem>
+                                                <SelectItem value="standard_contractual_clauses">{t('Standard Contractual Clauses')}</SelectItem>
+                                                <SelectItem value="binding_corporate_rules">{t('Binding Corporate Rules')}</SelectItem>
+                                                <SelectItem value="adequacy_decision">{t('Adequacy Decision')}</SelectItem>
+                                                <SelectItem value="derogations">{t('Derogations')}</SelectItem>
+                                                <SelectItem value="codes_of_conduct">{t('Codes of Conduct')}</SelectItem>
+                                                <SelectItem value="certification_mechanisms">{t('Certification Mechanisms')}</SelectItem>
                                             </SelectContent>
                                         </Select>
                                         <InputError message={errors.transfer_safeguards} />
@@ -333,38 +336,38 @@ export default function ProcessingActivityEdit({
                             </div>
 
                             <div>
-                                <h3 className="mb-4 text-sm font-medium text-muted-foreground uppercase tracking-wide">Assessments & Review</h3>
+                                <h3 className="mb-4 text-sm font-medium text-muted-foreground uppercase tracking-wide">{t('Assessments & Review')}</h3>
                                 <div className="space-y-4">
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="grid gap-2">
-                                            <Label htmlFor="dpia_needed">DPIA Needed</Label>
+                                            <Label htmlFor="dpia_needed">{t('DPIA Needed')}</Label>
                                             <Select
                                                 value={data.dpia_needed}
                                                 onValueChange={(value) => setData('dpia_needed', value)}
                                             >
                                                 <SelectTrigger>
-                                                    <SelectValue placeholder="Select option" />
+                                                    <SelectValue placeholder={t('Select option')} />
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="needed">Needed</SelectItem>
-                                                    <SelectItem value="not_needed">Not Needed</SelectItem>
+                                                    <SelectItem value="needed">{t('Needed')}</SelectItem>
+                                                    <SelectItem value="not_needed">{t('Not Needed')}</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                             <InputError message={errors.dpia_needed} />
                                         </div>
 
                                         <div className="grid gap-2">
-                                            <Label htmlFor="tia_needed">TIA Needed</Label>
+                                            <Label htmlFor="tia_needed">{t('TIA Needed')}</Label>
                                             <Select
                                                 value={data.tia_needed}
                                                 onValueChange={(value) => setData('tia_needed', value)}
                                             >
                                                 <SelectTrigger>
-                                                    <SelectValue placeholder="Select option" />
+                                                    <SelectValue placeholder={t('Select option')} />
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="needed">Needed</SelectItem>
-                                                    <SelectItem value="not_needed">Not Needed</SelectItem>
+                                                    <SelectItem value="needed">{t('Needed')}</SelectItem>
+                                                    <SelectItem value="not_needed">{t('Not Needed')}</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                             <InputError message={errors.tia_needed} />
@@ -373,7 +376,7 @@ export default function ProcessingActivityEdit({
 
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="grid gap-2">
-                                            <Label htmlFor="last_review_date">Last Review Date</Label>
+                                            <Label htmlFor="last_review_date">{t('Last Review Date')}</Label>
                                             <Input
                                                 id="last_review_date"
                                                 type="date"
@@ -384,7 +387,7 @@ export default function ProcessingActivityEdit({
                                         </div>
 
                                         <div className="grid gap-2">
-                                            <Label htmlFor="next_review_date">Next Review Date</Label>
+                                            <Label htmlFor="next_review_date">{t('Next Review Date')}</Label>
                                             <Input
                                                 id="next_review_date"
                                                 type="date"
@@ -399,7 +402,7 @@ export default function ProcessingActivityEdit({
 
                             <div className="flex justify-end">
                                 <Button type="submit" disabled={processing}>
-                                    Save Changes
+                                    {t('Save Changes')}
                                 </Button>
                             </div>
                         </form>

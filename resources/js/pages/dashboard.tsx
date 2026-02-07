@@ -3,35 +3,38 @@ import { Building2, Plus, Users } from 'lucide-react';
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
-
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Dashboard',
-        href: '/dashboard',
-    },
-];
 
 export default function Dashboard({
     organizations,
 }: {
     organizations: Organization[];
 }) {
+    const { t } = useTrans();
+
+    const breadcrumbs: BreadcrumbItem[] = [
+        {
+            title: t('Dashboard'),
+            href: '/dashboard',
+        },
+    ];
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Dashboard" />
+            <Head title={t('Dashboard')} />
 
             <div className="mx-auto w-full max-w-4xl space-y-6 p-6">
                 <div className="flex items-center justify-between">
                     <Heading
-                        title="Dashboard"
-                        description="Select an organization to manage"
+                        title={t('Dashboard')}
+                        description={t('Select an organization to manage')}
                     />
                     <Button asChild>
                         <Link href="/organizations/create">
                             <Plus className="mr-2 h-4 w-4" />
-                            New Organization
+                            {t('New Organization')}
                         </Link>
                     </Button>
                 </div>
@@ -41,15 +44,15 @@ export default function Dashboard({
                         <CardContent className="flex flex-col items-center justify-center py-12">
                             <Building2 className="mb-4 h-12 w-12 text-muted-foreground" />
                             <h3 className="mb-2 text-lg font-medium">
-                                No organizations yet
+                                {t('No organizations yet')}
                             </h3>
                             <p className="mb-4 text-sm text-muted-foreground">
-                                Create your first organization to get started with compliance management.
+                                {t('Create your first organization to get started with compliance management.')}
                             </p>
                             <Button asChild>
                                 <Link href="/organizations/create">
                                     <Plus className="mr-2 h-4 w-4" />
-                                    Create Organization
+                                    {t('Create Organization')}
                                 </Link>
                             </Button>
                         </CardContent>
@@ -71,7 +74,7 @@ export default function Dashboard({
                                                 <Users className="h-3.5 w-3.5" />
                                                 <span>
                                                     {org.memberships_count}{' '}
-                                                    {org.memberships_count === 1 ? 'member' : 'members'}
+                                                    {org.memberships_count === 1 ? t('member') : t('members')}
                                                 </span>
                                             </div>
                                         </div>

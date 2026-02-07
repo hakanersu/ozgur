@@ -12,6 +12,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -27,11 +28,13 @@ export default function TaskCreate({
     organization: Organization;
     people: PersonOption[];
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Tasks', href: `/organizations/${organization.id}/tasks` },
-        { title: 'Create', href: `/organizations/${organization.id}/tasks/create` },
+        { title: t('Tasks'), href: `/organizations/${organization.id}/tasks` },
+        { title: t('Create'), href: `/organizations/${organization.id}/tasks/create` },
     ];
 
     const { data, setData, post, processing, errors } = useForm({
@@ -49,36 +52,36 @@ export default function TaskCreate({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Create Task" />
+            <Head title={t('Create Task')} />
 
             <div className="mx-auto w-full max-w-2xl space-y-6 p-6">
                 <Heading
-                    title="Create Task"
-                    description="Add a new task to your organization"
+                    title={t('Create Task')}
+                    description={t('Add a new task to your organization')}
                 />
 
                 <Card>
                     <CardContent className="pt-6">
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="name">Name</Label>
+                                <Label htmlFor="name">{t('Name')}</Label>
                                 <Input
                                     id="name"
                                     value={data.name}
                                     onChange={(e) => setData('name', e.target.value)}
                                     required
-                                    placeholder="Review security policies"
+                                    placeholder={t('Review security policies')}
                                 />
                                 <InputError message={errors.name} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="description">Description</Label>
+                                <Label htmlFor="description">{t('Description')}</Label>
                                 <textarea
                                     id="description"
                                     value={data.description}
                                     onChange={(e) => setData('description', e.target.value)}
-                                    placeholder="Describe the task..."
+                                    placeholder={t('Describe the task...')}
                                     rows={4}
                                     className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                                 />
@@ -87,24 +90,24 @@ export default function TaskCreate({
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="grid gap-2">
-                                    <Label htmlFor="state">State</Label>
+                                    <Label htmlFor="state">{t('State')}</Label>
                                     <Select
                                         value={data.state}
                                         onValueChange={(value) => setData('state', value)}
                                     >
                                         <SelectTrigger>
-                                            <SelectValue placeholder="Select state" />
+                                            <SelectValue placeholder={t('Select state')} />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="todo">Todo</SelectItem>
-                                            <SelectItem value="done">Done</SelectItem>
+                                            <SelectItem value="todo">{t('Todo')}</SelectItem>
+                                            <SelectItem value="done">{t('Done')}</SelectItem>
                                         </SelectContent>
                                     </Select>
                                     <InputError message={errors.state} />
                                 </div>
 
                                 <div className="grid gap-2">
-                                    <Label htmlFor="deadline">Deadline</Label>
+                                    <Label htmlFor="deadline">{t('Deadline')}</Label>
                                     <Input
                                         id="deadline"
                                         type="date"
@@ -116,13 +119,13 @@ export default function TaskCreate({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="assigned_to_id">Assigned To</Label>
+                                <Label htmlFor="assigned_to_id">{t('Assigned To')}</Label>
                                 <Select
                                     value={data.assigned_to_id}
                                     onValueChange={(value) => setData('assigned_to_id', value)}
                                 >
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select a person (optional)" />
+                                        <SelectValue placeholder={t('Select a person (optional)')} />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {people.map((person) => (
@@ -137,7 +140,7 @@ export default function TaskCreate({
 
                             <div className="flex justify-end">
                                 <Button type="submit" disabled={processing}>
-                                    Create Task
+                                    {t('Create Task')}
                                 </Button>
                             </div>
                         </form>

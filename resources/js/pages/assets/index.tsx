@@ -13,6 +13,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -45,26 +46,28 @@ export default function AssetsIndex({
     assets: Asset[];
     filters: { search: string };
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Assets', href: `/organizations/${organization.id}/assets` },
+        { title: t('Assets'), href: `/organizations/${organization.id}/assets` },
     ];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Assets" />
+            <Head title={t('Assets')} />
 
             <div className="mx-auto w-full max-w-4xl space-y-6 p-6">
                 <div className="flex items-center justify-between">
                     <Heading
-                        title="Assets"
-                        description="Manage your organization's assets and data inventory"
+                        title={t('Assets')}
+                        description={t("Manage your organization's assets and data inventory")}
                     />
                     <Button asChild>
                         <Link href={`/organizations/${organization.id}/assets/create`}>
                             <Plus className="mr-2 h-4 w-4" />
-                            New Asset
+                            {t('New Asset')}
                         </Link>
                     </Button>
                 </div>
@@ -73,7 +76,7 @@ export default function AssetsIndex({
                     <div className="flex-1">
                         <SearchInput
                             value={filters.search}
-                            placeholder="Search assets..."
+                            placeholder={t('Search assets...')}
                         />
                     </div>
                 </div>
@@ -82,14 +85,14 @@ export default function AssetsIndex({
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-12">
                             <Box className="mb-4 h-12 w-12 text-muted-foreground" />
-                            <h3 className="mb-2 text-lg font-medium">No assets yet</h3>
+                            <h3 className="mb-2 text-lg font-medium">{t('No assets yet')}</h3>
                             <p className="mb-4 text-sm text-muted-foreground">
-                                Add your first asset to start tracking your data inventory.
+                                {t('Add your first asset to start tracking your data inventory.')}
                             </p>
                             <Button asChild>
                                 <Link href={`/organizations/${organization.id}/assets/create`}>
                                     <Plus className="mr-2 h-4 w-4" />
-                                    Add Asset
+                                    {t('Add Asset')}
                                 </Link>
                             </Button>
                         </CardContent>
@@ -99,11 +102,11 @@ export default function AssetsIndex({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>Type</TableHead>
-                                    <TableHead className="text-right">Amount</TableHead>
-                                    <TableHead>Owner</TableHead>
-                                    <TableHead className="text-right">Vendors</TableHead>
+                                    <TableHead>{t('Name')}</TableHead>
+                                    <TableHead>{t('Type')}</TableHead>
+                                    <TableHead className="text-right">{t('Amount')}</TableHead>
+                                    <TableHead>{t('Owner')}</TableHead>
+                                    <TableHead className="text-right">{t('Vendors')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>

@@ -19,6 +19,7 @@ import {
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -45,8 +46,10 @@ export default function OrganizationShow({
     organization: Organization;
     stats: Stats;
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         {
             title: organization.name,
             href: `/organizations/${organization.id}`,
@@ -56,19 +59,19 @@ export default function OrganizationShow({
     const prefix = `/organizations/${organization.id}`;
 
     const modules = [
-        { title: 'Frameworks', count: stats.frameworks, icon: Shield, href: `${prefix}/frameworks` },
-        { title: 'Controls', count: stats.controls, icon: ClipboardCheck, href: `${prefix}/controls` },
-        { title: 'Measures', count: stats.measures, icon: ClipboardCheck, href: `${prefix}/measures` },
-        { title: 'Risks', count: stats.risks, icon: ShieldAlert, href: `${prefix}/risks` },
-        { title: 'Audits', count: stats.audits, icon: Scale, href: `${prefix}/audits` },
-        { title: 'Documents', count: stats.documents, icon: FileText, href: `${prefix}/documents` },
-        { title: 'Vendors', count: stats.vendors, icon: Building2, href: `${prefix}/vendors` },
-        { title: 'People', count: stats.people, icon: UserCircle, href: `${prefix}/people` },
-        { title: 'Tasks', count: stats.tasks, icon: CheckSquare, href: `${prefix}/tasks` },
-        { title: 'Meetings', count: stats.meetings, icon: CalendarDays, href: `${prefix}/meetings` },
-        { title: 'Assets', count: stats.assets, icon: Box, href: `${prefix}/assets` },
-        { title: 'Processing Activities', count: stats.processing_activities, icon: Fingerprint, href: `${prefix}/processing-activities` },
-        { title: 'Rights Requests', count: stats.rights_requests, icon: ShieldCheck, href: `${prefix}/rights-requests` },
+        { title: t('Frameworks'), count: stats.frameworks, icon: Shield, href: `${prefix}/frameworks` },
+        { title: t('Controls'), count: stats.controls, icon: ClipboardCheck, href: `${prefix}/controls` },
+        { title: t('Measures'), count: stats.measures, icon: ClipboardCheck, href: `${prefix}/measures` },
+        { title: t('Risks'), count: stats.risks, icon: ShieldAlert, href: `${prefix}/risks` },
+        { title: t('Audits'), count: stats.audits, icon: Scale, href: `${prefix}/audits` },
+        { title: t('Documents'), count: stats.documents, icon: FileText, href: `${prefix}/documents` },
+        { title: t('Vendors'), count: stats.vendors, icon: Building2, href: `${prefix}/vendors` },
+        { title: t('People'), count: stats.people, icon: UserCircle, href: `${prefix}/people` },
+        { title: t('Tasks'), count: stats.tasks, icon: CheckSquare, href: `${prefix}/tasks` },
+        { title: t('Meetings'), count: stats.meetings, icon: CalendarDays, href: `${prefix}/meetings` },
+        { title: t('Assets'), count: stats.assets, icon: Box, href: `${prefix}/assets` },
+        { title: t('Processing Activities'), count: stats.processing_activities, icon: Fingerprint, href: `${prefix}/processing-activities` },
+        { title: t('Rights Requests'), count: stats.rights_requests, icon: ShieldCheck, href: `${prefix}/rights-requests` },
     ];
 
     return (
@@ -79,19 +82,19 @@ export default function OrganizationShow({
                 <div className="flex items-center justify-between">
                     <Heading
                         title={organization.name}
-                        description={`${organization.memberships_count} ${organization.memberships_count === 1 ? 'member' : 'members'}`}
+                        description={`${organization.memberships_count} ${organization.memberships_count === 1 ? t('member') : t('members')}`}
                     />
                     <div className="flex gap-2">
                         <Button variant="outline" asChild>
                             <Link href={`${prefix}/trust-center`}>
                                 <Globe className="mr-2 h-4 w-4" />
-                                Trust Center
+                                {t('Trust Center')}
                             </Link>
                         </Button>
                         <Button variant="outline" asChild>
                             <Link href={`${prefix}/edit`}>
                                 <Settings className="mr-2 h-4 w-4" />
-                                Settings
+                                {t('Settings')}
                             </Link>
                         </Button>
                     </div>
@@ -119,7 +122,7 @@ export default function OrganizationShow({
                     <Card className="transition-colors hover:bg-muted/50">
                         <CardHeader className="flex flex-row items-center justify-between pb-2">
                             <CardTitle className="text-sm font-medium text-muted-foreground">
-                                Members
+                                {t('Members')}
                             </CardTitle>
                             <Users className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>

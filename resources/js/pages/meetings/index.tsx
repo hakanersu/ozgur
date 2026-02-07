@@ -12,6 +12,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -32,26 +33,28 @@ export default function MeetingsIndex({
     meetings: Meeting[];
     filters: { search: string };
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Meetings', href: `/organizations/${organization.id}/meetings` },
+        { title: t('Meetings'), href: `/organizations/${organization.id}/meetings` },
     ];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Meetings" />
+            <Head title={t('Meetings')} />
 
             <div className="mx-auto w-full max-w-4xl space-y-6 p-6">
                 <div className="flex items-center justify-between">
                     <Heading
-                        title="Meetings"
-                        description="Track and manage organizational meetings"
+                        title={t('Meetings')}
+                        description={t('Track and manage organizational meetings')}
                     />
                     <Button asChild>
                         <Link href={`/organizations/${organization.id}/meetings/create`}>
                             <Plus className="mr-2 h-4 w-4" />
-                            New Meeting
+                            {t('New Meeting')}
                         </Link>
                     </Button>
                 </div>
@@ -60,7 +63,7 @@ export default function MeetingsIndex({
                     <div className="flex-1">
                         <SearchInput
                             value={filters.search}
-                            placeholder="Search meetings..."
+                            placeholder={t('Search meetings...')}
                         />
                     </div>
                 </div>
@@ -69,14 +72,14 @@ export default function MeetingsIndex({
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-12">
                             <CalendarDays className="mb-4 h-12 w-12 text-muted-foreground" />
-                            <h3 className="mb-2 text-lg font-medium">No meetings yet</h3>
+                            <h3 className="mb-2 text-lg font-medium">{t('No meetings yet')}</h3>
                             <p className="mb-4 text-sm text-muted-foreground">
-                                Schedule your first meeting to start tracking organizational discussions.
+                                {t('Schedule your first meeting to start tracking organizational discussions.')}
                             </p>
                             <Button asChild>
                                 <Link href={`/organizations/${organization.id}/meetings/create`}>
                                     <Plus className="mr-2 h-4 w-4" />
-                                    Create Meeting
+                                    {t('Create Meeting')}
                                 </Link>
                             </Button>
                         </CardContent>
@@ -86,9 +89,9 @@ export default function MeetingsIndex({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>Date</TableHead>
-                                    <TableHead className="text-right">Attendees</TableHead>
+                                    <TableHead>{t('Name')}</TableHead>
+                                    <TableHead>{t('Date')}</TableHead>
+                                    <TableHead className="text-right">{t('Attendees')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>

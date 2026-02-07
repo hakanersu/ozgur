@@ -12,6 +12,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -61,17 +62,19 @@ export default function AuditShow({
     organization: Organization;
     audit: Audit;
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Audits', href: `/organizations/${organization.id}/audits` },
+        { title: t('Audits'), href: `/organizations/${organization.id}/audits` },
         { title: audit.name, href: `/organizations/${organization.id}/audits/${audit.id}` },
     ];
 
     const deleteForm = useForm({});
 
     function handleDelete() {
-        if (window.confirm('Are you sure you want to delete this audit?')) {
+        if (window.confirm(t('Are you sure you want to delete this audit?'))) {
             deleteForm.delete(`/organizations/${organization.id}/audits/${audit.id}`);
         }
     }
@@ -90,7 +93,7 @@ export default function AuditShow({
                         <Button variant="outline" asChild>
                             <Link href={`/organizations/${organization.id}/audits/${audit.id}/edit`}>
                                 <Pencil className="mr-2 h-4 w-4" />
-                                Edit
+                                {t('Edit')}
                             </Link>
                         </Button>
                         <Button
@@ -99,7 +102,7 @@ export default function AuditShow({
                             disabled={deleteForm.processing}
                         >
                             <Trash2 className="mr-2 h-4 w-4" />
-                            Delete
+                            {t('Delete')}
                         </Button>
                     </div>
                 </div>
@@ -108,7 +111,7 @@ export default function AuditShow({
                     <CardContent className="pt-6">
                         <dl className="grid gap-4 sm:grid-cols-4">
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">State</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('State')}</dt>
                                 <dd className="mt-1">
                                     <Badge variant={stateVariant(audit.state)}>
                                         {audit.state}
@@ -116,27 +119,27 @@ export default function AuditShow({
                                 </dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Scheduled</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Scheduled')}</dt>
                                 <dd className="mt-1 text-sm">{audit.scheduled_at ?? '-'}</dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Completed</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Completed')}</dt>
                                 <dd className="mt-1 text-sm">{audit.completed_at ?? '-'}</dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Controls</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Controls')}</dt>
                                 <dd className="mt-1 text-sm">{audit.controls.length}</dd>
                             </div>
                         </dl>
                     </CardContent>
                 </Card>
 
-                <h3 className="text-lg font-medium">Linked Controls</h3>
+                <h3 className="text-lg font-medium">{t('Linked Controls')}</h3>
                 {audit.controls.length === 0 ? (
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-8">
                             <p className="text-sm text-muted-foreground">
-                                No controls linked to this audit.
+                                {t('No controls linked to this audit.')}
                             </p>
                         </CardContent>
                     </Card>
@@ -145,9 +148,9 @@ export default function AuditShow({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Code</TableHead>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>Status</TableHead>
+                                    <TableHead>{t('Code')}</TableHead>
+                                    <TableHead>{t('Name')}</TableHead>
+                                    <TableHead>{t('Status')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>

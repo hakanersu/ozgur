@@ -13,6 +13,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -53,26 +54,28 @@ export default function MeasuresIndex({
     measures: Measure[];
     filters: { search: string };
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Measures', href: `/organizations/${organization.id}/measures` },
+        { title: t('Measures'), href: `/organizations/${organization.id}/measures` },
     ];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Measures" />
+            <Head title={t('Measures')} />
 
             <div className="mx-auto w-full max-w-4xl space-y-6 p-6">
                 <div className="flex items-center justify-between">
                     <Heading
-                        title="Measures"
-                        description="Track compliance measures and their evidence"
+                        title={t('Measures')}
+                        description={t('Track compliance measures and their evidence')}
                     />
                     <Button asChild>
                         <Link href={`/organizations/${organization.id}/measures/create`}>
                             <Plus className="mr-2 h-4 w-4" />
-                            New Measure
+                            {t('New Measure')}
                         </Link>
                     </Button>
                 </div>
@@ -81,7 +84,7 @@ export default function MeasuresIndex({
                     <div className="flex-1">
                         <SearchInput
                             value={filters.search}
-                            placeholder="Search measures..."
+                            placeholder={t('Search measures...')}
                         />
                     </div>
                 </div>
@@ -90,14 +93,14 @@ export default function MeasuresIndex({
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-12">
                             <ClipboardCheck className="mb-4 h-12 w-12 text-muted-foreground" />
-                            <h3 className="mb-2 text-lg font-medium">No measures yet</h3>
+                            <h3 className="mb-2 text-lg font-medium">{t('No measures yet')}</h3>
                             <p className="mb-4 text-sm text-muted-foreground">
-                                Create your first measure to track compliance actions.
+                                {t('Create your first measure to track compliance actions.')}
                             </p>
                             <Button asChild>
                                 <Link href={`/organizations/${organization.id}/measures/create`}>
                                     <Plus className="mr-2 h-4 w-4" />
-                                    Create Measure
+                                    {t('Create Measure')}
                                 </Link>
                             </Button>
                         </CardContent>
@@ -107,10 +110,10 @@ export default function MeasuresIndex({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>State</TableHead>
-                                    <TableHead className="text-right">Controls</TableHead>
-                                    <TableHead className="text-right">Evidence</TableHead>
+                                    <TableHead>{t('Name')}</TableHead>
+                                    <TableHead>{t('State')}</TableHead>
+                                    <TableHead className="text-right">{t('Controls')}</TableHead>
+                                    <TableHead className="text-right">{t('Evidence')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>

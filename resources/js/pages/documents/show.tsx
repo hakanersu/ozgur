@@ -12,6 +12,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -60,21 +61,6 @@ function statusVariant(status: string) {
     }
 }
 
-function formatDocumentType(type: string) {
-    switch (type) {
-        case 'isms':
-            return 'ISMS';
-        case 'policy':
-            return 'Policy';
-        case 'procedure':
-            return 'Procedure';
-        case 'other':
-            return 'Other';
-        default:
-            return type;
-    }
-}
-
 export default function DocumentShow({
     organization,
     document,
@@ -82,17 +68,34 @@ export default function DocumentShow({
     organization: Organization;
     document: Document;
 }) {
+    const { t } = useTrans();
+
+    function formatDocumentType(type: string) {
+        switch (type) {
+            case 'isms':
+                return t('ISMS');
+            case 'policy':
+                return t('Policy');
+            case 'procedure':
+                return t('Procedure');
+            case 'other':
+                return t('Other');
+            default:
+                return type;
+        }
+    }
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Documents', href: `/organizations/${organization.id}/documents` },
+        { title: t('Documents'), href: `/organizations/${organization.id}/documents` },
         { title: document.title, href: `/organizations/${organization.id}/documents/${document.id}` },
     ];
 
     const deleteForm = useForm({});
 
     function handleDelete() {
-        if (window.confirm('Are you sure you want to delete this document?')) {
+        if (window.confirm(t('Are you sure you want to delete this document?'))) {
             deleteForm.delete(`/organizations/${organization.id}/documents/${document.id}`);
         }
     }
@@ -110,7 +113,7 @@ export default function DocumentShow({
                         <Button variant="outline" asChild>
                             <Link href={`/organizations/${organization.id}/documents/${document.id}/edit`}>
                                 <Pencil className="mr-2 h-4 w-4" />
-                                Edit
+                                {t('Edit')}
                             </Link>
                         </Button>
                         <Button
@@ -119,7 +122,7 @@ export default function DocumentShow({
                             disabled={deleteForm.processing}
                         >
                             <Trash2 className="mr-2 h-4 w-4" />
-                            Delete
+                            {t('Delete')}
                         </Button>
                     </div>
                 </div>
@@ -128,11 +131,11 @@ export default function DocumentShow({
                     <CardContent className="pt-6">
                         <dl className="grid gap-4 sm:grid-cols-4">
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Type</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Type')}</dt>
                                 <dd className="mt-1 text-sm">{formatDocumentType(document.document_type)}</dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Classification</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Classification')}</dt>
                                 <dd className="mt-1">
                                     <Badge variant={classificationVariant(document.classification)}>
                                         {document.classification}
@@ -140,11 +143,11 @@ export default function DocumentShow({
                                 </dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Published Version</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Published Version')}</dt>
                                 <dd className="mt-1 text-sm">{document.current_published_version ?? '-'}</dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Total Versions</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Total Versions')}</dt>
                                 <dd className="mt-1 text-sm">{document.versions.length}</dd>
                             </div>
                         </dl>
@@ -152,11 +155,11 @@ export default function DocumentShow({
                 </Card>
 
                 <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-medium">Versions</h3>
+                    <h3 className="text-lg font-medium">{t('Versions')}</h3>
                     <Button size="sm" asChild>
                         <Link href={`/organizations/${organization.id}/documents/${document.id}/versions/create`}>
                             <Plus className="mr-2 h-4 w-4" />
-                            New Version
+                            {t('New Version')}
                         </Link>
                     </Button>
                 </div>
@@ -165,7 +168,7 @@ export default function DocumentShow({
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-12">
                             <p className="text-sm text-muted-foreground">
-                                No versions created yet.
+                                {t('No versions created yet.')}
                             </p>
                         </CardContent>
                     </Card>
@@ -174,10 +177,10 @@ export default function DocumentShow({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Version</TableHead>
-                                    <TableHead>Title</TableHead>
-                                    <TableHead>Status</TableHead>
-                                    <TableHead>Published At</TableHead>
+                                    <TableHead>{t('Version')}</TableHead>
+                                    <TableHead>{t('Title')}</TableHead>
+                                    <TableHead>{t('Status')}</TableHead>
+                                    <TableHead>{t('Published At')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>

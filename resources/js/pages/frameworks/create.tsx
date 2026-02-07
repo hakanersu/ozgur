@@ -12,6 +12,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -20,11 +21,13 @@ export default function FrameworkCreate({
 }: {
     organization: Organization;
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Frameworks', href: `/organizations/${organization.id}/frameworks` },
-        { title: 'Create', href: `/organizations/${organization.id}/frameworks/create` },
+        { title: t('Frameworks'), href: `/organizations/${organization.id}/frameworks` },
+        { title: t('Create'), href: `/organizations/${organization.id}/frameworks/create` },
     ];
 
     const { data, setData, post, processing, errors } = useForm({
@@ -41,19 +44,19 @@ export default function FrameworkCreate({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Create Framework" />
+            <Head title={t('Create Framework')} />
 
             <div className="mx-auto w-full max-w-2xl space-y-6 p-6">
                 <Heading
-                    title="Create Framework"
-                    description="Add a new compliance framework"
+                    title={t('Create Framework')}
+                    description={t('Add a new compliance framework')}
                 />
 
                 <Card>
                     <CardContent className="pt-6">
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="name">Name</Label>
+                                <Label htmlFor="name">{t('Name')}</Label>
                                 <Input
                                     id="name"
                                     value={data.name}
@@ -65,12 +68,12 @@ export default function FrameworkCreate({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="description">Description</Label>
+                                <Label htmlFor="description">{t('Description')}</Label>
                                 <textarea
                                     id="description"
                                     value={data.description}
                                     onChange={(e) => setData('description', e.target.value)}
-                                    placeholder="Describe the framework..."
+                                    placeholder={t('Describe the framework...')}
                                     rows={4}
                                     className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                                 />
@@ -78,7 +81,7 @@ export default function FrameworkCreate({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="version">Version</Label>
+                                <Label htmlFor="version">{t('Version')}</Label>
                                 <Input
                                     id="version"
                                     value={data.version}
@@ -89,18 +92,18 @@ export default function FrameworkCreate({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="status">Status</Label>
+                                <Label htmlFor="status">{t('Status')}</Label>
                                 <Select
                                     value={data.status}
                                     onValueChange={(value) => setData('status', value)}
                                 >
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select status" />
+                                        <SelectValue placeholder={t('Select status')} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="draft">Draft</SelectItem>
-                                        <SelectItem value="active">Active</SelectItem>
-                                        <SelectItem value="archived">Archived</SelectItem>
+                                        <SelectItem value="draft">{t('Draft')}</SelectItem>
+                                        <SelectItem value="active">{t('Active')}</SelectItem>
+                                        <SelectItem value="archived">{t('Archived')}</SelectItem>
                                     </SelectContent>
                                 </Select>
                                 <InputError message={errors.status} />
@@ -108,7 +111,7 @@ export default function FrameworkCreate({
 
                             <div className="flex justify-end">
                                 <Button type="submit" disabled={processing}>
-                                    Create Framework
+                                    {t('Create Framework')}
                                 </Button>
                             </div>
                         </form>

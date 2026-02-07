@@ -12,6 +12,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -57,17 +58,19 @@ export default function FrameworkShow({
     organization: Organization;
     framework: Framework;
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Frameworks', href: `/organizations/${organization.id}/frameworks` },
+        { title: t('Frameworks'), href: `/organizations/${organization.id}/frameworks` },
         { title: framework.name, href: `/organizations/${organization.id}/frameworks/${framework.id}` },
     ];
 
     const deleteForm = useForm({});
 
     function handleDelete() {
-        if (window.confirm('Are you sure you want to delete this framework?')) {
+        if (window.confirm(t('Are you sure you want to delete this framework?'))) {
             deleteForm.delete(`/organizations/${organization.id}/frameworks/${framework.id}`);
         }
     }
@@ -86,7 +89,7 @@ export default function FrameworkShow({
                         <Button variant="outline" asChild>
                             <Link href={`/organizations/${organization.id}/frameworks/${framework.id}/edit`}>
                                 <Pencil className="mr-2 h-4 w-4" />
-                                Edit
+                                {t('Edit')}
                             </Link>
                         </Button>
                         <Button
@@ -95,7 +98,7 @@ export default function FrameworkShow({
                             disabled={deleteForm.processing}
                         >
                             <Trash2 className="mr-2 h-4 w-4" />
-                            Delete
+                            {t('Delete')}
                         </Button>
                     </div>
                 </div>
@@ -104,11 +107,11 @@ export default function FrameworkShow({
                     <CardContent className="pt-6">
                         <dl className="grid gap-4 sm:grid-cols-3">
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Version</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Version')}</dt>
                                 <dd className="mt-1 text-sm">{framework.version || '-'}</dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Status</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Status')}</dt>
                                 <dd className="mt-1">
                                     <Badge variant={statusVariant(framework.status)}>
                                         {framework.status}
@@ -116,7 +119,7 @@ export default function FrameworkShow({
                                 </dd>
                             </div>
                             <div>
-                                <dt className="text-sm font-medium text-muted-foreground">Controls</dt>
+                                <dt className="text-sm font-medium text-muted-foreground">{t('Controls')}</dt>
                                 <dd className="mt-1 text-sm">{framework.controls.length}</dd>
                             </div>
                         </dl>
@@ -124,11 +127,11 @@ export default function FrameworkShow({
                 </Card>
 
                 <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-medium">Controls</h3>
+                    <h3 className="text-lg font-medium">{t('Controls')}</h3>
                     <Button size="sm" asChild>
                         <Link href={`/organizations/${organization.id}/controls/create`}>
                             <Plus className="mr-2 h-4 w-4" />
-                            New Control
+                            {t('New Control')}
                         </Link>
                     </Button>
                 </div>
@@ -137,7 +140,7 @@ export default function FrameworkShow({
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-12">
                             <p className="text-sm text-muted-foreground">
-                                No controls linked to this framework yet.
+                                {t('No controls linked to this framework yet.')}
                             </p>
                         </CardContent>
                     </Card>
@@ -146,9 +149,9 @@ export default function FrameworkShow({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Code</TableHead>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>Status</TableHead>
+                                    <TableHead>{t('Code')}</TableHead>
+                                    <TableHead>{t('Name')}</TableHead>
+                                    <TableHead>{t('Status')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>

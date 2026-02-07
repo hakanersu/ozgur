@@ -12,6 +12,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -34,12 +35,14 @@ export default function RiskEdit({
     organization: Organization;
     risk: Risk;
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Risks', href: `/organizations/${organization.id}/risks` },
+        { title: t('Risks'), href: `/organizations/${organization.id}/risks` },
         { title: risk.name, href: `/organizations/${organization.id}/risks/${risk.id}` },
-        { title: 'Edit', href: `/organizations/${organization.id}/risks/${risk.id}/edit` },
+        { title: t('Edit'), href: `/organizations/${organization.id}/risks/${risk.id}/edit` },
     ];
 
     const { data, setData, put, processing, errors } = useForm({
@@ -58,19 +61,19 @@ export default function RiskEdit({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Edit ${risk.name}`} />
+            <Head title={`${t('Edit')} ${risk.name}`} />
 
             <div className="mx-auto w-full max-w-2xl space-y-6 p-6">
                 <Heading
-                    title="Edit Risk"
-                    description="Update risk details"
+                    title={t('Edit Risk')}
+                    description={t('Update risk details')}
                 />
 
                 <Card>
                     <CardContent className="pt-6">
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="name">Name</Label>
+                                <Label htmlFor="name">{t('Name')}</Label>
                                 <Input
                                     id="name"
                                     value={data.name}
@@ -81,7 +84,7 @@ export default function RiskEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="description">Description</Label>
+                                <Label htmlFor="description">{t('Description')}</Label>
                                 <textarea
                                     id="description"
                                     value={data.description}
@@ -93,7 +96,7 @@ export default function RiskEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="category">Category</Label>
+                                <Label htmlFor="category">{t('Category')}</Label>
                                 <Input
                                     id="category"
                                     value={data.category}
@@ -104,40 +107,40 @@ export default function RiskEdit({
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="grid gap-2">
-                                    <Label htmlFor="probability">Probability (1-5)</Label>
+                                    <Label htmlFor="probability">{t('Probability (1-5)')}</Label>
                                     <Select
                                         value={data.probability}
                                         onValueChange={(value) => setData('probability', value)}
                                     >
                                         <SelectTrigger>
-                                            <SelectValue placeholder="Select probability" />
+                                            <SelectValue placeholder={t('Select probability')} />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="1">1 - Very Low</SelectItem>
-                                            <SelectItem value="2">2 - Low</SelectItem>
-                                            <SelectItem value="3">3 - Medium</SelectItem>
-                                            <SelectItem value="4">4 - High</SelectItem>
-                                            <SelectItem value="5">5 - Very High</SelectItem>
+                                            <SelectItem value="1">{t('1 - Very Low')}</SelectItem>
+                                            <SelectItem value="2">{t('2 - Low')}</SelectItem>
+                                            <SelectItem value="3">{t('3 - Medium')}</SelectItem>
+                                            <SelectItem value="4">{t('4 - High')}</SelectItem>
+                                            <SelectItem value="5">{t('5 - Very High')}</SelectItem>
                                         </SelectContent>
                                     </Select>
                                     <InputError message={errors.probability} />
                                 </div>
 
                                 <div className="grid gap-2">
-                                    <Label htmlFor="impact">Impact (1-5)</Label>
+                                    <Label htmlFor="impact">{t('Impact (1-5)')}</Label>
                                     <Select
                                         value={data.impact}
                                         onValueChange={(value) => setData('impact', value)}
                                     >
                                         <SelectTrigger>
-                                            <SelectValue placeholder="Select impact" />
+                                            <SelectValue placeholder={t('Select impact')} />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="1">1 - Negligible</SelectItem>
-                                            <SelectItem value="2">2 - Minor</SelectItem>
-                                            <SelectItem value="3">3 - Moderate</SelectItem>
-                                            <SelectItem value="4">4 - Major</SelectItem>
-                                            <SelectItem value="5">5 - Critical</SelectItem>
+                                            <SelectItem value="1">{t('1 - Negligible')}</SelectItem>
+                                            <SelectItem value="2">{t('2 - Minor')}</SelectItem>
+                                            <SelectItem value="3">{t('3 - Moderate')}</SelectItem>
+                                            <SelectItem value="4">{t('4 - Major')}</SelectItem>
+                                            <SelectItem value="5">{t('5 - Critical')}</SelectItem>
                                         </SelectContent>
                                     </Select>
                                     <InputError message={errors.impact} />
@@ -145,19 +148,19 @@ export default function RiskEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="treatment">Treatment</Label>
+                                <Label htmlFor="treatment">{t('Treatment')}</Label>
                                 <Select
                                     value={data.treatment}
                                     onValueChange={(value) => setData('treatment', value)}
                                 >
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select treatment" />
+                                        <SelectValue placeholder={t('Select treatment')} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="mitigate">Mitigate</SelectItem>
-                                        <SelectItem value="accept">Accept</SelectItem>
-                                        <SelectItem value="transfer">Transfer</SelectItem>
-                                        <SelectItem value="avoid">Avoid</SelectItem>
+                                        <SelectItem value="mitigate">{t('Mitigate')}</SelectItem>
+                                        <SelectItem value="accept">{t('Accept')}</SelectItem>
+                                        <SelectItem value="transfer">{t('Transfer')}</SelectItem>
+                                        <SelectItem value="avoid">{t('Avoid')}</SelectItem>
                                     </SelectContent>
                                 </Select>
                                 <InputError message={errors.treatment} />
@@ -165,7 +168,7 @@ export default function RiskEdit({
 
                             <div className="flex justify-end">
                                 <Button type="submit" disabled={processing}>
-                                    Save Changes
+                                    {t('Save Changes')}
                                 </Button>
                             </div>
                         </form>

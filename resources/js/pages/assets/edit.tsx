@@ -13,6 +13,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -48,12 +49,14 @@ export default function AssetEdit({
     people: Person[];
     vendors: Vendor[];
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Assets', href: `/organizations/${organization.id}/assets` },
+        { title: t('Assets'), href: `/organizations/${organization.id}/assets` },
         { title: asset.name, href: `/organizations/${organization.id}/assets/${asset.id}` },
-        { title: 'Edit', href: `/organizations/${organization.id}/assets/${asset.id}/edit` },
+        { title: t('Edit'), href: `/organizations/${organization.id}/assets/${asset.id}/edit` },
     ];
 
     const { data, setData, put, processing, errors } = useForm({
@@ -83,19 +86,19 @@ export default function AssetEdit({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Edit ${asset.name}`} />
+            <Head title={`${t('Edit')} ${asset.name}`} />
 
             <div className="mx-auto w-full max-w-2xl space-y-6 p-6">
                 <Heading
-                    title="Edit Asset"
-                    description="Update asset details"
+                    title={t('Edit Asset')}
+                    description={t('Update asset details')}
                 />
 
                 <Card>
                     <CardContent className="pt-6">
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="name">Name</Label>
+                                <Label htmlFor="name">{t('Name')}</Label>
                                 <Input
                                     id="name"
                                     value={data.name}
@@ -106,7 +109,7 @@ export default function AssetEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="amount">Amount</Label>
+                                <Label htmlFor="amount">{t('Amount')}</Label>
                                 <Input
                                     id="amount"
                                     type="number"
@@ -119,13 +122,13 @@ export default function AssetEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="owner_id">Owner</Label>
+                                <Label htmlFor="owner_id">{t('Owner')}</Label>
                                 <Select
                                     value={data.owner_id}
                                     onValueChange={(value) => setData('owner_id', value)}
                                 >
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select owner" />
+                                        <SelectValue placeholder={t('Select owner')} />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {people.map((person) => (
@@ -139,24 +142,24 @@ export default function AssetEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="asset_type">Asset Type</Label>
+                                <Label htmlFor="asset_type">{t('Asset Type')}</Label>
                                 <Select
                                     value={data.asset_type}
                                     onValueChange={(value) => setData('asset_type', value)}
                                 >
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select type" />
+                                        <SelectValue placeholder={t('Select type')} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="physical">Physical</SelectItem>
-                                        <SelectItem value="virtual">Virtual</SelectItem>
+                                        <SelectItem value="physical">{t('Physical')}</SelectItem>
+                                        <SelectItem value="virtual">{t('Virtual')}</SelectItem>
                                     </SelectContent>
                                 </Select>
                                 <InputError message={errors.asset_type} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="data_types_stored">Data Types Stored</Label>
+                                <Label htmlFor="data_types_stored">{t('Data Types Stored')}</Label>
                                 <textarea
                                     id="data_types_stored"
                                     value={data.data_types_stored}
@@ -169,7 +172,7 @@ export default function AssetEdit({
 
                             {vendors.length > 0 && (
                                 <div className="grid gap-2">
-                                    <Label>Vendors</Label>
+                                    <Label>{t('Vendors')}</Label>
                                     <div className="space-y-2">
                                         {vendors.map((vendor) => (
                                             <div key={vendor.id} className="flex items-center space-x-2">
@@ -193,7 +196,7 @@ export default function AssetEdit({
 
                             <div className="flex justify-end">
                                 <Button type="submit" disabled={processing}>
-                                    Save Changes
+                                    {t('Save Changes')}
                                 </Button>
                             </div>
                         </form>

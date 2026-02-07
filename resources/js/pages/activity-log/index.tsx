@@ -12,6 +12,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -66,27 +67,29 @@ export default function ActivityLogIndex({
     logs: PaginatedData<ActivityLogEntry>;
     filters: { search: string };
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Activity Log', href: `/organizations/${organization.id}/activity-log` },
+        { title: t('Activity Log'), href: `/organizations/${organization.id}/activity-log` },
     ];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Activity Log" />
+            <Head title={t('Activity Log')} />
 
             <div className="mx-auto w-full max-w-4xl space-y-6 p-6">
                 <Heading
-                    title="Activity Log"
-                    description="Track changes to compliance entities"
+                    title={t('Activity Log')}
+                    description={t('Track changes to compliance entities')}
                 />
 
                 <div className="flex items-center gap-4">
                     <div className="flex-1">
                         <SearchInput
                             value={filters.search}
-                            placeholder="Search activity..."
+                            placeholder={t('Search activity...')}
                         />
                     </div>
                 </div>
@@ -95,9 +98,9 @@ export default function ActivityLogIndex({
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-12">
                             <Activity className="mb-4 h-12 w-12 text-muted-foreground" />
-                            <h3 className="mb-2 text-lg font-medium">No activity yet</h3>
+                            <h3 className="mb-2 text-lg font-medium">{t('No activity yet')}</h3>
                             <p className="text-sm text-muted-foreground">
-                                Activity will appear here as changes are made.
+                                {t('Activity will appear here as changes are made.')}
                             </p>
                         </CardContent>
                     </Card>
@@ -107,11 +110,11 @@ export default function ActivityLogIndex({
                             <Table>
                                 <TableHeader>
                                     <TableRow>
-                                        <TableHead>Event</TableHead>
-                                        <TableHead>Entity</TableHead>
-                                        <TableHead>Name</TableHead>
-                                        <TableHead>User</TableHead>
-                                        <TableHead>Date</TableHead>
+                                        <TableHead>{t('Event')}</TableHead>
+                                        <TableHead>{t('Entity')}</TableHead>
+                                        <TableHead>{t('Name')}</TableHead>
+                                        <TableHead>{t('User')}</TableHead>
+                                        <TableHead>{t('Date')}</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -128,7 +131,7 @@ export default function ActivityLogIndex({
                                             <TableCell className="font-medium">
                                                 {log.subject_name}
                                             </TableCell>
-                                            <TableCell>{log.user?.name ?? 'System'}</TableCell>
+                                            <TableCell>{log.user?.name ?? t('System')}</TableCell>
                                             <TableCell className="text-muted-foreground">
                                                 {formatDate(log.created_at)}
                                             </TableCell>
@@ -141,7 +144,7 @@ export default function ActivityLogIndex({
                         {logs.last_page > 1 && (
                             <div className="flex items-center justify-between">
                                 <p className="text-sm text-muted-foreground">
-                                    Showing {logs.data.length} of {logs.total} entries
+                                    {t('Showing')} {logs.data.length} {t('of')} {logs.total} {t('entries')}
                                 </p>
                                 <div className="flex gap-2">
                                     {logs.prev_page_url && (
@@ -149,7 +152,7 @@ export default function ActivityLogIndex({
                                             href={logs.prev_page_url}
                                             className="rounded-md border px-3 py-1 text-sm hover:bg-muted"
                                         >
-                                            Previous
+                                            {t('Previous')}
                                         </Link>
                                     )}
                                     {logs.next_page_url && (
@@ -157,7 +160,7 @@ export default function ActivityLogIndex({
                                             href={logs.next_page_url}
                                             className="rounded-md border px-3 py-1 text-sm hover:bg-muted"
                                         >
-                                            Next
+                                            {t('Next')}
                                         </Link>
                                     )}
                                 </div>

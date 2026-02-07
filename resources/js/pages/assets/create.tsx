@@ -13,6 +13,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -35,11 +36,13 @@ export default function AssetCreate({
     people: Person[];
     vendors: Vendor[];
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Assets', href: `/organizations/${organization.id}/assets` },
-        { title: 'Create', href: `/organizations/${organization.id}/assets/create` },
+        { title: t('Assets'), href: `/organizations/${organization.id}/assets` },
+        { title: t('Create'), href: `/organizations/${organization.id}/assets/create` },
     ];
 
     const { data, setData, post, processing, errors } = useForm({
@@ -69,31 +72,31 @@ export default function AssetCreate({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Add Asset" />
+            <Head title={t('Add Asset')} />
 
             <div className="mx-auto w-full max-w-2xl space-y-6 p-6">
                 <Heading
-                    title="Add Asset"
-                    description="Register a new asset in your data inventory"
+                    title={t('Add Asset')}
+                    description={t('Register a new asset in your data inventory')}
                 />
 
                 <Card>
                     <CardContent className="pt-6">
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="name">Name</Label>
+                                <Label htmlFor="name">{t('Name')}</Label>
                                 <Input
                                     id="name"
                                     value={data.name}
                                     onChange={(e) => setData('name', e.target.value)}
                                     required
-                                    placeholder="e.g. Customer Database"
+                                    placeholder={t('e.g. Customer Database')}
                                 />
                                 <InputError message={errors.name} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="amount">Amount</Label>
+                                <Label htmlFor="amount">{t('Amount')}</Label>
                                 <Input
                                     id="amount"
                                     type="number"
@@ -107,13 +110,13 @@ export default function AssetCreate({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="owner_id">Owner</Label>
+                                <Label htmlFor="owner_id">{t('Owner')}</Label>
                                 <Select
                                     value={data.owner_id}
                                     onValueChange={(value) => setData('owner_id', value)}
                                 >
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select owner" />
+                                        <SelectValue placeholder={t('Select owner')} />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {people.map((person) => (
@@ -127,29 +130,29 @@ export default function AssetCreate({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="asset_type">Asset Type</Label>
+                                <Label htmlFor="asset_type">{t('Asset Type')}</Label>
                                 <Select
                                     value={data.asset_type}
                                     onValueChange={(value) => setData('asset_type', value)}
                                 >
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select type" />
+                                        <SelectValue placeholder={t('Select type')} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="physical">Physical</SelectItem>
-                                        <SelectItem value="virtual">Virtual</SelectItem>
+                                        <SelectItem value="physical">{t('Physical')}</SelectItem>
+                                        <SelectItem value="virtual">{t('Virtual')}</SelectItem>
                                     </SelectContent>
                                 </Select>
                                 <InputError message={errors.asset_type} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="data_types_stored">Data Types Stored</Label>
+                                <Label htmlFor="data_types_stored">{t('Data Types Stored')}</Label>
                                 <textarea
                                     id="data_types_stored"
                                     value={data.data_types_stored}
                                     onChange={(e) => setData('data_types_stored', e.target.value)}
-                                    placeholder="Describe the types of data stored in this asset..."
+                                    placeholder={t('Describe the types of data stored in this asset...')}
                                     rows={4}
                                     className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                                 />
@@ -158,7 +161,7 @@ export default function AssetCreate({
 
                             {vendors.length > 0 && (
                                 <div className="grid gap-2">
-                                    <Label>Vendors</Label>
+                                    <Label>{t('Vendors')}</Label>
                                     <div className="space-y-2">
                                         {vendors.map((vendor) => (
                                             <div key={vendor.id} className="flex items-center space-x-2">
@@ -182,7 +185,7 @@ export default function AssetCreate({
 
                             <div className="flex justify-end">
                                 <Button type="submit" disabled={processing}>
-                                    Add Asset
+                                    {t('Add Asset')}
                                 </Button>
                             </div>
                         </form>

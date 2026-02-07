@@ -13,6 +13,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -45,26 +46,28 @@ export default function TasksIndex({
     tasks: Task[];
     filters: { search: string };
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Tasks', href: `/organizations/${organization.id}/tasks` },
+        { title: t('Tasks'), href: `/organizations/${organization.id}/tasks` },
     ];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Tasks" />
+            <Head title={t('Tasks')} />
 
             <div className="mx-auto w-full max-w-4xl space-y-6 p-6">
                 <div className="flex items-center justify-between">
                     <Heading
-                        title="Tasks"
-                        description="Track and manage organizational tasks"
+                        title={t('Tasks')}
+                        description={t('Track and manage organizational tasks')}
                     />
                     <Button asChild>
                         <Link href={`/organizations/${organization.id}/tasks/create`}>
                             <Plus className="mr-2 h-4 w-4" />
-                            New Task
+                            {t('New Task')}
                         </Link>
                     </Button>
                 </div>
@@ -73,7 +76,7 @@ export default function TasksIndex({
                     <div className="flex-1">
                         <SearchInput
                             value={filters.search}
-                            placeholder="Search tasks..."
+                            placeholder={t('Search tasks...')}
                         />
                     </div>
                 </div>
@@ -82,14 +85,14 @@ export default function TasksIndex({
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-12">
                             <CheckSquare className="mb-4 h-12 w-12 text-muted-foreground" />
-                            <h3 className="mb-2 text-lg font-medium">No tasks yet</h3>
+                            <h3 className="mb-2 text-lg font-medium">{t('No tasks yet')}</h3>
                             <p className="mb-4 text-sm text-muted-foreground">
-                                Create your first task to start tracking work items.
+                                {t('Create your first task to start tracking work items.')}
                             </p>
                             <Button asChild>
                                 <Link href={`/organizations/${organization.id}/tasks/create`}>
                                     <Plus className="mr-2 h-4 w-4" />
-                                    Create Task
+                                    {t('Create Task')}
                                 </Link>
                             </Button>
                         </CardContent>
@@ -99,10 +102,10 @@ export default function TasksIndex({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>State</TableHead>
-                                    <TableHead>Assigned To</TableHead>
-                                    <TableHead>Deadline</TableHead>
+                                    <TableHead>{t('Name')}</TableHead>
+                                    <TableHead>{t('State')}</TableHead>
+                                    <TableHead>{t('Assigned To')}</TableHead>
+                                    <TableHead>{t('Deadline')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>

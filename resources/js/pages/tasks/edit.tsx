@@ -12,6 +12,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -40,12 +41,14 @@ export default function TaskEdit({
     task: Task;
     people: PersonOption[];
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Tasks', href: `/organizations/${organization.id}/tasks` },
+        { title: t('Tasks'), href: `/organizations/${organization.id}/tasks` },
         { title: task.name, href: `/organizations/${organization.id}/tasks/${task.id}` },
-        { title: 'Edit', href: `/organizations/${organization.id}/tasks/${task.id}/edit` },
+        { title: t('Edit'), href: `/organizations/${organization.id}/tasks/${task.id}/edit` },
     ];
 
     const { data, setData, put, processing, errors } = useForm({
@@ -63,19 +66,19 @@ export default function TaskEdit({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Edit ${task.name}`} />
+            <Head title={`${t('Edit')} ${task.name}`} />
 
             <div className="mx-auto w-full max-w-2xl space-y-6 p-6">
                 <Heading
-                    title="Edit Task"
-                    description="Update task details"
+                    title={t('Edit Task')}
+                    description={t('Update task details')}
                 />
 
                 <Card>
                     <CardContent className="pt-6">
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="name">Name</Label>
+                                <Label htmlFor="name">{t('Name')}</Label>
                                 <Input
                                     id="name"
                                     value={data.name}
@@ -86,7 +89,7 @@ export default function TaskEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="description">Description</Label>
+                                <Label htmlFor="description">{t('Description')}</Label>
                                 <textarea
                                     id="description"
                                     value={data.description}
@@ -99,24 +102,24 @@ export default function TaskEdit({
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="grid gap-2">
-                                    <Label htmlFor="state">State</Label>
+                                    <Label htmlFor="state">{t('State')}</Label>
                                     <Select
                                         value={data.state}
                                         onValueChange={(value) => setData('state', value)}
                                     >
                                         <SelectTrigger>
-                                            <SelectValue placeholder="Select state" />
+                                            <SelectValue placeholder={t('Select state')} />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="todo">Todo</SelectItem>
-                                            <SelectItem value="done">Done</SelectItem>
+                                            <SelectItem value="todo">{t('Todo')}</SelectItem>
+                                            <SelectItem value="done">{t('Done')}</SelectItem>
                                         </SelectContent>
                                     </Select>
                                     <InputError message={errors.state} />
                                 </div>
 
                                 <div className="grid gap-2">
-                                    <Label htmlFor="deadline">Deadline</Label>
+                                    <Label htmlFor="deadline">{t('Deadline')}</Label>
                                     <Input
                                         id="deadline"
                                         type="date"
@@ -128,13 +131,13 @@ export default function TaskEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="assigned_to_id">Assigned To</Label>
+                                <Label htmlFor="assigned_to_id">{t('Assigned To')}</Label>
                                 <Select
                                     value={data.assigned_to_id}
                                     onValueChange={(value) => setData('assigned_to_id', value)}
                                 >
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select a person (optional)" />
+                                        <SelectValue placeholder={t('Select a person (optional)')} />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {people.map((person) => (
@@ -149,7 +152,7 @@ export default function TaskEdit({
 
                             <div className="flex justify-end">
                                 <Button type="submit" disabled={processing}>
-                                    Save Changes
+                                    {t('Save Changes')}
                                 </Button>
                             </div>
                         </form>

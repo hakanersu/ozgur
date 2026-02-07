@@ -23,6 +23,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
@@ -100,10 +101,12 @@ export default function TrustCenterShow({
     organization: Organization;
     trustCenter: TrustCenter;
 }) {
+    const { t } = useTrans();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Organizations', href: '/organizations' },
+        { title: t('Organizations'), href: '/organizations' },
         { title: organization.name, href: `/organizations/${organization.id}` },
-        { title: 'Trust Center', href: `/organizations/${organization.id}/trust-center` },
+        { title: t('Trust Center'), href: `/organizations/${organization.id}/trust-center` },
     ];
 
     const baseUrl = `/organizations/${organization.id}/trust-center`;
@@ -136,7 +139,7 @@ export default function TrustCenterShow({
     }
 
     function handleReferenceDelete(referenceId: number) {
-        if (window.confirm('Are you sure you want to delete this reference?')) {
+        if (window.confirm(t('Are you sure you want to delete this reference?'))) {
             router.delete(`${baseUrl}/references/${referenceId}`);
         }
     }
@@ -162,7 +165,7 @@ export default function TrustCenterShow({
     }
 
     function handleFileDelete(fileId: number) {
-        if (window.confirm('Are you sure you want to delete this file?')) {
+        if (window.confirm(t('Are you sure you want to delete this file?'))) {
             router.delete(`${baseUrl}/files/${fileId}`);
         }
     }
@@ -172,25 +175,25 @@ export default function TrustCenterShow({
     }
 
     function handleAccessDelete(accessId: number) {
-        if (window.confirm('Are you sure you want to delete this access record?')) {
+        if (window.confirm(t('Are you sure you want to delete this access record?'))) {
             router.delete(`${baseUrl}/accesses/${accessId}`);
         }
     }
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Trust Center" />
+            <Head title={t('Trust Center')} />
 
             <div className="mx-auto w-full max-w-4xl space-y-8 p-6">
                 <Heading
-                    title="Trust Center"
-                    description="Manage your organization's public trust center"
+                    title={t('Trust Center')}
+                    description={t("Manage your organization's public trust center")}
                 />
 
                 {/* Settings Section */}
                 <Card>
                     <CardContent className="pt-6">
-                        <h3 className="mb-4 text-lg font-medium">Settings</h3>
+                        <h3 className="mb-4 text-lg font-medium">{t('Settings')}</h3>
                         <form onSubmit={handleSettingsSubmit} className="space-y-6">
                             <div className="flex items-center gap-3">
                                 <Checkbox
@@ -200,12 +203,12 @@ export default function TrustCenterShow({
                                         settingsForm.setData('is_active', checked === true)
                                     }
                                 />
-                                <Label htmlFor="is_active">Active</Label>
+                                <Label htmlFor="is_active">{t('Active')}</Label>
                                 <InputError message={settingsForm.errors.is_active} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="slug">Slug</Label>
+                                <Label htmlFor="slug">{t('Slug')}</Label>
                                 <Input
                                     id="slug"
                                     value={settingsForm.data.slug}
@@ -216,7 +219,7 @@ export default function TrustCenterShow({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="title">Title</Label>
+                                <Label htmlFor="title">{t('Title')}</Label>
                                 <Input
                                     id="title"
                                     value={settingsForm.data.title}
@@ -227,7 +230,7 @@ export default function TrustCenterShow({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="description">Description</Label>
+                                <Label htmlFor="description">{t('Description')}</Label>
                                 <textarea
                                     id="description"
                                     value={settingsForm.data.description}
@@ -239,7 +242,7 @@ export default function TrustCenterShow({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="brand_color">Brand Color</Label>
+                                <Label htmlFor="brand_color">{t('Brand Color')}</Label>
                                 <div className="flex items-center gap-3">
                                     <input
                                         id="brand_color"
@@ -259,7 +262,7 @@ export default function TrustCenterShow({
 
                             <div className="flex justify-end">
                                 <Button type="submit" disabled={settingsForm.processing}>
-                                    Save Settings
+                                    {t('Save Settings')}
                                 </Button>
                             </div>
                         </form>
@@ -268,13 +271,13 @@ export default function TrustCenterShow({
 
                 {/* References Section */}
                 <div className="space-y-4">
-                    <h3 className="text-lg font-medium">References</h3>
+                    <h3 className="text-lg font-medium">{t('References')}</h3>
 
                     {trustCenter.references.length === 0 ? (
                         <Card>
                             <CardContent className="flex flex-col items-center justify-center py-12">
                                 <p className="text-sm text-muted-foreground">
-                                    No references added yet.
+                                    {t('No references added yet.')}
                                 </p>
                             </CardContent>
                         </Card>
@@ -283,9 +286,9 @@ export default function TrustCenterShow({
                             <Table>
                                 <TableHeader>
                                     <TableRow>
-                                        <TableHead>Name</TableHead>
-                                        <TableHead>URL</TableHead>
-                                        <TableHead>Rank</TableHead>
+                                        <TableHead>{t('Name')}</TableHead>
+                                        <TableHead>{t('URL')}</TableHead>
+                                        <TableHead>{t('Rank')}</TableHead>
                                         <TableHead className="w-[50px]" />
                                     </TableRow>
                                 </TableHeader>
@@ -323,11 +326,11 @@ export default function TrustCenterShow({
 
                     <Card>
                         <CardContent className="pt-6">
-                            <h4 className="mb-4 text-sm font-medium">Add Reference</h4>
+                            <h4 className="mb-4 text-sm font-medium">{t('Add Reference')}</h4>
                             <form onSubmit={handleReferenceSubmit} className="space-y-4">
                                 <div className="grid gap-4 sm:grid-cols-2">
                                     <div className="grid gap-2">
-                                        <Label htmlFor="ref_name">Name</Label>
+                                        <Label htmlFor="ref_name">{t('Name')}</Label>
                                         <Input
                                             id="ref_name"
                                             value={referenceForm.data.name}
@@ -337,7 +340,7 @@ export default function TrustCenterShow({
                                         <InputError message={referenceForm.errors.name} />
                                     </div>
                                     <div className="grid gap-2">
-                                        <Label htmlFor="ref_url">URL</Label>
+                                        <Label htmlFor="ref_url">{t('URL')}</Label>
                                         <Input
                                             id="ref_url"
                                             type="url"
@@ -349,7 +352,7 @@ export default function TrustCenterShow({
                                     </div>
                                 </div>
                                 <div className="grid gap-2">
-                                    <Label htmlFor="ref_description">Description</Label>
+                                    <Label htmlFor="ref_description">{t('Description')}</Label>
                                     <textarea
                                         id="ref_description"
                                         value={referenceForm.data.description}
@@ -360,7 +363,7 @@ export default function TrustCenterShow({
                                     <InputError message={referenceForm.errors.description} />
                                 </div>
                                 <div className="grid gap-2">
-                                    <Label htmlFor="ref_rank">Rank</Label>
+                                    <Label htmlFor="ref_rank">{t('Rank')}</Label>
                                     <Input
                                         id="ref_rank"
                                         type="number"
@@ -372,7 +375,7 @@ export default function TrustCenterShow({
                                 </div>
                                 <div className="flex justify-end">
                                     <Button type="submit" disabled={referenceForm.processing}>
-                                        Add Reference
+                                        {t('Add Reference')}
                                     </Button>
                                 </div>
                             </form>
@@ -382,13 +385,13 @@ export default function TrustCenterShow({
 
                 {/* Files Section */}
                 <div className="space-y-4">
-                    <h3 className="text-lg font-medium">Files</h3>
+                    <h3 className="text-lg font-medium">{t('Files')}</h3>
 
                     {trustCenter.files.length === 0 ? (
                         <Card>
                             <CardContent className="flex flex-col items-center justify-center py-12">
                                 <p className="text-sm text-muted-foreground">
-                                    No files added yet.
+                                    {t('No files added yet.')}
                                 </p>
                             </CardContent>
                         </Card>
@@ -397,9 +400,9 @@ export default function TrustCenterShow({
                             <Table>
                                 <TableHeader>
                                     <TableRow>
-                                        <TableHead>Name</TableHead>
-                                        <TableHead>Category</TableHead>
-                                        <TableHead>Visibility</TableHead>
+                                        <TableHead>{t('Name')}</TableHead>
+                                        <TableHead>{t('Category')}</TableHead>
+                                        <TableHead>{t('Visibility')}</TableHead>
                                         <TableHead className="w-[50px]" />
                                     </TableRow>
                                 </TableHeader>
@@ -431,11 +434,11 @@ export default function TrustCenterShow({
 
                     <Card>
                         <CardContent className="pt-6">
-                            <h4 className="mb-4 text-sm font-medium">Add File</h4>
+                            <h4 className="mb-4 text-sm font-medium">{t('Add File')}</h4>
                             <form onSubmit={handleFileSubmit} className="space-y-4">
                                 <div className="grid gap-4 sm:grid-cols-2">
                                     <div className="grid gap-2">
-                                        <Label htmlFor="file_name">Name</Label>
+                                        <Label htmlFor="file_name">{t('Name')}</Label>
                                         <Input
                                             id="file_name"
                                             value={fileForm.data.name}
@@ -445,7 +448,7 @@ export default function TrustCenterShow({
                                         <InputError message={fileForm.errors.name} />
                                     </div>
                                     <div className="grid gap-2">
-                                        <Label htmlFor="file_category">Category</Label>
+                                        <Label htmlFor="file_category">{t('Category')}</Label>
                                         <Input
                                             id="file_category"
                                             value={fileForm.data.category}
@@ -457,7 +460,7 @@ export default function TrustCenterShow({
                                 </div>
                                 <div className="grid gap-4 sm:grid-cols-2">
                                     <div className="grid gap-2">
-                                        <Label htmlFor="file_upload">File</Label>
+                                        <Label htmlFor="file_upload">{t('File')}</Label>
                                         <Input
                                             id="file_upload"
                                             type="file"
@@ -467,18 +470,18 @@ export default function TrustCenterShow({
                                         <InputError message={fileForm.errors.file} />
                                     </div>
                                     <div className="grid gap-2">
-                                        <Label htmlFor="file_visibility">Visibility</Label>
+                                        <Label htmlFor="file_visibility">{t('Visibility')}</Label>
                                         <Select
                                             value={fileForm.data.visibility}
                                             onValueChange={(value) => fileForm.setData('visibility', value)}
                                         >
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Select visibility" />
+                                                <SelectValue placeholder={t('Select visibility')} />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="none">None</SelectItem>
-                                                <SelectItem value="private">Private</SelectItem>
-                                                <SelectItem value="public">Public</SelectItem>
+                                                <SelectItem value="none">{t('None')}</SelectItem>
+                                                <SelectItem value="private">{t('Private')}</SelectItem>
+                                                <SelectItem value="public">{t('Public')}</SelectItem>
                                             </SelectContent>
                                         </Select>
                                         <InputError message={fileForm.errors.visibility} />
@@ -486,7 +489,7 @@ export default function TrustCenterShow({
                                 </div>
                                 <div className="flex justify-end">
                                     <Button type="submit" disabled={fileForm.processing}>
-                                        Add File
+                                        {t('Add File')}
                                     </Button>
                                 </div>
                             </form>
@@ -496,13 +499,13 @@ export default function TrustCenterShow({
 
                 {/* Access Requests Section */}
                 <div className="space-y-4">
-                    <h3 className="text-lg font-medium">Access Requests</h3>
+                    <h3 className="text-lg font-medium">{t('Access Requests')}</h3>
 
                     {trustCenter.accesses.length === 0 ? (
                         <Card>
                             <CardContent className="flex flex-col items-center justify-center py-12">
                                 <p className="text-sm text-muted-foreground">
-                                    No access requests yet.
+                                    {t('No access requests yet.')}
                                 </p>
                             </CardContent>
                         </Card>
@@ -511,11 +514,11 @@ export default function TrustCenterShow({
                             <Table>
                                 <TableHeader>
                                     <TableRow>
-                                        <TableHead>Name</TableHead>
-                                        <TableHead>Email</TableHead>
-                                        <TableHead>Company</TableHead>
-                                        <TableHead>State</TableHead>
-                                        <TableHead>Date</TableHead>
+                                        <TableHead>{t('Name')}</TableHead>
+                                        <TableHead>{t('Email')}</TableHead>
+                                        <TableHead>{t('Company')}</TableHead>
+                                        <TableHead>{t('State')}</TableHead>
+                                        <TableHead>{t('Date')}</TableHead>
                                         <TableHead className="w-[150px]" />
                                     </TableRow>
                                 </TableHeader>
@@ -542,14 +545,14 @@ export default function TrustCenterShow({
                                                                 size="sm"
                                                                 onClick={() => handleAccessUpdate(access.id, 'granted')}
                                                             >
-                                                                Grant
+                                                                {t('Grant')}
                                                             </Button>
                                                             <Button
                                                                 variant="outline"
                                                                 size="sm"
                                                                 onClick={() => handleAccessUpdate(access.id, 'rejected')}
                                                             >
-                                                                Reject
+                                                                {t('Reject')}
                                                             </Button>
                                                         </>
                                                     )}
