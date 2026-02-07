@@ -7,20 +7,29 @@ use App\Http\Requests\ProcessingActivity\UpdateProcessingActivityRequest;
 use App\Models\Organization;
 use App\Models\ProcessingActivity;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class ProcessingActivityController extends Controller
 {
-    public function index(Organization $organization): Response
+    public function index(Request $request, Organization $organization): Response
     {
+        $query = ProcessingActivity::query()
+            ->forOrganization($organization)
+            ->with('dataProtectionOfficer:id,full_name')
+            ->orderBy('name');
+
+        if ($search = $request->query('search')) {
+            $query->where('name', 'like', "%{$search}%");
+        }
+
         return Inertia::render('processing-activities/index', [
             'organization' => $organization,
-            'processingActivities' => ProcessingActivity::query()
-                ->forOrganization($organization)
-                ->with('dataProtectionOfficer:id,full_name')
-                ->orderBy('name')
-                ->get(),
+            'processingActivities' => $query->get(),
+            'filters' => [
+                'search' => $search ?? '',
+            ],
         ]);
     }
 

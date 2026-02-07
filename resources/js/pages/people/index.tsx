@@ -1,6 +1,7 @@
 import { Head, Link } from '@inertiajs/react';
 import { Plus, Users } from 'lucide-react';
 import Heading from '@/components/heading';
+import SearchInput from '@/components/search-input';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -41,9 +42,11 @@ function kindVariant(kind: string) {
 export default function PeopleIndex({
     organization,
     people,
+    filters,
 }: {
     organization: Organization;
     people: Person[];
+    filters: { search: string };
 }) {
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Organizations', href: '/organizations' },
@@ -67,6 +70,15 @@ export default function PeopleIndex({
                             New Person
                         </Link>
                     </Button>
+                </div>
+
+                <div className="flex items-center gap-4">
+                    <div className="flex-1">
+                        <SearchInput
+                            value={filters.search}
+                            placeholder="Search people..."
+                        />
+                    </div>
                 </div>
 
                 {people.length === 0 ? (

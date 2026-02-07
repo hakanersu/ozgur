@@ -6,19 +6,28 @@ use App\Http\Requests\Snapshot\StoreSnapshotRequest;
 use App\Models\Organization;
 use App\Models\Snapshot;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class SnapshotController extends Controller
 {
-    public function index(Organization $organization): Response
+    public function index(Request $request, Organization $organization): Response
     {
+        $query = Snapshot::query()
+            ->forOrganization($organization)
+            ->orderByDesc('created_at');
+
+        if ($search = $request->query('search')) {
+            $query->where('name', 'like', "%{$search}%");
+        }
+
         return Inertia::render('snapshots/index', [
             'organization' => $organization,
-            'snapshots' => Snapshot::query()
-                ->forOrganization($organization)
-                ->orderByDesc('created_at')
-                ->get(),
+            'snapshots' => $query->get(),
+            'filters' => [
+                'search' => $search ?? '',
+            ],
         ]);
     }
 

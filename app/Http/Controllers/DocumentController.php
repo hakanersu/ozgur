@@ -7,20 +7,29 @@ use App\Http\Requests\Document\UpdateDocumentRequest;
 use App\Models\Document;
 use App\Models\Organization;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class DocumentController extends Controller
 {
-    public function index(Organization $organization): Response
+    public function index(Request $request, Organization $organization): Response
     {
+        $query = Document::query()
+            ->forOrganization($organization)
+            ->withCount('versions')
+            ->orderBy('title');
+
+        if ($search = $request->query('search')) {
+            $query->where('title', 'like', "%{$search}%");
+        }
+
         return Inertia::render('documents/index', [
             'organization' => $organization,
-            'documents' => Document::query()
-                ->forOrganization($organization)
-                ->withCount('versions')
-                ->orderBy('title')
-                ->get(),
+            'documents' => $query->get(),
+            'filters' => [
+                'search' => $search ?? '',
+            ],
         ]);
     }
 

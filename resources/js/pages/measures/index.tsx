@@ -1,6 +1,7 @@
 import { Head, Link } from '@inertiajs/react';
 import { ClipboardCheck, Plus } from 'lucide-react';
 import Heading from '@/components/heading';
+import SearchInput from '@/components/search-input';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -46,9 +47,11 @@ function stateVariant(state: string) {
 export default function MeasuresIndex({
     organization,
     measures,
+    filters,
 }: {
     organization: Organization;
     measures: Measure[];
+    filters: { search: string };
 }) {
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Organizations', href: '/organizations' },
@@ -72,6 +75,15 @@ export default function MeasuresIndex({
                             New Measure
                         </Link>
                     </Button>
+                </div>
+
+                <div className="flex items-center gap-4">
+                    <div className="flex-1">
+                        <SearchInput
+                            value={filters.search}
+                            placeholder="Search measures..."
+                        />
+                    </div>
                 </div>
 
                 {measures.length === 0 ? (

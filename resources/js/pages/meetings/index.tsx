@@ -1,6 +1,7 @@
 import { Head, Link } from '@inertiajs/react';
 import { CalendarDays, Plus } from 'lucide-react';
 import Heading from '@/components/heading';
+import SearchInput from '@/components/search-input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -25,9 +26,11 @@ type Meeting = {
 export default function MeetingsIndex({
     organization,
     meetings,
+    filters,
 }: {
     organization: Organization;
     meetings: Meeting[];
+    filters: { search: string };
 }) {
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Organizations', href: '/organizations' },
@@ -51,6 +54,15 @@ export default function MeetingsIndex({
                             New Meeting
                         </Link>
                     </Button>
+                </div>
+
+                <div className="flex items-center gap-4">
+                    <div className="flex-1">
+                        <SearchInput
+                            value={filters.search}
+                            placeholder="Search meetings..."
+                        />
+                    </div>
                 </div>
 
                 {meetings.length === 0 ? (

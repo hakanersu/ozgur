@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Concerns\BelongsToOrganization;
+use App\Concerns\LogsActivity;
 use App\Enums\TaskState;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Task extends Model
 {
-    use BelongsToOrganization, HasFactory;
+    use BelongsToOrganization, HasFactory, LogsActivity;
 
     protected $guarded = [];
 

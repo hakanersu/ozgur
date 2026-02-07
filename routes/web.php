@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\PublicTrustCenterController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -14,7 +15,13 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
+        return Inertia::render('dashboard', [
+            'organizations' => request()->user()
+                ->organizations()
+                ->withCount('memberships')
+                ->orderBy('name')
+                ->get(),
+        ]);
     })->name('dashboard');
 
     Route::resource('organizations', OrganizationController::class);
@@ -29,5 +36,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
             require __DIR__.'/compliance.php';
         });
 });
+
+// Public Trust Center (no auth required)
+Route::get('trust/{trustCenter:slug}', [PublicTrustCenterController::class, 'show'])->name('trust-center.public.show');
+Route::post('trust/{trustCenter:slug}/request-access', [PublicTrustCenterController::class, 'requestAccess'])->name('trust-center.public.request-access');
 
 require __DIR__.'/settings.php';

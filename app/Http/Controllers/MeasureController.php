@@ -7,20 +7,29 @@ use App\Http\Requests\Measure\UpdateMeasureRequest;
 use App\Models\Measure;
 use App\Models\Organization;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class MeasureController extends Controller
 {
-    public function index(Organization $organization): Response
+    public function index(Request $request, Organization $organization): Response
     {
+        $query = Measure::query()
+            ->forOrganization($organization)
+            ->withCount(['controls', 'evidence'])
+            ->orderBy('name');
+
+        if ($search = $request->query('search')) {
+            $query->where('name', 'like', "%{$search}%");
+        }
+
         return Inertia::render('measures/index', [
             'organization' => $organization,
-            'measures' => Measure::query()
-                ->forOrganization($organization)
-                ->withCount(['controls', 'evidence'])
-                ->orderBy('name')
-                ->get(),
+            'measures' => $query->get(),
+            'filters' => [
+                'search' => $search ?? '',
+            ],
         ]);
     }
 

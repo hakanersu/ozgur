@@ -47,6 +47,21 @@ class OrganizationController extends Controller
 
         return Inertia::render('organizations/show', [
             'organization' => $organization->loadCount('memberships'),
+            'stats' => [
+                'frameworks' => $organization->frameworks()->count(),
+                'controls' => $organization->controls()->count(),
+                'measures' => $organization->measures()->count(),
+                'risks' => $organization->risks()->count(),
+                'audits' => $organization->audits()->count(),
+                'documents' => $organization->documents()->count(),
+                'vendors' => $organization->vendors()->count(),
+                'people' => $organization->people()->count(),
+                'tasks' => $organization->tasks()->count(),
+                'meetings' => $organization->meetings()->count(),
+                'assets' => $organization->assets()->count(),
+                'processing_activities' => $organization->processingActivities()->count(),
+                'rights_requests' => $organization->rightsRequests()->count(),
+            ],
         ]);
     }
 

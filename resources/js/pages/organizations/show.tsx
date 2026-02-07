@@ -1,10 +1,19 @@
 import { Head, Link } from '@inertiajs/react';
 import {
+    Box,
     Building2,
+    CalendarDays,
+    CheckSquare,
+    ClipboardCheck,
     FileText,
-    LayoutGrid,
+    Fingerprint,
+    Globe,
+    Scale,
     Settings,
     Shield,
+    ShieldAlert,
+    ShieldCheck,
+    UserCircle,
     Users,
 } from 'lucide-react';
 import Heading from '@/components/heading';
@@ -13,10 +22,28 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Organization } from '@/types';
 
+type Stats = {
+    frameworks: number;
+    controls: number;
+    measures: number;
+    risks: number;
+    audits: number;
+    documents: number;
+    vendors: number;
+    people: number;
+    tasks: number;
+    meetings: number;
+    assets: number;
+    processing_activities: number;
+    rights_requests: number;
+};
+
 export default function OrganizationShow({
     organization,
+    stats,
 }: {
     organization: Organization;
+    stats: Stats;
 }) {
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Organizations', href: '/organizations' },
@@ -26,31 +53,22 @@ export default function OrganizationShow({
         },
     ];
 
+    const prefix = `/organizations/${organization.id}`;
+
     const modules = [
-        {
-            title: 'Frameworks',
-            description: 'Manage compliance frameworks and controls',
-            icon: Shield,
-            href: `/organizations/${organization.id}/frameworks`,
-        },
-        {
-            title: 'Risks',
-            description: 'Track and manage organizational risks',
-            icon: LayoutGrid,
-            href: `/organizations/${organization.id}/risks`,
-        },
-        {
-            title: 'Documents',
-            description: 'Manage compliance documents',
-            icon: FileText,
-            href: `/organizations/${organization.id}/documents`,
-        },
-        {
-            title: 'Members',
-            description: 'Manage team members and roles',
-            icon: Users,
-            href: `/organizations/${organization.id}/members`,
-        },
+        { title: 'Frameworks', count: stats.frameworks, icon: Shield, href: `${prefix}/frameworks` },
+        { title: 'Controls', count: stats.controls, icon: ClipboardCheck, href: `${prefix}/controls` },
+        { title: 'Measures', count: stats.measures, icon: ClipboardCheck, href: `${prefix}/measures` },
+        { title: 'Risks', count: stats.risks, icon: ShieldAlert, href: `${prefix}/risks` },
+        { title: 'Audits', count: stats.audits, icon: Scale, href: `${prefix}/audits` },
+        { title: 'Documents', count: stats.documents, icon: FileText, href: `${prefix}/documents` },
+        { title: 'Vendors', count: stats.vendors, icon: Building2, href: `${prefix}/vendors` },
+        { title: 'People', count: stats.people, icon: UserCircle, href: `${prefix}/people` },
+        { title: 'Tasks', count: stats.tasks, icon: CheckSquare, href: `${prefix}/tasks` },
+        { title: 'Meetings', count: stats.meetings, icon: CalendarDays, href: `${prefix}/meetings` },
+        { title: 'Assets', count: stats.assets, icon: Box, href: `${prefix}/assets` },
+        { title: 'Processing Activities', count: stats.processing_activities, icon: Fingerprint, href: `${prefix}/processing-activities` },
+        { title: 'Rights Requests', count: stats.rights_requests, icon: ShieldCheck, href: `${prefix}/rights-requests` },
     ];
 
     return (
@@ -63,37 +81,53 @@ export default function OrganizationShow({
                         title={organization.name}
                         description={`${organization.memberships_count} ${organization.memberships_count === 1 ? 'member' : 'members'}`}
                     />
-                    <Button variant="outline" asChild>
-                        <Link
-                            href={`/organizations/${organization.id}/edit`}
-                        >
-                            <Settings className="mr-2 h-4 w-4" />
-                            Settings
-                        </Link>
-                    </Button>
+                    <div className="flex gap-2">
+                        <Button variant="outline" asChild>
+                            <Link href={`${prefix}/trust-center`}>
+                                <Globe className="mr-2 h-4 w-4" />
+                                Trust Center
+                            </Link>
+                        </Button>
+                        <Button variant="outline" asChild>
+                            <Link href={`${prefix}/edit`}>
+                                <Settings className="mr-2 h-4 w-4" />
+                                Settings
+                            </Link>
+                        </Button>
+                    </div>
                 </div>
 
-                <div className="grid gap-4 md:grid-cols-2">
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {modules.map((module) => (
                         <Link key={module.title} href={module.href}>
                             <Card className="transition-colors hover:bg-muted/50">
-                                <CardHeader className="flex flex-row items-center gap-4">
-                                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                                        <module.icon className="h-5 w-5 text-primary" />
-                                    </div>
-                                    <div>
-                                        <CardTitle className="text-base">
-                                            {module.title}
-                                        </CardTitle>
-                                        <p className="mt-1 text-sm text-muted-foreground">
-                                            {module.description}
-                                        </p>
-                                    </div>
+                                <CardHeader className="flex flex-row items-center justify-between pb-2">
+                                    <CardTitle className="text-sm font-medium text-muted-foreground">
+                                        {module.title}
+                                    </CardTitle>
+                                    <module.icon className="h-4 w-4 text-muted-foreground" />
                                 </CardHeader>
+                                <CardContent>
+                                    <div className="text-2xl font-bold">{module.count}</div>
+                                </CardContent>
                             </Card>
                         </Link>
                     ))}
                 </div>
+
+                <Link href={`${prefix}/members`}>
+                    <Card className="transition-colors hover:bg-muted/50">
+                        <CardHeader className="flex flex-row items-center justify-between pb-2">
+                            <CardTitle className="text-sm font-medium text-muted-foreground">
+                                Members
+                            </CardTitle>
+                            <Users className="h-4 w-4 text-muted-foreground" />
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-2xl font-bold">{organization.memberships_count}</div>
+                        </CardContent>
+                    </Card>
+                </Link>
             </div>
         </AppLayout>
     );

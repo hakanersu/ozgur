@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Concerns\BelongsToOrganization;
+use App\Concerns\LogsActivity;
 use App\Enums\AssetType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Asset extends Model
 {
     /** @use HasFactory<\Database\Factories\AssetFactory> */
-    use BelongsToOrganization, HasFactory;
+    use BelongsToOrganization, HasFactory, LogsActivity;
 
     protected $guarded = [];
 

@@ -1,6 +1,7 @@
 import { Head, Link } from '@inertiajs/react';
 import { Plus, ShieldCheck } from 'lucide-react';
 import Heading from '@/components/heading';
+import SearchInput from '@/components/search-input';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -46,9 +47,11 @@ function formatLabel(value: string): string {
 export default function RightsRequestsIndex({
     organization,
     rightsRequests,
+    filters,
 }: {
     organization: Organization;
     rightsRequests: RightsRequest[];
+    filters: { search: string };
 }) {
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Organizations', href: '/organizations' },
@@ -72,6 +75,15 @@ export default function RightsRequestsIndex({
                             New Request
                         </Link>
                     </Button>
+                </div>
+
+                <div className="flex items-center gap-4">
+                    <div className="flex-1">
+                        <SearchInput
+                            value={filters.search}
+                            placeholder="Search rights requests..."
+                        />
+                    </div>
                 </div>
 
                 {rightsRequests.length === 0 ? (

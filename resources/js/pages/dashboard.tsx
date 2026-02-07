@@ -1,35 +1,86 @@
-import { Head } from '@inertiajs/react';
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
+import { Head, Link } from '@inertiajs/react';
+import { Building2, Plus, Users } from 'lucide-react';
+import Heading from '@/components/heading';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
-import { dashboard } from '@/routes';
-import type { BreadcrumbItem } from '@/types';
+import type { BreadcrumbItem, Organization } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Dashboard',
-        href: dashboard().url,
+        href: '/dashboard',
     },
 ];
 
-export default function Dashboard() {
+export default function Dashboard({
+    organizations,
+}: {
+    organizations: Organization[];
+}) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
+
+            <div className="mx-auto w-full max-w-4xl space-y-6 p-6">
+                <div className="flex items-center justify-between">
+                    <Heading
+                        title="Dashboard"
+                        description="Select an organization to manage"
+                    />
+                    <Button asChild>
+                        <Link href="/organizations/create">
+                            <Plus className="mr-2 h-4 w-4" />
+                            New Organization
+                        </Link>
+                    </Button>
                 </div>
-                <div className="relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                </div>
+
+                {organizations.length === 0 ? (
+                    <Card>
+                        <CardContent className="flex flex-col items-center justify-center py-12">
+                            <Building2 className="mb-4 h-12 w-12 text-muted-foreground" />
+                            <h3 className="mb-2 text-lg font-medium">
+                                No organizations yet
+                            </h3>
+                            <p className="mb-4 text-sm text-muted-foreground">
+                                Create your first organization to get started with compliance management.
+                            </p>
+                            <Button asChild>
+                                <Link href="/organizations/create">
+                                    <Plus className="mr-2 h-4 w-4" />
+                                    Create Organization
+                                </Link>
+                            </Button>
+                        </CardContent>
+                    </Card>
+                ) : (
+                    <div className="grid gap-4 md:grid-cols-2">
+                        {organizations.map((org) => (
+                            <Link key={org.id} href={`/organizations/${org.id}`}>
+                                <Card className="transition-colors hover:bg-muted/50">
+                                    <CardHeader className="flex flex-row items-center gap-4">
+                                        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                                            <Building2 className="h-5 w-5 text-primary" />
+                                        </div>
+                                        <div className="flex-1">
+                                            <CardTitle className="text-base">
+                                                {org.name}
+                                            </CardTitle>
+                                            <div className="mt-1 flex items-center gap-1 text-sm text-muted-foreground">
+                                                <Users className="h-3.5 w-3.5" />
+                                                <span>
+                                                    {org.memberships_count}{' '}
+                                                    {org.memberships_count === 1 ? 'member' : 'members'}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </CardHeader>
+                                </Card>
+                            </Link>
+                        ))}
+                    </div>
+                )}
             </div>
         </AppLayout>
     );

@@ -1,6 +1,7 @@
 import { Link, usePage } from '@inertiajs/react';
 import {
     BookOpen,
+    Activity,
     Box,
     Building2,
     CalendarDays,
@@ -10,6 +11,7 @@ import {
     FileText,
     Folder,
     Fingerprint,
+    Globe,
     LayoutGrid,
     Scale,
     Shield,
@@ -134,6 +136,16 @@ function getMainNavItems(organizationId?: number): NavItem[] {
             title: 'Rights Requests',
             href: `${prefix}/rights-requests`,
             icon: ShieldCheck,
+        },
+        {
+            title: 'Trust Center',
+            href: `${prefix}/trust-center`,
+            icon: Globe,
+        },
+        {
+            title: 'Activity Log',
+            href: `${prefix}/activity-log`,
+            icon: Activity,
         },
         {
             title: 'Members',

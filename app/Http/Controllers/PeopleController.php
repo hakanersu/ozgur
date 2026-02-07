@@ -7,19 +7,28 @@ use App\Http\Requests\People\UpdatePeopleRequest;
 use App\Models\Organization;
 use App\Models\People;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class PeopleController extends Controller
 {
-    public function index(Organization $organization): Response
+    public function index(Request $request, Organization $organization): Response
     {
+        $query = People::query()
+            ->forOrganization($organization)
+            ->orderBy('full_name');
+
+        if ($search = $request->query('search')) {
+            $query->where('full_name', 'like', "%{$search}%");
+        }
+
         return Inertia::render('people/index', [
             'organization' => $organization,
-            'people' => People::query()
-                ->forOrganization($organization)
-                ->orderBy('full_name')
-                ->get(),
+            'people' => $query->get(),
+            'filters' => [
+                'search' => $search ?? '',
+            ],
         ]);
     }
 

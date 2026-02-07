@@ -7,21 +7,30 @@ use App\Http\Requests\Control\UpdateControlRequest;
 use App\Models\Control;
 use App\Models\Organization;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class ControlController extends Controller
 {
-    public function index(Organization $organization): Response
+    public function index(Request $request, Organization $organization): Response
     {
+        $query = Control::query()
+            ->forOrganization($organization)
+            ->with('framework:id,name')
+            ->withCount('measures')
+            ->orderBy('code');
+
+        if ($search = $request->query('search')) {
+            $query->where('name', 'like', "%{$search}%");
+        }
+
         return Inertia::render('controls/index', [
             'organization' => $organization,
-            'controls' => Control::query()
-                ->forOrganization($organization)
-                ->with('framework:id,name')
-                ->withCount('measures')
-                ->orderBy('code')
-                ->get(),
+            'controls' => $query->get(),
+            'filters' => [
+                'search' => $search ?? '',
+            ],
         ]);
     }
 

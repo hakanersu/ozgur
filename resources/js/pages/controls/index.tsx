@@ -1,6 +1,7 @@
 import { Head, Link } from '@inertiajs/react';
 import { ListChecks, Plus } from 'lucide-react';
 import Heading from '@/components/heading';
+import SearchInput from '@/components/search-input';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -47,9 +48,11 @@ function statusVariant(status: string) {
 export default function ControlsIndex({
     organization,
     controls,
+    filters,
 }: {
     organization: Organization;
     controls: Control[];
+    filters: { search: string };
 }) {
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Organizations', href: '/organizations' },
@@ -73,6 +76,15 @@ export default function ControlsIndex({
                             New Control
                         </Link>
                     </Button>
+                </div>
+
+                <div className="flex items-center gap-4">
+                    <div className="flex-1">
+                        <SearchInput
+                            value={filters.search}
+                            placeholder="Search controls..."
+                        />
+                    </div>
                 </div>
 
                 {controls.length === 0 ? (

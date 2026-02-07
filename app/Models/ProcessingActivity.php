@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Concerns\BelongsToOrganization;
+use App\Concerns\LogsActivity;
 use App\Enums\AssessmentNeeded;
 use App\Enums\LawfulBasis;
 use App\Enums\ProcessingRole;
@@ -16,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class ProcessingActivity extends Model
 {
     /** @use HasFactory<\Database\Factories\ProcessingActivityFactory> */
-    use BelongsToOrganization, HasFactory;
+    use BelongsToOrganization, HasFactory, LogsActivity;
 
     protected $guarded = [];
 

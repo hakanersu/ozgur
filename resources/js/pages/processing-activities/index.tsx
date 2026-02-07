@@ -1,6 +1,7 @@
 import { Head, Link } from '@inertiajs/react';
 import { Fingerprint, Plus } from 'lucide-react';
 import Heading from '@/components/heading';
+import SearchInput from '@/components/search-input';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -33,9 +34,11 @@ function lawfulBasisLabel(basis: string): string {
 export default function ProcessingActivitiesIndex({
     organization,
     processingActivities,
+    filters,
 }: {
     organization: Organization;
     processingActivities: ProcessingActivity[];
+    filters: { search: string };
 }) {
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Organizations', href: '/organizations' },
@@ -59,6 +62,15 @@ export default function ProcessingActivitiesIndex({
                             New Activity
                         </Link>
                     </Button>
+                </div>
+
+                <div className="flex items-center gap-4">
+                    <div className="flex-1">
+                        <SearchInput
+                            value={filters.search}
+                            placeholder="Search processing activities..."
+                        />
+                    </div>
                 </div>
 
                 {processingActivities.length === 0 ? (

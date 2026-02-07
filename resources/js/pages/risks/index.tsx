@@ -1,6 +1,7 @@
 import { Head, Link } from '@inertiajs/react';
 import { AlertTriangle, Plus } from 'lucide-react';
 import Heading from '@/components/heading';
+import SearchInput from '@/components/search-input';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -47,9 +48,11 @@ function treatmentVariant(treatment: string) {
 export default function RisksIndex({
     organization,
     risks,
+    filters,
 }: {
     organization: Organization;
     risks: Risk[];
+    filters: { search: string };
 }) {
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Organizations', href: '/organizations' },
@@ -73,6 +76,15 @@ export default function RisksIndex({
                             New Risk
                         </Link>
                     </Button>
+                </div>
+
+                <div className="flex items-center gap-4">
+                    <div className="flex-1">
+                        <SearchInput
+                            value={filters.search}
+                            placeholder="Search risks..."
+                        />
+                    </div>
                 </div>
 
                 {risks.length === 0 ? (

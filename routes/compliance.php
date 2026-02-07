@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AuditController;
 use App\Http\Controllers\ControlController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\DocumentVersionController;
 use App\Http\Controllers\EvidenceController;
 use App\Http\Controllers\FrameworkController;
+use App\Http\Controllers\FrameworkExportController;
 use App\Http\Controllers\MeasureController;
 use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\PeopleController;
@@ -17,6 +19,7 @@ use App\Http\Controllers\RiskController;
 use App\Http\Controllers\SnapshotController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TransferImpactAssessmentController;
+use App\Http\Controllers\TrustCenterController;
 use App\Http\Controllers\VendorContactController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\VendorRiskAssessmentController;
@@ -25,6 +28,9 @@ use Illuminate\Support\Facades\Route;
 // Compliance module routes, scoped under organizations/{organization}
 
 Route::resource('frameworks', FrameworkController::class)->names('organizations.frameworks');
+Route::get('frameworks/{framework}/export', [FrameworkExportController::class, 'export'])->name('organizations.frameworks.export');
+Route::get('frameworks/import', [FrameworkExportController::class, 'importForm'])->name('organizations.frameworks.import');
+Route::post('frameworks/import', [FrameworkExportController::class, 'import'])->name('organizations.frameworks.import.store');
 Route::resource('controls', ControlController::class)->names('organizations.controls');
 Route::resource('measures', MeasureController::class)->names('organizations.measures');
 Route::resource('risks', RiskController::class)->names('organizations.risks');
@@ -59,3 +65,19 @@ Route::delete('processing-activities/{processing_activity}/dpia/{dpia}', [DataPr
 
 Route::post('processing-activities/{processing_activity}/tia', [TransferImpactAssessmentController::class, 'store'])->name('organizations.processing-activities.tia.store');
 Route::delete('processing-activities/{processing_activity}/tia/{tia}', [TransferImpactAssessmentController::class, 'destroy'])->name('organizations.processing-activities.tia.destroy');
+
+// Trust Center (admin)
+Route::get('trust-center', [TrustCenterController::class, 'show'])->name('organizations.trust-center.show');
+Route::put('trust-center', [TrustCenterController::class, 'update'])->name('organizations.trust-center.update');
+
+Route::post('trust-center/references', [TrustCenterController::class, 'storeReference'])->name('organizations.trust-center.references.store');
+Route::delete('trust-center/references/{reference}', [TrustCenterController::class, 'destroyReference'])->name('organizations.trust-center.references.destroy');
+
+Route::post('trust-center/files', [TrustCenterController::class, 'storeFile'])->name('organizations.trust-center.files.store');
+Route::delete('trust-center/files/{file}', [TrustCenterController::class, 'destroyFile'])->name('organizations.trust-center.files.destroy');
+
+Route::put('trust-center/accesses/{access}', [TrustCenterController::class, 'updateAccess'])->name('organizations.trust-center.accesses.update');
+Route::delete('trust-center/accesses/{access}', [TrustCenterController::class, 'destroyAccess'])->name('organizations.trust-center.accesses.destroy');
+
+// Activity Log
+Route::get('activity-log', [ActivityLogController::class, 'index'])->name('organizations.activity-log.index');

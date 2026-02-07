@@ -1,6 +1,7 @@
 import { Head, Link } from '@inertiajs/react';
-import { Plus, Shield } from 'lucide-react';
+import { Plus, Shield, Upload } from 'lucide-react';
 import Heading from '@/components/heading';
+import SearchInput from '@/components/search-input';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -42,9 +43,11 @@ function statusVariant(status: string) {
 export default function FrameworksIndex({
     organization,
     frameworks,
+    filters,
 }: {
     organization: Organization;
     frameworks: Framework[];
+    filters: { search: string };
 }) {
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Organizations', href: '/organizations' },
@@ -62,12 +65,29 @@ export default function FrameworksIndex({
                         title="Frameworks"
                         description="Manage compliance frameworks and their controls"
                     />
-                    <Button asChild>
-                        <Link href={`/organizations/${organization.id}/frameworks/create`}>
-                            <Plus className="mr-2 h-4 w-4" />
-                            New Framework
-                        </Link>
-                    </Button>
+                    <div className="flex gap-2">
+                        <Button variant="outline" asChild>
+                            <Link href={`/organizations/${organization.id}/frameworks/import`}>
+                                <Upload className="mr-2 h-4 w-4" />
+                                Import
+                            </Link>
+                        </Button>
+                        <Button asChild>
+                            <Link href={`/organizations/${organization.id}/frameworks/create`}>
+                                <Plus className="mr-2 h-4 w-4" />
+                                New Framework
+                            </Link>
+                        </Button>
+                    </div>
+                </div>
+
+                <div className="flex items-center gap-4">
+                    <div className="flex-1">
+                        <SearchInput
+                            value={filters.search}
+                            placeholder="Search frameworks..."
+                        />
+                    </div>
                 </div>
 
                 {frameworks.length === 0 ? (

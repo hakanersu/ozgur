@@ -1,6 +1,7 @@
 import { Head, Link } from '@inertiajs/react';
 import { Building2, Plus } from 'lucide-react';
 import Heading from '@/components/heading';
+import SearchInput from '@/components/search-input';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -35,9 +36,11 @@ function formatCategory(category: string) {
 export default function VendorsIndex({
     organization,
     vendors,
+    filters,
 }: {
     organization: Organization;
     vendors: Vendor[];
+    filters: { search: string };
 }) {
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Organizations', href: '/organizations' },
@@ -61,6 +64,15 @@ export default function VendorsIndex({
                             New Vendor
                         </Link>
                     </Button>
+                </div>
+
+                <div className="flex items-center gap-4">
+                    <div className="flex-1">
+                        <SearchInput
+                            value={filters.search}
+                            placeholder="Search vendors..."
+                        />
+                    </div>
                 </div>
 
                 {vendors.length === 0 ? (

@@ -7,20 +7,29 @@ use App\Http\Requests\Audit\UpdateAuditRequest;
 use App\Models\Audit;
 use App\Models\Organization;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class AuditController extends Controller
 {
-    public function index(Organization $organization): Response
+    public function index(Request $request, Organization $organization): Response
     {
+        $query = Audit::query()
+            ->forOrganization($organization)
+            ->withCount('controls')
+            ->orderByDesc('scheduled_at');
+
+        if ($search = $request->query('search')) {
+            $query->where('name', 'like', "%{$search}%");
+        }
+
         return Inertia::render('audits/index', [
             'organization' => $organization,
-            'audits' => Audit::query()
-                ->forOrganization($organization)
-                ->withCount('controls')
-                ->orderByDesc('scheduled_at')
-                ->get(),
+            'audits' => $query->get(),
+            'filters' => [
+                'search' => $search ?? '',
+            ],
         ]);
     }
 

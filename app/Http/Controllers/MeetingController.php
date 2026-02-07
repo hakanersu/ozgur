@@ -7,20 +7,29 @@ use App\Http\Requests\Meeting\UpdateMeetingRequest;
 use App\Models\Meeting;
 use App\Models\Organization;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class MeetingController extends Controller
 {
-    public function index(Organization $organization): Response
+    public function index(Request $request, Organization $organization): Response
     {
+        $query = Meeting::query()
+            ->forOrganization($organization)
+            ->withCount('attendees')
+            ->orderByDesc('date');
+
+        if ($search = $request->query('search')) {
+            $query->where('name', 'like', "%{$search}%");
+        }
+
         return Inertia::render('meetings/index', [
             'organization' => $organization,
-            'meetings' => Meeting::query()
-                ->forOrganization($organization)
-                ->withCount('attendees')
-                ->orderByDesc('date')
-                ->get(),
+            'meetings' => $query->get(),
+            'filters' => [
+                'search' => $search ?? '',
+            ],
         ]);
     }
 

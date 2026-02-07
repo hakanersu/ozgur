@@ -7,20 +7,29 @@ use App\Http\Requests\Vendor\UpdateVendorRequest;
 use App\Models\Organization;
 use App\Models\Vendor;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class VendorController extends Controller
 {
-    public function index(Organization $organization): Response
+    public function index(Request $request, Organization $organization): Response
     {
+        $query = Vendor::query()
+            ->forOrganization($organization)
+            ->withCount(['contacts', 'riskAssessments'])
+            ->orderBy('name');
+
+        if ($search = $request->query('search')) {
+            $query->where('name', 'like', "%{$search}%");
+        }
+
         return Inertia::render('vendors/index', [
             'organization' => $organization,
-            'vendors' => Vendor::query()
-                ->forOrganization($organization)
-                ->withCount(['contacts', 'riskAssessments'])
-                ->orderBy('name')
-                ->get(),
+            'vendors' => $query->get(),
+            'filters' => [
+                'search' => $search ?? '',
+            ],
         ]);
     }
 

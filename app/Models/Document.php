@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Concerns\BelongsToOrganization;
+use App\Concerns\LogsActivity;
 use App\Enums\DocumentClassification;
 use App\Enums\DocumentType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Document extends Model
 {
-    use BelongsToOrganization, HasFactory, SoftDeletes;
+    use BelongsToOrganization, HasFactory, LogsActivity, SoftDeletes;
 
     protected $guarded = [];
 
