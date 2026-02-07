@@ -128,4 +128,20 @@ class Organization extends Model
     {
         return $this->hasMany(RightsRequest::class);
     }
+
+    /**
+     * @return HasMany<Asset, $this>
+     */
+    public function assets(): HasMany
+    {
+        return $this->hasMany(Asset::class);
+    }
+
+    /**
+     * @return HasMany<Snapshot, $this>
+     */
+    public function snapshots(): HasMany
+    {
+        return $this->hasMany(Snapshot::class);
+    }
 }

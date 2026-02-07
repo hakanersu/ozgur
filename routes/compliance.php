@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AuditController;
 use App\Http\Controllers\ControlController;
+use App\Http\Controllers\DataProtectionImpactAssessmentController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\DocumentVersionController;
 use App\Http\Controllers\EvidenceController;
@@ -9,11 +11,11 @@ use App\Http\Controllers\FrameworkController;
 use App\Http\Controllers\MeasureController;
 use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\PeopleController;
-use App\Http\Controllers\RiskController;
-use App\Http\Controllers\TaskController;
-use App\Http\Controllers\DataProtectionImpactAssessmentController;
 use App\Http\Controllers\ProcessingActivityController;
 use App\Http\Controllers\RightsRequestController;
+use App\Http\Controllers\RiskController;
+use App\Http\Controllers\SnapshotController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TransferImpactAssessmentController;
 use App\Http\Controllers\VendorContactController;
 use App\Http\Controllers\VendorController;
@@ -45,6 +47,9 @@ Route::delete('vendors/{vendor}/contacts/{contact}', [VendorContactController::c
 
 Route::post('vendors/{vendor}/risk-assessments', [VendorRiskAssessmentController::class, 'store'])->name('organizations.vendors.risk-assessments.store');
 Route::delete('vendors/{vendor}/risk-assessments/{assessment}', [VendorRiskAssessmentController::class, 'destroy'])->name('organizations.vendors.risk-assessments.destroy');
+
+Route::resource('assets', AssetController::class)->names('organizations.assets');
+Route::resource('snapshots', SnapshotController::class)->only(['index', 'create', 'store', 'show', 'destroy'])->names('organizations.snapshots');
 
 Route::resource('processing-activities', ProcessingActivityController::class)->names('organizations.processing-activities');
 Route::resource('rights-requests', RightsRequestController::class)->names('organizations.rights-requests');

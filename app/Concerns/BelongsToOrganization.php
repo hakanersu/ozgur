@@ -26,7 +26,7 @@ trait BelongsToOrganization
     }
 
     /**
-     * @param Builder<static> $query
+     * @param  Builder<static>  $query
      * @return Builder<static>
      */
     public function scopeForOrganization(Builder $query, Organization $organization): Builder

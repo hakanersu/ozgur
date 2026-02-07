@@ -1,8 +1,10 @@
 import { Link, usePage } from '@inertiajs/react';
 import {
     BookOpen,
+    Box,
     Building2,
     CalendarDays,
+    Camera,
     CheckSquare,
     ClipboardCheck,
     FileText,
@@ -112,6 +114,16 @@ function getMainNavItems(organizationId?: number): NavItem[] {
             title: 'Meetings',
             href: `${prefix}/meetings`,
             icon: CalendarDays,
+        },
+        {
+            title: 'Assets',
+            href: `${prefix}/assets`,
+            icon: Box,
+        },
+        {
+            title: 'Snapshots',
+            href: `${prefix}/snapshots`,
+            icon: Camera,
         },
         {
             title: 'Processing Activities',
