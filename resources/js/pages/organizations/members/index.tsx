@@ -31,7 +31,7 @@ import {
 } from '@/components/ui/table';
 import { useTrans } from '@/hooks/use-trans';
 import AppLayout from '@/layouts/app-layout';
-import type { BreadcrumbItem, Membership, Organization } from '@/types';
+import type { BreadcrumbItem, Membership, Organization, OrganizationInvitation } from '@/types';
 
 const roleBadgeVariant = (role: string) => {
     switch (role) {
@@ -47,9 +47,11 @@ const roleBadgeVariant = (role: string) => {
 export default function MembersIndex({
     organization,
     memberships,
+    invitations,
 }: {
     organization: Organization;
     memberships: Membership[];
+    invitations: OrganizationInvitation[];
 }) {
     const { t } = useTrans();
 
@@ -87,6 +89,14 @@ export default function MembersIndex({
         );
     }
 
+    const cancelInvitationForm = useForm({});
+
+    function handleCancelInvitation(invitationId: number) {
+        cancelInvitationForm.delete(
+            `/organizations/${organization.id}/invitations/${invitationId}`,
+        );
+    }
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={`${organization.name} - ${t('Members')}`} />
@@ -102,12 +112,12 @@ export default function MembersIndex({
                         <DialogTrigger asChild>
                             <Button>
                                 <Plus className="mr-2 h-4 w-4" />
-                                {t('Add Member')}
+                                {t('Invite Member')}
                             </Button>
                         </DialogTrigger>
                         <DialogContent>
                             <DialogHeader>
-                                <DialogTitle>{t('Add Member')}</DialogTitle>
+                                <DialogTitle>{t('Invite Member')}</DialogTitle>
                             </DialogHeader>
                             <form
                                 onSubmit={handleInvite}
@@ -163,7 +173,7 @@ export default function MembersIndex({
                                         type="submit"
                                         disabled={inviteForm.processing}
                                     >
-                                        {t('Add Member')}
+                                        {t('Send Invitation')}
                                     </Button>
                                 </div>
                             </form>
@@ -221,6 +231,64 @@ export default function MembersIndex({
                         </Table>
                     </CardContent>
                 </Card>
+
+                {invitations.length > 0 && (
+                    <>
+                        <Heading
+                            title={t('Pending Invitations')}
+                            description={t('Invitations that have been sent but not yet accepted')}
+                        />
+
+                        <Card>
+                            <CardContent className="p-0">
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead>{t('Email')}</TableHead>
+                                            <TableHead>{t('Role')}</TableHead>
+                                            <TableHead>{t('Invited By')}</TableHead>
+                                            <TableHead className="w-[50px]" />
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {invitations.map((invitation) => (
+                                            <TableRow key={invitation.id}>
+                                                <TableCell className="font-medium">
+                                                    {invitation.email}
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Badge
+                                                        variant={roleBadgeVariant(
+                                                            invitation.role,
+                                                        )}
+                                                    >
+                                                        {invitation.role}
+                                                    </Badge>
+                                                </TableCell>
+                                                <TableCell>
+                                                    {invitation.inviter?.name}
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        onClick={() =>
+                                                            handleCancelInvitation(
+                                                                invitation.id,
+                                                            )
+                                                        }
+                                                    >
+                                                        <Trash2 className="h-4 w-4 text-destructive" />
+                                                    </Button>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </CardContent>
+                        </Card>
+                    </>
+                )}
             </div>
         </AppLayout>
     );

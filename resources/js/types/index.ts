@@ -28,6 +28,23 @@ export type Membership = {
     updated_at: string;
 };
 
+export type OrganizationInvitation = {
+    id: number;
+    organization_id: number;
+    invited_by: number;
+    email: string;
+    role: 'owner' | 'admin' | 'member';
+    token: string;
+    expires_at: string;
+    accepted_at: string | null;
+    inviter?: {
+        id: number;
+        name: string;
+    };
+    created_at: string;
+    updated_at: string;
+};
+
 export type AvailableLocale = {
     code: string;
     label: string;

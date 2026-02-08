@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\PublicTrustCenterController;
@@ -33,8 +34,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->only(['index', 'store', 'update', 'destroy'])
                 ->names('organizations.members');
 
+            Route::delete('invitations/{invitation}', [MembershipController::class, 'destroyInvitation'])
+                ->name('organizations.invitations.destroy');
+
             require __DIR__.'/compliance.php';
         });
+});
+
+// Invitation accept flow (signed URLs, no auth required)
+Route::middleware('signed')->group(function () {
+    Route::get('invitations/{token}', [InvitationController::class, 'show'])->name('invitations.show');
+    Route::post('invitations/{token}/accept', [InvitationController::class, 'accept'])->name('invitations.accept');
 });
 
 // Public Trust Center (no auth required)

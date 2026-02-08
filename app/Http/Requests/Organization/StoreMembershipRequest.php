@@ -19,7 +19,7 @@ class StoreMembershipRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['sometimes', 'required', 'email', 'exists:users,email'],
+            'email' => ['sometimes', 'required', 'email'],
             'role' => ['required', Rule::enum(OrganizationRole::class)],
         ];
     }

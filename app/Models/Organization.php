@@ -161,4 +161,12 @@ class Organization extends Model
     {
         return $this->hasMany(ActivityLog::class);
     }
+
+    /**
+     * @return HasMany<OrganizationInvitation, $this>
+     */
+    public function invitations(): HasMany
+    {
+        return $this->hasMany(OrganizationInvitation::class);
+    }
 }
