@@ -41,11 +41,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 });
 
-// Invitation accept flow (signed URLs, no auth required)
-Route::middleware('signed')->group(function () {
-    Route::get('invitations/{token}', [InvitationController::class, 'show'])->name('invitations.show');
-    Route::post('invitations/{token}/accept', [InvitationController::class, 'accept'])->name('invitations.accept');
-});
+// Invitation accept flow (no auth required)
+Route::get('invitations/{token}', [InvitationController::class, 'show'])->middleware('signed:relative')->name('invitations.show');
+Route::post('invitations/{token}/accept', [InvitationController::class, 'accept'])->name('invitations.accept');
 
 // Public Trust Center (no auth required)
 Route::get('trust/{trustCenter:slug}', [PublicTrustCenterController::class, 'show'])->name('trust-center.public.show');

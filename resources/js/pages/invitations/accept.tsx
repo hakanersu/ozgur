@@ -30,7 +30,7 @@ export default function AcceptInvitation({ invitation, userExists }: Props) {
 
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
-        form.post(`/invitations/${invitation.token}/accept${window.location.search}`);
+        form.post(`/invitations/${invitation.token}/accept`);
     }
 
     return (

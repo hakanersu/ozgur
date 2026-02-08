@@ -6,6 +6,11 @@ use App\Models\OrganizationInvitation;
 use App\Models\User;
 use Illuminate\Support\Facades\URL;
 
+function signedInvitationUrl(string $routeName, string $token): string
+{
+    return URL::temporarySignedRoute($routeName, now()->addDays(7), ['token' => $token], absolute: false);
+}
+
 test('existing user can accept an invitation via signed link', function () {
     $user = User::factory()->create();
     $organization = Organization::factory()->create();
@@ -13,7 +18,7 @@ test('existing user can accept an invitation via signed link', function () {
         ->for($organization)
         ->create(['email' => $user->email]);
 
-    $url = URL::temporarySignedRoute('invitations.show', now()->addDays(7), ['token' => $invitation->token]);
+    $url = signedInvitationUrl('invitations.show', $invitation->token);
 
     $this->actingAs($user)
         ->get($url)
@@ -29,7 +34,7 @@ test('new user can register and accept an invitation', function () {
         ->for($organization)
         ->create(['email' => 'newuser@example.com']);
 
-    $acceptUrl = URL::temporarySignedRoute('invitations.accept', now()->addDays(7), ['token' => $invitation->token]);
+    $acceptUrl = signedInvitationUrl('invitations.accept', $invitation->token);
 
     $this->post($acceptUrl, [
         'name' => 'New User',
@@ -51,7 +56,7 @@ test('existing user accepting invitation redirects to login', function () {
         ->for($organization)
         ->create(['email' => $user->email]);
 
-    $acceptUrl = URL::temporarySignedRoute('invitations.accept', now()->addDays(7), ['token' => $invitation->token]);
+    $acceptUrl = signedInvitationUrl('invitations.accept', $invitation->token);
 
     $this->post($acceptUrl)
         ->assertRedirect(route('login'));
@@ -63,7 +68,7 @@ test('existing user accepting invitation redirects to login', function () {
 test('expired invitation cannot be viewed', function () {
     $invitation = OrganizationInvitation::factory()->expired()->create();
 
-    $url = URL::temporarySignedRoute('invitations.show', now()->addDays(7), ['token' => $invitation->token]);
+    $url = signedInvitationUrl('invitations.show', $invitation->token);
 
     $this->get($url)->assertGone();
 });
@@ -71,7 +76,7 @@ test('expired invitation cannot be viewed', function () {
 test('already accepted invitation returns 404', function () {
     $invitation = OrganizationInvitation::factory()->accepted()->create();
 
-    $url = URL::temporarySignedRoute('invitations.show', now()->addDays(7), ['token' => $invitation->token]);
+    $url = signedInvitationUrl('invitations.show', $invitation->token);
 
     $this->get($url)->assertNotFound();
 });
@@ -79,7 +84,7 @@ test('already accepted invitation returns 404', function () {
 test('unsigned URL returns 403', function () {
     $invitation = OrganizationInvitation::factory()->create();
 
-    $this->get(route('invitations.show', ['token' => $invitation->token]))
+    $this->get('/invitations/'.$invitation->token)
         ->assertForbidden();
 });
 
@@ -115,7 +120,7 @@ test('show page renders for non-logged-in user with existing account', function 
         ->for($organization)
         ->create(['email' => $user->email]);
 
-    $url = URL::temporarySignedRoute('invitations.show', now()->addDays(7), ['token' => $invitation->token]);
+    $url = signedInvitationUrl('invitations.show', $invitation->token);
 
     $this->get($url)
         ->assertOk()
@@ -131,7 +136,7 @@ test('show page renders for new user', function () {
         ->for($organization)
         ->create(['email' => 'brand-new@example.com']);
 
-    $url = URL::temporarySignedRoute('invitations.show', now()->addDays(7), ['token' => $invitation->token]);
+    $url = signedInvitationUrl('invitations.show', $invitation->token);
 
     $this->get($url)
         ->assertOk()

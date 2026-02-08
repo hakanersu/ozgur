@@ -25,11 +25,14 @@ class OrganizationInvitationNotification extends Notification implements ShouldQ
 
     public function toMail(object $notifiable): MailMessage
     {
-        $acceptUrl = URL::temporarySignedRoute(
+        $relativePath = URL::temporarySignedRoute(
             'invitations.show',
             $this->invitation->expires_at,
             ['token' => $this->invitation->token],
+            absolute: false,
         );
+
+        $acceptUrl = url($relativePath);
 
         $organizationName = $this->invitation->organization->name;
 
