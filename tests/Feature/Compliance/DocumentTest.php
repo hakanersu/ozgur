@@ -113,6 +113,38 @@ test('version numbers auto-increment', function () {
     expect(DocumentVersion::where('title', 'Version 2')->first()->version_number)->toBe(2);
 });
 
+test('members can view a document version', function () {
+    $document = Document::factory()->for($this->organization)->create();
+    $version = DocumentVersion::factory()->for($document)->for($this->organization)->create(['version_number' => 1]);
+
+    $this->actingAs($this->user)
+        ->get(route('organizations.documents.versions.show', [$this->organization, $document, $version]))
+        ->assertOk();
+});
+
+test('members can update a document version content', function () {
+    $document = Document::factory()->for($this->organization)->create();
+    $version = DocumentVersion::factory()->for($document)->for($this->organization)->create([
+        'version_number' => 1,
+        'content' => 'Old content',
+    ]);
+
+    $this->actingAs($this->user)
+        ->put(route('organizations.documents.versions.update', [$this->organization, $document, $version]), [
+            'title' => 'Updated Title',
+            'content' => '<p>New rich content</p>',
+            'classification' => 'confidential',
+            'changelog' => 'Updated content with WYSIWYG editor',
+        ])
+        ->assertRedirect();
+
+    $version->refresh();
+    expect($version->title)->toBe('Updated Title')
+        ->and($version->content)->toBe('<p>New rich content</p>')
+        ->and($version->classification->value)->toBe('confidential')
+        ->and($version->changelog)->toBe('Updated content with WYSIWYG editor');
+});
+
 test('members can publish a document version', function () {
     $document = Document::factory()->for($this->organization)->create();
     $version = DocumentVersion::factory()->for($document)->for($this->organization)->create(['version_number' => 1]);

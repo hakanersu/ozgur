@@ -141,3 +141,24 @@
         @apply bg-background text-foreground;
     }
 }
+
+@media print {
+    nav,
+    aside,
+    [data-slot="sidebar"],
+    .print\:hidden {
+        display: none !important;
+    }
+
+    body {
+        background: white !important;
+        color: black !important;
+    }
+
+    main {
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}

@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Document\StoreDocumentVersionRequest;
+use App\Http\Requests\Document\UpdateDocumentVersionRequest;
 use App\Models\Document;
 use App\Models\DocumentVersion;
 use App\Models\Organization;
 use Illuminate\Http\RedirectResponse;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class DocumentVersionController extends Controller
 {
@@ -21,6 +24,22 @@ class DocumentVersionController extends Controller
         $document->versions()->create($data);
 
         return to_route('organizations.documents.show', [$organization, $document]);
+    }
+
+    public function show(Organization $organization, Document $document, DocumentVersion $version): Response
+    {
+        return Inertia::render('documents/versions/show', [
+            'organization' => $organization,
+            'document' => $document,
+            'version' => $version,
+        ]);
+    }
+
+    public function update(UpdateDocumentVersionRequest $request, Organization $organization, Document $document, DocumentVersion $version): RedirectResponse
+    {
+        $version->update($request->validated());
+
+        return to_route('organizations.documents.versions.show', [$organization, $document, $version]);
     }
 
     public function publish(Organization $organization, Document $document, DocumentVersion $version): RedirectResponse

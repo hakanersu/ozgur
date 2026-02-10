@@ -307,7 +307,14 @@ export default function DocumentShow({
                                         <TableCell className="font-mono text-sm">
                                             v{version.version_number}
                                         </TableCell>
-                                        <TableCell>{version.title}</TableCell>
+                                        <TableCell>
+                                            <Link
+                                                href={`/organizations/${organization.id}/documents/${document.id}/versions/${version.id}`}
+                                                className="hover:underline"
+                                            >
+                                                {version.title}
+                                            </Link>
+                                        </TableCell>
                                         <TableCell>
                                             <Badge variant={statusVariant(version.status)}>
                                                 {version.status}

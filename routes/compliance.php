@@ -45,6 +45,8 @@ Route::post('measures/{measure}/evidence', [EvidenceController::class, 'store'])
 Route::delete('measures/{measure}/evidence/{evidence}', [EvidenceController::class, 'destroy'])->name('organizations.measures.evidence.destroy');
 
 Route::post('documents/{document}/versions', [DocumentVersionController::class, 'store'])->name('organizations.documents.versions.store');
+Route::get('documents/{document}/versions/{version}', [DocumentVersionController::class, 'show'])->name('organizations.documents.versions.show');
+Route::put('documents/{document}/versions/{version}', [DocumentVersionController::class, 'update'])->name('organizations.documents.versions.update');
 Route::post('documents/{document}/versions/{version}/publish', [DocumentVersionController::class, 'publish'])->name('organizations.documents.versions.publish');
 Route::delete('documents/{document}/versions/{version}', [DocumentVersionController::class, 'destroy'])->name('organizations.documents.versions.destroy');
 
