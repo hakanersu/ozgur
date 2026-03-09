@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Route;
 
 // Compliance module routes, scoped under organizations/{organization}
 
+Route::post('frameworks/import-template', [FrameworkController::class, 'importTemplate'])->name('organizations.frameworks.import-template');
 Route::resource('frameworks', FrameworkController::class)->names('organizations.frameworks');
 Route::get('frameworks/{framework}/export', [FrameworkExportController::class, 'export'])->name('organizations.frameworks.export');
 Route::get('frameworks/import', [FrameworkExportController::class, 'importForm'])->name('organizations.frameworks.import');
